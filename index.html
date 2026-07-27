@@ -60,6 +60,15 @@ header{
 }
 .season-switch:hover{background:rgba(255,255,255,.18);}
 
+.header-right{display:flex; align-items:center; gap:10px;}
+.view-mode-btn{
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
+  color:#F3EEDF; width:38px; height:38px; border-radius:9px; font-size:17px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:.15s; flex-shrink:0;
+}
+.view-mode-btn:hover{background:rgba(255,255,255,.18);}
+
 .tabs{display:flex; gap:6px; background:rgba(255,255,255,.08); padding:4px; border-radius:10px;}
 .tab-btn{
   background:transparent;border:none;color:#DDE7DF;padding:9px 16px;border-radius:7px;
@@ -104,9 +113,11 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
   box-shadow:var(--shadow); position:relative; display:flex; flex-direction:column;
 }
 .card-img{
-  height:140px; background:#E4DAC3 center/cover no-repeat; position:relative;
+  width:100%; background:#E4DAC3; position:relative;
   display:flex;align-items:center;justify-content:center; color:#B7A986; font-size:12px;
 }
+.card-img img{width:100%; height:auto; display:block;}
+.card-img.empty{height:140px;}
 .card-img.empty::after{content:"لا توجد صورة";}
 .stock-tag{
   position:absolute; top:8px; left:8px; background:rgba(43,36,26,.82); color:#F3EEDF;
@@ -349,15 +360,20 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         </button>
       </div>
     </div>
-    <div class="tabs">
-      <button class="tab-btn active" id="tabProductsBtn" onclick="switchTab('products')">
-        المنتجات <span class="tab-count" id="countProducts">0</span>
-      </button>
-      <button class="tab-btn" id="tabOrdersBtn" onclick="switchTab('orders')">
-        الطلبات <span class="tab-count" id="countOrders">0</span>
-      </button>
-      <button class="tab-btn" id="tabFinanceBtn" onclick="switchTab('finance')">
-        الحسابات
+    <div class="header-right">
+      <div class="tabs">
+        <button class="tab-btn active" id="tabProductsBtn" onclick="switchTab('products')">
+          المنتجات <span class="tab-count" id="countProducts">0</span>
+        </button>
+        <button class="tab-btn" id="tabOrdersBtn" onclick="switchTab('orders')">
+          الطلبات <span class="tab-count" id="countOrders">0</span>
+        </button>
+        <button class="tab-btn" id="tabFinanceBtn" onclick="switchTab('finance')">
+          الحسابات
+        </button>
+      </div>
+      <button class="view-mode-btn" id="viewModeBtn" onclick="toggleViewMode()" title="تبديل بين وضع الهاتف ووضع الكمبيوتر">
+        <span id="viewModeIcon">🖥️</span>
       </button>
     </div>
   </div>
@@ -422,6 +438,38 @@ let SHIPPING_COMPANIES = [];
 
 function seasonKey(base){
   return base + '::' + currentSeasonId;
+}
+
+// ---------- mobile / desktop view toggle ----------
+let forceDesktopView = false;
+
+function applyViewMode(){
+  const meta = document.querySelector('meta[name="viewport"]');
+  const icon = document.getElementById('viewModeIcon');
+  const btn = document.getElementById('viewModeBtn');
+  if(forceDesktopView){
+    if(meta) meta.setAttribute('content', 'width=1100');
+    if(icon) icon.textContent = '📱';
+    if(btn) btn.title = 'الرجوع لوضع الهاتف';
+  } else {
+    if(meta) meta.setAttribute('content', 'width=device-width, initial-scale=1.0');
+    if(icon) icon.textContent = '🖥️';
+    if(btn) btn.title = 'تبديل لوضع الكمبيوتر';
+  }
+}
+
+async function toggleViewMode(){
+  forceDesktopView = !forceDesktopView;
+  applyViewMode();
+  try{ await window.storage.set('view-mode-pref', JSON.stringify({desktop: forceDesktopView}), false); }catch(e){}
+}
+
+async function loadViewModePref(){
+  try{
+    const v = await window.storage.get('view-mode-pref', false);
+    forceDesktopView = v ? !!JSON.parse(v.value).desktop : false;
+  }catch(e){ forceDesktopView = false; }
+  applyViewMode();
 }
 
 // ---------- storage ----------
@@ -622,12 +670,13 @@ async function saveShippingCompanyForm(companyId){
   openShippingCompaniesModal();
 }
 
-async function deleteShippingCompany(companyId){
-  if(!confirm('حذف شركة الشحن هاي؟ الطلبات القديمة المرتبطة فيها بتضل محتفظة باسمها.')) return;
-  SHIPPING_COMPANIES = SHIPPING_COMPANIES.filter(c=>c.id!==companyId);
-  await saveShippingCompanies();
-  toast('تم الحذف');
-  openShippingCompaniesModal();
+function deleteShippingCompany(companyId){
+  showConfirm('حذف شركة الشحن هاي؟ الطلبات القديمة المرتبطة فيها بتضل محتفظة باسمها.', async ()=>{
+    SHIPPING_COMPANIES = SHIPPING_COMPANIES.filter(c=>c.id!==companyId);
+    await saveShippingCompanies();
+    toast('تم الحذف');
+    openShippingCompaniesModal();
+  }, 'حذف');
 }
 
 async function saveProducts(){
@@ -771,23 +820,24 @@ async function switchSeason(seasonId){
   toast(`تم التبديل إلى ${SEASONS.find(s=>s.id===seasonId).name}`);
 }
 
-async function deleteSeason(seasonId){
+function deleteSeason(seasonId){
   if(SEASONS.length<=1){ toast('لازم يبقى موسم واحد على الأقل'); return; }
   const s = SEASONS.find(x=>x.id===seasonId);
-  if(!confirm(`حذف "${s.name}" نهائيًا؟ رح تنحذف كل منتجاته وطلباته وحساباته بدون رجعة.`)) return;
-  const sk = (base)=> base + '::' + seasonId;
-  const keys = ['products-list','orders-list','expenses-list','partners-list','capital-log','reserve-log','partner-payouts','settlements-list','restock-log','finance-config'];
-  for(const k of keys){
-    try{ await window.storage.delete(sk(k), false); }catch(e){ /* key may not exist, ignore */ }
-  }
-  SEASONS = SEASONS.filter(x=>x.id!==seasonId);
-  await saveSeasonsList();
-  allSeasonsSummaryCache = null;
-  if(seasonId===currentSeasonId){
-    await switchSeason(SEASONS[0].id);
-  } else {
-    openSeasonModal();
-  }
+  showConfirm(`حذف "${s.name}" نهائيًا؟ رح تنحذف كل منتجاته وطلباته وحساباته بدون رجعة.`, async ()=>{
+    const sk = (base)=> base + '::' + seasonId;
+    const keys = ['products-list','orders-list','expenses-list','partners-list','capital-log','reserve-log','partner-payouts','settlements-list','restock-log','finance-config'];
+    for(const k of keys){
+      try{ await window.storage.delete(sk(k), false); }catch(e){ /* key may not exist, ignore */ }
+    }
+    SEASONS = SEASONS.filter(x=>x.id!==seasonId);
+    await saveSeasonsList();
+    allSeasonsSummaryCache = null;
+    if(seasonId===currentSeasonId){
+      await switchSeason(SEASONS[0].id);
+    } else {
+      openSeasonModal();
+    }
+  }, 'حذف الموسم');
 }
 
 function updateSeasonLabel(){
@@ -928,11 +978,11 @@ function renderProducts(){
   grid.innerHTML = filtered.map(p=>{
     const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
     const imgHtml = p.image
-      ? `<div class="card-img" style="background-image:url('${p.image}')"></div>`
+      ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
       : `<div class="card-img empty"></div>`;
     return `
     <div class="card">
-      ${imgHtml.replace('<div class="card-img"', `<div class="card-img"`) }
+      ${imgHtml}
       <div class="stock-tag ${stockClass}">الكمية: ${p.qty}</div>
       <div class="card-body">
         <h3>${escapeHtml(p.name)}</h3>
@@ -1112,18 +1162,38 @@ async function saveProductForm(productId){
   render();
 }
 
-async function deleteProduct(productId){
-  if(!confirm('حذف هذا المنتج نهائيًا؟')) return;
-  PRODUCTS = PRODUCTS.filter(p=>p.id!==productId);
-  CART = CART.filter(c=>c.productId!==productId);
-  await saveProducts();
-  closeModal();
-  render();
+function deleteProduct(productId){
+  showConfirm('حذف هذا المنتج نهائيًا؟', async ()=>{
+    PRODUCTS = PRODUCTS.filter(p=>p.id!==productId);
+    CART = CART.filter(c=>c.productId!==productId);
+    await saveProducts();
+    render();
+  }, 'حذف المنتج');
 }
 
 function closeModal(){
   document.getElementById('modalRoot').innerHTML='';
   editingImageData = null;
+}
+
+// Native confirm() is blocked in some sandboxed/preview environments, so use an
+// in-app modal instead. Call with a message and an async/void callback to run on confirm.
+function showConfirm(message, onConfirm, confirmLabel){
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal" style="max-width:360px;">
+      <div style="font-size:15px; font-weight:700; line-height:1.7; margin-bottom:18px;">${escapeHtml(message)}</div>
+      <div class="modal-actions">
+        <button class="btn btn-danger btn-block" id="confirmYesBtn">${escapeHtml(confirmLabel || 'تأكيد')}</button>
+      </div>
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
+    </div>
+  </div>`;
+  document.getElementById('confirmYesBtn').onclick = async function(){
+    closeModal();
+    await onConfirm();
+  };
 }
 
 // ---------- selling ----------
@@ -1386,18 +1456,19 @@ async function saveOrderEdit(orderId){
   render();
 }
 
-async function cancelOrder(orderId){
+function cancelOrder(orderId){
   const o = ORDERS.find(x=>x.id===orderId);
   if(!o) return;
-  if(!confirm('إلغاء الطلب وإرجاع الكمية للمستودع؟')) return;
-  o.items.forEach(it=>{
-    const p = PRODUCTS.find(x=>x.id===it.productId);
-    if(p) p.qty += it.qty;
-  });
-  o.status = 'cancelled';
-  await saveProducts();
-  await saveOrders();
-  render();
+  showConfirm('إلغاء الطلب وإرجاع الكمية للمستودع؟', async ()=>{
+    o.items.forEach(it=>{
+      const p = PRODUCTS.find(x=>x.id===it.productId);
+      if(p) p.qty += it.qty;
+    });
+    o.status = 'cancelled';
+    await saveProducts();
+    await saveOrders();
+    render();
+  }, 'إلغاء الطلب');
 }
 
 // ---------- customer lookup (autofill from previous orders) ----------
@@ -1574,32 +1645,34 @@ function triggerImportBackup(){
 }
 
 async function handleImportBackup(e){
-  const file = e.target.files[0];
+  const inputEl = e.target;
+  const file = inputEl.files[0];
   if(!file) return;
   let data;
   try{
     const text = await file.text();
     data = JSON.parse(text);
-  }catch(err){ toast('الملف غير صالح'); e.target.value=''; return; }
-  if(!confirm('استيراد هاي النسخة رح يستبدل كل البيانات الحالية بالكامل. متأكد؟')){ e.target.value=''; return; }
-  PRODUCTS = data.products || [];
-  ORDERS = data.orders || [];
-  EXPENSES = data.expenses || [];
-  PARTNERS = (data.partners && data.partners.length) ? data.partners : PARTNERS;
-  CAPITAL_LOG = data.capitalLog || [];
-  RESERVE_LOG = data.reserveLog || [];
-  PARTNER_PAYOUTS = data.partnerPayouts || [];
-  SETTLEMENTS = data.settlements || [];
-  RESTOCK_LOG = data.restockLog || [];
-  FINANCE = data.finance || FINANCE;
-  CART = [];
-  await Promise.all([
-    saveProducts(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
-    saveReserveLog(), savePartnerPayouts(), saveSettlements(), saveRestockLog(), saveFinanceConfig()
-  ]);
-  toast('تم استيراد النسخة الاحتياطية بنجاح');
-  e.target.value='';
-  render();
+  }catch(err){ toast('الملف غير صالح'); inputEl.value=''; return; }
+  showConfirm('استيراد هاي النسخة رح يستبدل كل البيانات الحالية بالكامل. متأكد؟', async ()=>{
+    PRODUCTS = data.products || [];
+    ORDERS = data.orders || [];
+    EXPENSES = data.expenses || [];
+    PARTNERS = (data.partners && data.partners.length) ? data.partners : PARTNERS;
+    CAPITAL_LOG = data.capitalLog || [];
+    RESERVE_LOG = data.reserveLog || [];
+    PARTNER_PAYOUTS = data.partnerPayouts || [];
+    SETTLEMENTS = data.settlements || [];
+    RESTOCK_LOG = data.restockLog || [];
+    FINANCE = data.finance || FINANCE;
+    CART = [];
+    await Promise.all([
+      saveProducts(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
+      saveReserveLog(), savePartnerPayouts(), saveSettlements(), saveRestockLog(), saveFinanceConfig()
+    ]);
+    toast('تم استيراد النسخة الاحتياطية بنجاح');
+    inputEl.value='';
+    render();
+  }, 'استيراد واستبدال');
 }
 
 // ---------- quick reports by period ----------
@@ -2053,11 +2126,12 @@ async function saveExpenseForm(){
   render();
 }
 
-async function deleteExpense(id){
-  if(!confirm('حذف هذا المصروف؟')) return;
-  EXPENSES = EXPENSES.filter(e=>e.id!==id);
-  await saveExpenses();
-  render();
+function deleteExpense(id){
+  showConfirm('حذف هذا المصروف؟', async ()=>{
+    EXPENSES = EXPENSES.filter(e=>e.id!==id);
+    await saveExpenses();
+    render();
+  }, 'حذف');
 }
 
 // ---- capital ----
@@ -2096,8 +2170,15 @@ async function saveCapitalAdjust(){
   const note = document.getElementById('capNote').value.trim();
   if(isNaN(amount) || amount<=0){ toast('المبلغ غير صحيح'); return; }
   if(type==='withdrawal' && amount > FINANCE.capitalBalance){
-    if(!confirm('المبلغ أكبر من رأس المال النقدي الحالي، رح يصير الرصيد سالب. أكمل؟')) return;
+    showConfirm('المبلغ أكبر من رأس المال النقدي الحالي، رح يصير الرصيد سالب. أكمل؟', async ()=>{
+      await commitCapitalAdjust(type, amount, note);
+    }, 'أكمل');
+    return;
   }
+  await commitCapitalAdjust(type, amount, note);
+}
+
+async function commitCapitalAdjust(type, amount, note){
   FINANCE.capitalBalance += (type==='injection' ? amount : -amount);
   CAPITAL_LOG.push({id:uid('cap'), type, amount, note, createdAt:Date.now()});
   await saveFinanceConfig();
@@ -2153,13 +2234,13 @@ async function savePartnerForm(partnerId){
   render();
 }
 
-async function deletePartner(id){
+function deletePartner(id){
   if(PARTNERS.length<=1){ toast('لازم يبقى شريك واحد على الأقل'); return; }
-  if(!confirm('حذف هذا الشريك؟')) return;
-  PARTNERS = PARTNERS.filter(p=>p.id!==id);
-  await savePartners();
-  closeModal();
-  render();
+  showConfirm('حذف هذا الشريك؟', async ()=>{
+    PARTNERS = PARTNERS.filter(p=>p.id!==id);
+    await savePartners();
+    render();
+  }, 'حذف الشريك');
 }
 
 function openPartnerPayoutModal(partnerId){
@@ -2305,6 +2386,7 @@ async function confirmSettle(){
 
 // ---------- init ----------
 loadAll();
+loadViewModePref();
 </script>
 </body>
 </html>
