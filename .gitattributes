@@ -1,2 +1,541 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سوا سوق | Sawwa Souq — سوقك الرقمي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --teal:#2f9484;
+    --teal-dark:#1b6a5f;
+    --dark-green:#123b35;
+    --dark-green-2:#0c2925;
+    --sage:#93ab9f;
+    --slate:#5c6a63;
+    --light-gray:#d9d9d6;
+    --cream:#f4f5f3;
+    --white:#ffffff;
+    --radius:14px;
+    --shadow:0 10px 30px rgba(18,59,53,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Baloo Bhaijaan 2', sans-serif;
+    background:var(--cream);
+    color:var(--dark-green-2);
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+  .logo-font{font-family:'Orbitron',sans-serif;}
+  .container{max-width:1240px;margin:0 auto;padding:0 24px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 30px;border-radius:999px;border:none;cursor:pointer;
+    font-family:'Baloo Bhaijaan 2',sans-serif;font-weight:600;font-size:16px;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--teal);color:#fff;box-shadow:0 8px 20px rgba(47,148,132,.35);}
+  .btn-outline{background:transparent;color:var(--dark-green);border:2px solid var(--dark-green);}
+  .btn-outline:hover{background:var(--dark-green);color:#fff;}
+  .eyebrow{
+    font-size:13px;letter-spacing:1px;color:var(--teal-dark);font-weight:700;
+    display:flex;align-items:center;gap:8px;margin-bottom:10px;
+  }
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--teal);display:inline-block;}
+  .section-title{font-size:32px;font-weight:700;color:var(--dark-green-2);}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;gap:20px;flex-wrap:wrap;}
+  .see-all{color:var(--teal-dark);font-weight:600;display:flex;align-items:center;gap:6px;}
+
+  /* TOPBAR */
+  .topbar{background:var(--dark-green-2);color:var(--light-gray);font-size:13.5px;}
+  .topbar .container{display:flex;justify-content:space-between;align-items:center;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;gap:6px;}
+  .topbar-links{display:flex;gap:22px;}
+  .topbar-links i{margin-left:6px;color:var(--teal);}
+
+  /* HEADER */
+  header{background:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(0,0,0,.05);}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;gap:24px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:26px;color:var(--dark-green-2);
+    display:flex;flex-direction:column;line-height:1;
+  }
+  .brand-mark span{color:var(--teal);}
+  nav.main-nav ul{display:flex;gap:30px;font-weight:600;font-size:15.5px;}
+  nav.main-nav a{position:relative;padding:6px 0;}
+  nav.main-nav a::after{content:"";position:absolute;bottom:0;right:0;width:0;height:2px;background:var(--teal);transition:width .25s ease;}
+  nav.main-nav a:hover::after{width:100%;}
+  .header-actions{display:flex;align-items:center;gap:18px;font-size:19px;color:var(--dark-green-2);}
+  .header-actions .icon-btn{position:relative;cursor:pointer;}
+  .badge{position:absolute;top:-8px;left:-10px;background:var(--teal);color:#fff;font-size:10px;font-weight:700;
+    width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .search-box{display:flex;align-items:center;background:var(--cream);border-radius:999px;padding:9px 16px;flex:1;max-width:340px;gap:8px;color:var(--slate);}
+  .search-box input{border:none;background:transparent;outline:none;font-family:inherit;font-size:14.5px;width:100%;color:var(--dark-green-2);}
+  .menu-toggle{display:none;font-size:24px;cursor:pointer;}
+
+  /* HERO */
+  .hero{position:relative;background:var(--dark-green-2);overflow:hidden;padding:70px 0 0;}
+  .hero .container{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;position:relative;z-index:2;}
+  .hero-eyebrow{color:var(--sage);font-weight:700;letter-spacing:1px;font-size:13.5px;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .hero-eyebrow::before{content:"";width:26px;height:2px;background:var(--teal);}
+  .hero h1{font-size:52px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:20px;}
+  .hero h1 em{font-style:normal;color:var(--teal);}
+  .hero p{color:var(--light-gray);font-size:17px;max-width:480px;margin-bottom:34px;}
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:40px;}
+  .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.35);}
+  .btn-ghost:hover{border-color:#fff;}
+  .hero-stats{display:flex;gap:36px;}
+  .hero-stats div strong{display:block;font-size:24px;color:#fff;font-family:'Orbitron',sans-serif;}
+  .hero-stats div span{color:var(--sage);font-size:13px;}
+  .hero-visual{position:relative;height:420px;display:flex;align-items:center;justify-content:center;}
+  .s-emblem{
+    width:340px;height:340px;border-radius:36px;background:linear-gradient(160deg,var(--teal),var(--teal-dark));
+    display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 30px 60px rgba(0,0,0,.35);
+  }
+  .s-emblem span{font-family:'Orbitron',sans-serif;font-size:170px;font-weight:800;color:rgba(255,255,255,.92);}
+  .float-chip{position:absolute;background:#fff;border-radius:16px;padding:12px 18px;box-shadow:0 14px 30px rgba(0,0,0,.18);
+    display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:var(--dark-green-2);}
+  .float-chip i{color:var(--teal);font-size:18px;}
+  .chip-1{top:10px;right:-10px;}
+  .chip-2{bottom:20px;left:-20px;}
+  .hero-wave{display:block;width:100%;margin-top:50px;}
+  .s-pattern-strip{position:absolute;inset:0;opacity:.05;background-repeat:repeat;background-size:90px 90px;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90"><text x="10" y="60" font-family="Orbitron" font-size="70" font-weight="800" fill="white">S</text></svg>');}
+
+  /* MARQUEE */
+  .marquee{background:var(--teal);color:#fff;overflow:hidden;padding:12px 0;}
+  .marquee-track{display:flex;gap:60px;white-space:nowrap;animation:scroll 22s linear infinite;font-weight:700;font-size:14.5px;letter-spacing:.5px;}
+  .marquee-track span{display:flex;align-items:center;gap:10px;}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* CATEGORIES */
+  .categories{padding:80px 0 20px;}
+  .cat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;}
+  .cat-card{background:#fff;border-radius:var(--radius);padding:26px 14px;text-align:center;box-shadow:var(--shadow);
+    transition:transform .25s ease;cursor:pointer;}
+  .cat-card:hover{transform:translateY(-6px);}
+  .cat-icon{width:56px;height:56px;border-radius:16px;background:var(--cream);display:flex;align-items:center;justify-content:center;
+    margin:0 auto 14px;font-size:24px;color:var(--teal-dark);}
+  .cat-card h3{font-size:15px;font-weight:600;}
+
+  /* PROMO STRIP */
+  .promo-strip{padding:60px 0;}
+  .promo-strip .container{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .promo-card{border-radius:var(--radius);padding:26px;display:flex;align-items:center;gap:16px;color:#fff;}
+  .promo-card i{font-size:30px;}
+  .promo-card h4{font-size:15.5px;font-weight:700;margin-bottom:4px;}
+  .promo-card p{font-size:13px;opacity:.9;}
+  .promo-card.p1{background:var(--dark-green-2);}
+  .promo-card.p2{background:var(--teal);}
+  .promo-card.p3{background:var(--slate);}
+
+  /* PRODUCTS */
+  .products{padding:60px 0;}
+  .tab-row{display:flex;gap:10px;margin-bottom:34px;flex-wrap:wrap;}
+  .tab-btn{padding:10px 22px;border-radius:999px;border:1.5px solid var(--light-gray);background:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:14px;color:var(--slate);}
+  .tab-btn.active{background:var(--dark-green-2);border-color:var(--dark-green-2);color:#fff;}
+  .product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .product-card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s ease;}
+  .product-card:hover{transform:translateY(-6px);}
+  .product-thumb{aspect-ratio:1/1;background:var(--cream);position:relative;display:flex;align-items:center;justify-content:center;}
+  .product-thumb i{font-size:50px;color:var(--sage);}
+  .tag{position:absolute;top:12px;right:12px;background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;}
+  .tag.tag-sale{background:#c05a45;}
+  .wish{position:absolute;top:12px;left:12px;width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--slate);box-shadow:0 4px 10px rgba(0,0,0,.1);cursor:pointer;}
+  .product-info{padding:18px;}
+  .product-cat{font-size:12px;color:var(--sage);font-weight:600;margin-bottom:4px;}
+  .product-info h4{font-size:16px;font-weight:700;margin-bottom:8px;}
+  .price-row{display:flex;align-items:center;justify-content:space-between;}
+  .price{font-weight:800;color:var(--dark-green-2);font-size:17px;}
+  .old-price{text-decoration:line-through;color:var(--sage);font-size:13px;margin-right:6px;}
+  .add-btn{width:38px;height:38px;border-radius:50%;background:var(--dark-green-2);color:#fff;border:none;cursor:pointer;font-size:15px;}
+  .stars{color:#e0a83c;font-size:12px;margin-bottom:6px;}
+
+  /* BANNER SPLIT */
+  .banner-split{padding:70px 0;}
+  .banner-split .container{background:var(--dark-green-2);border-radius:28px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;position:relative;}
+  .banner-text{padding:60px;color:#fff;}
+  .banner-text .eyebrow{color:var(--sage);}
+  .banner-text h2{font-size:34px;font-weight:800;margin-bottom:16px;line-height:1.3;}
+  .banner-text p{color:var(--light-gray);margin-bottom:26px;max-width:400px;}
+  .banner-visual{background:var(--teal);display:flex;align-items:center;justify-content:center;position:relative;}
+  .banner-visual span{font-family:'Orbitron',sans-serif;font-size:220px;font-weight:800;color:rgba(255,255,255,.15);}
+  .banner-visual .badge-circle{position:absolute;width:130px;height:130px;border-radius:50%;background:var(--dark-green-2);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;text-align:center;}
+  .badge-circle strong{font-size:30px;}
+  .badge-circle span{font-size:11px;font-family:'Baloo Bhaijaan 2';}
+
+  /* TESTIMONIALS */
+  .testimonials{padding:80px 0;background:var(--cream);}
+  .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .test-card{background:#fff;border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);}
+  .test-stars{color:#e0a83c;margin-bottom:14px;font-size:14px;}
+  .test-card p{font-size:15px;color:var(--dark-green-2);margin-bottom:20px;}
+  .test-person{display:flex;align-items:center;gap:12px;}
+  .avatar{width:44px;height:44px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Orbitron',sans-serif;}
+  .test-person strong{display:block;font-size:14.5px;}
+  .test-person span{font-size:12.5px;color:var(--sage);}
+
+  /* NEWSLETTER */
+  .newsletter{padding:70px 0;}
+  .newsletter .container{background:var(--teal);border-radius:28px;padding:50px 60px;display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;color:#fff;}
+  .newsletter h3{font-size:26px;font-weight:800;margin-bottom:8px;}
+  .newsletter p{opacity:.9;font-size:14.5px;}
+  .news-form{display:flex;background:#fff;border-radius:999px;padding:6px;gap:6px;min-width:360px;}
+  .news-form input{flex:1;border:none;outline:none;padding:0 18px;font-family:inherit;font-size:14.5px;border-radius:999px;}
+  .news-form button{border:none;background:var(--dark-green-2);color:#fff;padding:12px 26px;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;}
+
+  /* FOOTER */
+  footer{background:var(--dark-green-2);color:var(--light-gray);padding-top:70px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:30px;padding-bottom:50px;border-bottom:1px solid rgba(255,255,255,.1);}
+  .footer-brand .brand-mark{color:#fff;}
+  .footer-brand .brand-mark span{color:var(--teal);}
+  .footer-brand p{font-size:14px;color:var(--sage);margin:16px 0 20px;max-width:280px;}
+  .social-row{display:flex;gap:12px;}
+  .social-row a{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:.2s;}
+  .social-row a:hover{background:var(--teal);}
+  .footer-col h5{color:#fff;font-size:15.5px;font-weight:700;margin-bottom:18px;}
+  .footer-col ul li{margin-bottom:12px;font-size:14px;color:var(--sage);}
+  .footer-col ul li:hover{color:#fff;cursor:pointer;}
+  .qr-box{display:flex;align-items:center;gap:14px;margin-top:6px;}
+  .qr-box img{width:74px;height:74px;background:#fff;border-radius:8px;padding:6px;}
+  .bottom-bar{display:flex;justify-content:space-between;align-items:center;padding:24px 0;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--sage);}
+  .payments{display:flex;gap:10px;font-size:22px;}
+
+  @media(max-width:1100px){
+    .cat-grid{grid-template-columns:repeat(3,1fr);}
+    .product-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .hero .container{grid-template-columns:1fr;}
+    .hero-visual{height:300px;}
+    .banner-split .container{grid-template-columns:1fr;}
+    .banner-visual{min-height:220px;}
+    .banner-visual span{font-size:120px;}
+  }
+  @media(max-width:760px){
+    nav.main-nav, .search-box{display:none;}
+    .menu-toggle{display:block;}
+    .hero h1{font-size:34px;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .promo-strip .container{grid-template-columns:1fr;}
+    .test-grid{grid-template-columns:1fr;}
+    .newsletter .container{flex-direction:column;text-align:center;}
+    .news-form{width:100%;min-width:unset;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-links">
+      <span><i class="fa-solid fa-truck-fast"></i>شحن مجاني للطلبات فوق 50 د.أ</span>
+      <span><i class="fa-solid fa-headset"></i>خدمة عملاء 24/7</span>
+    </div>
+    <div class="topbar-links">
+      <span><i class="fa-solid fa-location-dot"></i>التوصيل داخل الأردن</span>
+      <span>سوا سوق للتسوق الرقمي</span>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner container">
+    <div class="brand">
+      <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+      <div class="brand-mark">سوا<span>سوق</span></div>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#home">الرئيسية</a></li>
+        <li><a href="#categories">الأقسام</a></li>
+        <li><a href="#products">المنتجات</a></li>
+        <li><a href="#offers">العروض</a></li>
+        <li><a href="#about">من نحن</a></li>
+        <li><a href="#contact">تواصل معنا</a></li>
+      </ul>
+    </nav>
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="ابحث عن منتج، قسم...">
+    </div>
+    <div class="header-actions">
+      <div class="icon-btn"><i class="fa-regular fa-heart"></i><span class="badge">3</span></div>
+      <div class="icon-btn"><i class="fa-solid fa-bag-shopping"></i><span class="badge">2</span></div>
+      <div class="icon-btn"><i class="fa-regular fa-user"></i></div>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="s-pattern-strip"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">وجهتك الرقمية للتسوق العربي</div>
+      <h1>كل اللي تحتاجه، بضغطة <em>وحدة</em></h1>
+      <p>سوا سوق منصة تسوق إلكتروني عربية تجمع لك أفضل المنتجات والعلامات في مكان واحد، بتجربة سهلة وسريعة وموثوقة.</p>
+      <div class="hero-ctas">
+        <a href="#products" class="btn btn-primary"><i class="fa-solid fa-bag-shopping"></i>تسوق الآن</a>
+        <a href="#categories" class="btn btn-ghost">تصفح الأقسام</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>+120K</strong><span>عميل سعيد</span></div>
+        <div><strong>+3500</strong><span>منتج متوفر</span></div>
+        <div><strong>4.8</strong><span>تقييم العملاء</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="s-emblem"><span>S</span></div>
+      <div class="float-chip chip-1"><i class="fa-solid fa-truck"></i>توصيل خلال 48 ساعة</div>
+      <div class="float-chip chip-2"><i class="fa-solid fa-shield-halved"></i>دفع آمن ١٠٠٪</div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span><i class="fa-solid fa-bolt"></i>عروض نهاية الأسبوع</span>
+    <span><i class="fa-solid fa-truck-fast"></i>شحن مجاني فوق 200 ر.س</span>
+    <span><i class="fa-solid fa-rotate-left"></i>إرجاع مجاني خلال 14 يوم</span>
+    <span><i class="fa-solid fa-tags"></i>خصومات تصل إلى 40٪</span>
+    <span><i class="fa-solid fa-bolt"></i>عروض نهاية الأسبوع</span>
+    <span><i class="fa-solid fa-truck-fast"></i>شحن مجاني فوق 50 د.أ</span>
+    <span><i class="fa-solid fa-rotate-left"></i>إرجاع مجاني خلال 14 يوم</span>
+    <span><i class="fa-solid fa-tags"></i>خصومات تصل إلى 40٪</span>
+  </div>
+</div>
+
+<section class="categories" id="categories">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">تسوق حسب القسم</div>
+        <h2 class="section-title">الأقسام الرئيسية</h2>
+      </div>
+      <a href="#" class="see-all">عرض كل الأقسام <i class="fa-solid fa-arrow-left"></i></a>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card"><div class="cat-icon"><i class="fa-solid fa-mobile-screen"></i></div><h3>إلكترونيات</h3></div>
+      <div class="cat-card"><div class="cat-icon"><i class="fa-solid fa-gamepad"></i></div><h3>إكسسوارات القيمنق</h3></div>
+      <div class="cat-card"><div class="cat-icon"><i class="fa-solid fa-shirt"></i></div><h3>الأزياء</h3></div>
+      <div class="cat-card"><div class="cat-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div><h3>الجمال والعناية</h3></div>
+      <div class="cat-card"><div class="cat-icon"><i class="fa-solid fa-couch"></i></div><h3>المنزل والمطبخ</h3></div>
+      <div class="cat-card"><div class="cat-icon"><i class="fa-solid fa-gift"></i></div><h3>هدايا ومناسبات</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="promo-strip">
+  <div class="container">
+    <div class="promo-card p1"><i class="fa-solid fa-truck-fast"></i><div><h4>شحن سريع</h4><p>توصيل خلال 48 ساعة لكل المدن الرئيسية</p></div></div>
+    <div class="promo-card p2"><i class="fa-solid fa-rotate-left"></i><div><h4>إرجاع سهل</h4><p>استرجاع مجاني خلال 14 يوم من الاستلام</p></div></div>
+    <div class="promo-card p3"><i class="fa-solid fa-shield-halved"></i><div><h4>دفع موثوق</h4><p>طرق دفع متعددة وآمنة بالكامل</p></div></div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">الأكثر مبيعاً</div>
+        <h2 class="section-title">منتجات مختارة لك</h2>
+      </div>
+      <a href="#" class="see-all">تصفح المتجر <i class="fa-solid fa-arrow-left"></i></a>
+    </div>
+    <div class="tab-row">
+      <button class="tab-btn active">الكل</button>
+      <button class="tab-btn">إلكترونيات</button>
+      <button class="tab-btn">قيمنق</button>
+      <button class="tab-btn">أزياء</button>
+      <button class="tab-btn">عناية</button>
+    </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-thumb"><span class="tag">جديد</span><div class="wish"><i class="fa-regular fa-heart"></i></div><i class="fa-solid fa-headphones-simple"></i></div>
+        <div class="product-info">
+          <div class="product-cat">إلكترونيات</div>
+          <h4>سماعة لاسلكية سوا برو</h4>
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+          <div class="price-row"><span class="price">249 ر.س</span><button class="add-btn"><i class="fa-solid fa-plus"></i></button></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb"><span class="tag tag-sale">خصم 20٪</span><div class="wish"><i class="fa-regular fa-heart"></i></div><i class="fa-solid fa-computer-mouse"></i></div>
+        <div class="product-info">
+          <div class="product-cat">إكسسوارات القيمنق</div>
+          <h4>ماوس باد سوا XL</h4>
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="price-row"><span class="old-price">120 ر.س</span><span class="price">96 ر.س</span><button class="add-btn"><i class="fa-solid fa-plus"></i></button></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb"><div class="wish"><i class="fa-regular fa-heart"></i></div><i class="fa-solid fa-shirt"></i></div>
+        <div class="product-info">
+          <div class="product-cat">الأزياء</div>
+          <h4>تيشيرت سوا الأساسي</h4>
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+          <div class="price-row"><span class="price">89 ر.س</span><button class="add-btn"><i class="fa-solid fa-plus"></i></button></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb"><span class="tag">الأكثر طلباً</span><div class="wish"><i class="fa-regular fa-heart"></i></div><i class="fa-solid fa-spray-can-sparkles"></i></div>
+        <div class="product-info">
+          <div class="product-cat">الجمال والعناية</div>
+          <h4>طقم عناية بالبشرة سوا</h4>
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="price-row"><span class="price">175 ر.س</span><button class="add-btn"><i class="fa-solid fa-plus"></i></button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="banner-split" id="offers">
+  <div class="container">
+    <div class="banner-text">
+      <div class="eyebrow">عرض محدود</div>
+      <h2>خصم يصل إلى 40٪ على إكسسوارات القيمنق</h2>
+      <p>جهّز محطتك بأدوات سوا للقيمنق، من ماوس باد وحاملات إكسسوارات بجودة عالية وأسعار مناسبة، لفترة محدودة.</p>
+      <a href="#" class="btn btn-primary"><i class="fa-solid fa-bolt"></i>اكتشف العرض</a>
+    </div>
+    <div class="banner-visual">
+      <span>S</span>
+      <div class="badge-circle"><strong>40٪</strong><span>خصم فوري</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">آراء العملاء</div>
+        <h2 class="section-title">ثقة عملائنا وسام على راسنا</h2>
+      </div>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"تجربة تسوق سهلة والتوصيل كان أسرع مما توقعت. المنتج مطابق تماماً للوصف."</p>
+        <div class="test-person"><div class="avatar">ر.م</div><div><strong>عميلة موثّقة</strong><span>الرياض</span></div></div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+        <p>"خدمة العملاء متعاونة جداً وساعدوني في استبدال المقاس بسرعة. أنصح فيه."</p>
+        <div class="test-person"><div class="avatar">س.ع</div><div><strong>عميل موثّق</strong><span>جدة</span></div></div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"أسعار حلوة وجودة ممتازة، صار سوا سوق أول مكان أدور فيه قبل أي متجر ثاني."</p>
+        <div class="test-person"><div class="avatar">ن.ك</div><div><strong>عميلة موثّقة</strong><span>الدمام</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="container">
+    <div>
+      <h3>وصلك بكل جديد من سوا سوق</h3>
+      <p>اشترك في نشرتنا وكن أول من يعرف بالعروض والمنتجات الجديدة</p>
+    </div>
+    <div class="news-form">
+      <input type="email" placeholder="بريدك الإلكتروني">
+      <button>اشتراك</button>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand" id="about">
+        <div class="brand-mark">سوا<span>سوق</span></div>
+        <p>سوا سوق منصة تسوق إلكتروني عربية، وجهتك الرقمية لكل ما تحتاجه بثقة وسهولة وسرعة توصيل.</p>
+        <div class="social-row">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#"><i class="fa-brands fa-snapchat"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>روابط سريعة</h5>
+        <ul>
+          <li>الرئيسية</li>
+          <li>الأقسام</li>
+          <li>العروض</li>
+          <li>الأكثر مبيعاً</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>خدمة العملاء</h5>
+        <ul>
+          <li>تتبع الطلب</li>
+          <li>الشحن والتوصيل</li>
+          <li>الاسترجاع والاستبدال</li>
+          <li>الأسئلة الشائعة</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>الشركة</h5>
+        <ul>
+          <li>من نحن</li>
+          <li>سياسة الخصوصية</li>
+          <li>الشروط والأحكام</li>
+          <li>تواصل معنا</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>امسح وتابعنا</h5>
+        <div class="qr-box">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=sawwasouq.com" alt="QR">
+          <div>
+            <div style="color:#fff;font-weight:700;font-size:14px;">sawwasouq.com</div>
+            <div style="font-size:12.5px;color:var(--sage);">SAWWASOUQ@</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>© 2026 سوا سوق. جميع الحقوق محفوظة.</span>
+      <div class="payments">
+        <i class="fa-brands fa-cc-visa"></i>
+        <i class="fa-brands fa-cc-mastercard"></i>
+        <i class="fa-solid fa-wallet"></i>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.wish, .icon-btn').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const icon = el.querySelector('i');
+      if(icon && icon.classList.contains('fa-regular')){
+        icon.classList.remove('fa-regular');
+        icon.classList.add('fa-solid');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
 # Auto detect text files and perform LF normalization
 * text=auto
