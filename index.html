@@ -60,11 +60,11 @@ header{
 }
 .brand-text h1{margin:0;font-size:19px;font-weight:900;letter-spacing:.3px;}
 .season-switch{
-  margin-top:2px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
-  color:#F3EEDF; font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.3px;
-  padding:3px 10px; border-radius:20px; cursor:pointer; transition:.15s;
+  background:#E14B3D; border:1px solid #E14B3D;
+  color:#fff; font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.3px;
+  padding:3px 10px; border-radius:20px; cursor:pointer; transition:.15s; font-weight:700;
 }
-.season-switch:hover{background:rgba(255,255,255,.18);}
+.season-switch:hover{background:#c93f32; border-color:#c93f32;}
 
 .header-right{display:flex; align-items:center; gap:10px;}
 .view-mode-btn{
@@ -380,6 +380,129 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
   #printInvoiceArea, #printInvoiceArea *{ visibility:visible; }
   #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:100%; }
 }
+
+/* ===================================================================
+   ===== وضع الهاتف (Mobile) — يطبّق فقط لما ما يكون وضع "سطح المكتب"
+   مفعّل (body.force-desktop). هذا يخلي التصميم مرتب وواضح على الشاشات
+   الصغيرة بدون ما يأثر إطلاقًا على وضع الكمبيوتر أو وضع سطح المكتب
+   القسري على الهاتف.
+   =================================================================== */
+@media (max-width:760px){
+
+  body:not(.force-desktop){ padding-bottom:90px; }
+
+  /* منع تكبير الصفحة تلقائيًا عند الضغط على أي حقل إدخال في آيفون */
+  body:not(.force-desktop) input,
+  body:not(.force-desktop) textarea,
+  body:not(.force-desktop) select{ font-size:16px; }
+
+  /* ---- الهيدر ---- */
+  body:not(.force-desktop) header{ padding:12px 14px 10px; }
+  body:not(.force-desktop) .header-inner{
+    flex-direction:column; align-items:stretch; gap:10px; max-width:none;
+  }
+  body:not(.force-desktop) .brand{ justify-content:flex-start; }
+  body:not(.force-desktop) .brand-mark{ width:34px; height:34px; font-size:16px; }
+  body:not(.force-desktop) .brand-text h1{ font-size:16px; }
+  body:not(.force-desktop) .season-switch{ font-size:11px; padding:2px 8px; }
+  body:not(.force-desktop) .header-right{
+    width:100%; justify-content:space-between; gap:8px;
+  }
+  body:not(.force-desktop) .tabs{
+    flex:1; min-width:0; padding:3px; gap:4px;
+  }
+  body:not(.force-desktop) .tab-btn{
+    flex:1; min-width:0; padding:8px 6px; font-size:12.5px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  body:not(.force-desktop) .tab-count{
+    margin-inline-start:3px; padding:1px 5px; font-size:10px;
+  }
+  body:not(.force-desktop) .view-mode-btn{
+    width:34px; height:34px; font-size:15px; flex-shrink:0;
+  }
+
+  /* ---- المحتوى الرئيسي ---- */
+  body:not(.force-desktop) main{ padding:16px 12px; max-width:none; }
+
+  /* ---- شريط الأدوات وعناوين الصفحات ---- */
+  body:not(.force-desktop) .toolbar{ gap:10px; margin-bottom:14px; }
+  body:not(.force-desktop) .toolbar h2{ font-size:17px; }
+  body:not(.force-desktop) .toolbar .btn{ white-space:nowrap; }
+  body:not(.force-desktop) .search-box{
+    min-width:0; max-width:none; flex:1 1 100%;
+  }
+
+  /* ---- شبكة المنتجات ---- */
+  body:not(.force-desktop) .grid{
+    grid-template-columns:repeat(2, 1fr); gap:10px;
+  }
+  body:not(.force-desktop) .card-img.empty{ height:100px; font-size:11px; }
+  body:not(.force-desktop) .card-body{ padding:10px 10px 11px; gap:5px; }
+  body:not(.force-desktop) .card-body h3{ font-size:13px; line-height:1.3; }
+  body:not(.force-desktop) .price{ font-size:13px; }
+  body:not(.force-desktop) .card-actions{ flex-wrap:wrap; }
+  body:not(.force-desktop) .card-actions .btn{
+    padding:7px 8px; font-size:11.5px; flex:1; min-width:0;
+  }
+  body:not(.force-desktop) .stock-tag{ font-size:10.5px; padding:2px 7px; }
+
+  /* ---- بطاقات الإحصائيات ---- */
+  body:not(.force-desktop) .stats-bar{ gap:8px; }
+  body:not(.force-desktop) .stat-card{
+    min-width:0; flex:1 1 calc(50% - 8px); padding:9px 12px;
+  }
+  body:not(.force-desktop) .stat-card .n{ font-size:16px; }
+
+  /* ---- الطلبات ---- */
+  body:not(.force-desktop) .order-card{ padding:12px 13px; }
+  body:not(.force-desktop) .order-top{ gap:8px; }
+  body:not(.force-desktop) .order-customer{ font-size:14px; }
+  body:not(.force-desktop) .badge{ font-size:11px; padding:4px 10px; }
+  body:not(.force-desktop) .order-actions{ gap:6px; }
+  body:not(.force-desktop) .order-actions .btn{ flex:1; min-width:0; justify-content:center; }
+  body:not(.force-desktop) .filter-chips{ gap:6px; }
+  body:not(.force-desktop) .chip{ padding:6px 11px; font-size:12px; }
+
+  /* ---- النماذج والمودالات ---- */
+  body:not(.force-desktop) .overlay{ padding:12px; align-items:flex-end; }
+  body:not(.force-desktop) .modal{
+    padding:16px; border-radius:16px 16px 0 0; max-width:none; max-height:92vh;
+  }
+  body:not(.force-desktop) .modal h2{ font-size:17px; }
+  body:not(.force-desktop) .row2{ grid-template-columns:1fr 1fr; gap:8px; }
+  body:not(.force-desktop) .modal-actions{ flex-direction:column; }
+  body:not(.force-desktop) .modal-actions .btn{ width:100%; }
+
+  /* ---- سلة البيع العائمة ---- */
+  body:not(.force-desktop) .cart-fab{
+    left:14px; bottom:14px; padding:12px 16px; font-size:13.5px;
+  }
+
+  /* ---- صفحة الحسابات ---- */
+  body:not(.force-desktop) .fin-section{ padding:14px 14px; }
+  body:not(.force-desktop) .fin-section h3{ font-size:15px; }
+  body:not(.force-desktop) .fin-grid{
+    grid-template-columns:repeat(2, 1fr); gap:8px;
+  }
+  body:not(.force-desktop) .fin-tile{ padding:10px 11px; }
+  body:not(.force-desktop) .fin-tile .n{ font-size:16px; }
+  body:not(.force-desktop) .list-row .lr-title{ font-size:13px; }
+  body:not(.force-desktop) .split-legend{ gap:10px; font-size:11px; }
+
+  /* ---- تنبيه (toast) ---- */
+  body:not(.force-desktop) .toast{
+    left:14px; right:14px; bottom:16px; text-align:center;
+  }
+}
+
+/* شاشات ضيقة جدًا (٣٦٠ بكسل وأقل) */
+@media (max-width:380px){
+  body:not(.force-desktop) .tab-btn{ font-size:11.5px; padding:8px 4px; }
+  body:not(.force-desktop) .stat-card{ flex:1 1 100%; }
+  body:not(.force-desktop) .grid{ grid-template-columns:1fr; }
+  body:not(.force-desktop) .fin-grid{ grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
@@ -390,15 +513,15 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
       <div class="brand-mark">سق</div>
       <div class="brand-text">
         <h1>مخزون SawwaSouq</h1>
-        <button class="season-switch" id="seasonSwitchBtn" onclick="openSeasonModal()">
-          <span id="currentSeasonLabel">الموسم الأول</span> ▾
-        </button>
       </div>
     </div>
     <div class="header-right">
       <div class="tabs">
         <button class="tab-btn active" id="tabProductsBtn" onclick="switchTab('products')">
           المنتجات <span class="tab-count" id="countProducts">0</span>
+        </button>
+        <button class="season-switch" id="seasonSwitchBtn" onclick="openSeasonModal()">
+          <span id="currentSeasonLabel">الموسم الأول</span> ▾
         </button>
         <button class="tab-btn" id="tabOrdersBtn" onclick="switchTab('orders')">
           الطلبات <span class="tab-count" id="countOrders">0</span>
@@ -422,6 +545,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
       <div class="search-box">
         <input type="text" id="productSearch" placeholder="ابحث عن منتج بالاسم" oninput="handleProductSearch(this.value)">
       </div>
+      <button class="btn btn-outline" id="reorderProductsBtn" onclick="toggleProductReorderMode()">↕️ ترتيب المنتجات</button>
       <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
     </div>
     <div id="productsGrid" class="grid"></div>
@@ -585,56 +709,7 @@ async function loadAll(){
       ? settings.currentSeasonId : SEASONS[0].id;
     await loadSeasonData(currentSeasonId);
   }
-  await seedLaunchProducts();
   render();
-}
-
-// One-time seed of the initial catalog: Glass Pad / Rubber Pad in the first two
-// seasons (by creation order), with different qty/price per season. Safe to run
-// on every load — it skips a season+product pair that already exists by name,
-// and only marks itself fully "done" once both seasons have received their items.
-async function seedLaunchProducts(){
-  try{
-    const flag = await window.storage.get('seed-glass-rubber-v1', false);
-    if(flag && flag.value==='done') return;
-  }catch(e){ /* not seeded yet, continue */ }
-
-  const sorted = [...SEASONS].sort((a,b)=>a.createdAt-b.createdAt);
-  const season1 = sorted[0];
-  const season2 = sorted[1];
-
-  const makeProduct = (name, wholesalePrice, price, qty) => ({
-    id: uid('prod'), name, wholesalePrice, price, qty, image: null, createdAt: Date.now()
-  });
-
-  let addedAny = false;
-
-  async function addToSeason(season, items){
-    if(!season) return;
-    const key = 'products-list::' + season.id;
-    let list = [];
-    try{ const r = await window.storage.get(key, false); list = r ? JSON.parse(r.value) : []; }catch(e){ list = []; }
-    const existingNames = new Set(list.map(p=>p.name));
-    const toAdd = items.filter(it=>!existingNames.has(it.name));
-    if(toAdd.length===0) return;
-    list = list.concat(toAdd);
-    try{ await window.storage.set(key, JSON.stringify(list), false); }catch(e){ return; }
-    addedAny = true;
-    if(season.id===currentSeasonId){ PRODUCTS = list; }
-  }
-
-  await addToSeason(season1, [
-    makeProduct('Glass Pad', 7.5, 15, 4),
-    makeProduct('Rubber Pad', 4, 10, 5)
-  ]);
-  if(season2){
-    await addToSeason(season2, [
-      makeProduct('Glass Pad', 7.5, 20, 10),
-      makeProduct('Rubber Pad', 4, 10, 10)
-    ]);
-    try{ await window.storage.set('seed-glass-rubber-v1', 'done', false); }catch(e){}
-  }
-  if(addedAny) toast('تمت إضافة المنتجات الجاهزة (Glass Pad, Rubber Pad)');
 }
 
 // Loads the old un-scoped keys (pre-season version of the app)
@@ -1036,12 +1111,18 @@ function renderProductsStats(){
   const lowStock = PRODUCTS.filter(p=>p.qty>0 && p.qty<=3).length;
   const outOfStock = PRODUCTS.filter(p=>p.qty===0).length;
   const totalValue = PRODUCTS.reduce((s,p)=>s+p.qty*p.price,0);
+  const wholesaleValue = PRODUCTS.reduce((s,p)=>s+p.qty*(p.wholesalePrice||0),0);
   const expectedProfit = PRODUCTS.reduce((s,p)=>s+p.qty*(p.price-(p.wholesalePrice||0)),0);
+  const revenueDone = ORDERS.filter(o=>o.status==='done').reduce((s,o)=>s+o.total,0);
+  const expensesTotalAll = EXPENSES.reduce((s,e)=>s+e.amount,0);
+  const cashAfterExpenses = revenueDone - expensesTotalAll;
   el.innerHTML = `
     <div class="stat-card"><div class="n">${PRODUCTS.length}</div><div class="l">منتج</div></div>
     <div class="stat-card"><div class="n">${totalQty}</div><div class="l">قطعة بالمستودع</div></div>
     <div class="stat-card"><div class="n">${money(totalValue)}</div><div class="l">قيمة المخزون بسعر البيع (د.أ)</div></div>
+    <div class="stat-card"><div class="n">${money(wholesaleValue)}</div><div class="l">قيمة المخزون بسعر الجملة (د.أ)</div></div>
     <div class="stat-card"><div class="n">${money(expectedProfit)}</div><div class="l">الربح المتوقع (د.أ)</div></div>
+    <div class="stat-card"><div class="n">${money(cashAfterExpenses)}</div><div class="l">مجموع الكاش بعد المصاريف (د.أ)</div></div>
     ${lowStock>0 ? `<div class="stat-card warn"><div class="n">${lowStock}</div><div class="l">كمية منخفضة</div></div>` : ''}
     ${outOfStock>0 ? `<div class="stat-card warn"><div class="n">${outOfStock}</div><div class="l">نافذ من المخزون</div></div>` : ''}
   `;
@@ -1103,11 +1184,18 @@ function renderProducts(){
     </div>`;
     return;
   }
-  grid.innerHTML = filtered.map(p=>{
+  grid.innerHTML = filtered.map((p,idx)=>{
     const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
     const imgHtml = p.image
       ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
       : `<div class="card-img empty"></div>`;
+    const isFirst = idx===0;
+    const isLast = idx===filtered.length-1;
+    const reorderRow = productReorderMode ? `
+        <div class="card-actions" style="margin-top:6px;">
+          <button class="icon-btn" style="flex:1" ${isFirst?'disabled':''} onclick="moveProduct('${p.id}',-1)" title="تحريك لأعلى">⬆️</button>
+          <button class="icon-btn" style="flex:1" ${isLast?'disabled':''} onclick="moveProduct('${p.id}',1)" title="تحريك لأسفل">⬇️</button>
+        </div>` : '';
     return `
     <div class="card">
       ${imgHtml}
@@ -1122,9 +1210,32 @@ function renderProducts(){
           <button class="icon-btn" onclick="openRestockModal('${p.id}')" title="استلام بضاعة">📥</button>
           <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">تعديل</button>
         </div>
+        ${reorderRow}
       </div>
     </div>`;
   }).join('');
+}
+
+let productReorderMode = false;
+function toggleProductReorderMode(){
+  productReorderMode = !productReorderMode;
+  const btn = document.getElementById('reorderProductsBtn');
+  if(btn) btn.textContent = productReorderMode ? '✅ تم الترتيب' : '↕️ ترتيب المنتجات';
+  renderProducts();
+}
+async function moveProduct(productId, direction){
+  // direction: -1 = up (earlier), 1 = down (later)
+  // Reordering always applies to the full PRODUCTS list so the saved order
+  // stays correct even if a search filter is active in the grid.
+  const idx = PRODUCTS.findIndex(p=>p.id===productId);
+  if(idx===-1) return;
+  const targetIdx = idx + direction;
+  if(targetIdx<0 || targetIdx>=PRODUCTS.length) return;
+  const tmp = PRODUCTS[idx];
+  PRODUCTS[idx] = PRODUCTS[targetIdx];
+  PRODUCTS[targetIdx] = tmp;
+  await saveProducts();
+  renderProducts();
 }
 
 const statusMeta = {
