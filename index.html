@@ -1169,7 +1169,7 @@ function renderProductsStats(){
   const totalValue = PRODUCTS.reduce((s,p)=>s+p.qty*p.price,0);
   const wholesaleValue = PRODUCTS.reduce((s,p)=>s+p.qty*(p.wholesalePrice||0),0);
   const expectedProfit = PRODUCTS.reduce((s,p)=>s+p.qty*(p.price-(p.wholesalePrice||0)),0);
-  const revenueDone = ORDERS.filter(o=>o.status==='done').reduce((s,o)=>s+o.total,0);
+  const revenueDone = ORDERS.filter(o=>o.status==='done').reduce((s,o)=>s+(o.subtotal ?? (o.total-(o.deliveryFee||0))),0);
   const expensesTotalAll = EXPENSES.reduce((s,e)=>s+e.amount,0);
   const cashAfterExpenses = revenueDone - expensesTotalAll;
   el.innerHTML = `
@@ -1212,7 +1212,7 @@ function renderOrdersStats(){
   if(!el) return;
   const delivering = ORDERS.filter(o=>o.status==='delivering').length;
   const doneOrders = ORDERS.filter(o=>o.status==='done');
-  const revenue = doneOrders.reduce((s,o)=>s+o.total,0);
+  const revenue = doneOrders.reduce((s,o)=>s+(o.subtotal ?? (o.total-(o.deliveryFee||0))),0);
   el.innerHTML = `
     <div class="stat-card"><div class="n">${delivering}</div><div class="l">طلب قيد التوصيل</div></div>
     <div class="stat-card"><div class="n">${doneOrders.length}</div><div class="l">طلب مُسلَّم</div></div>
@@ -2399,9 +2399,9 @@ function computeStatsForData(ordersArr, expensesArr, sinceTs, untilTs){
   });
   const periodExpenses = expensesArr.filter(e=> (e.createdAt||0) > sinceTs && (e.createdAt||0) <= until);
   const expensesTotal = periodExpenses.reduce((s,e)=>s+e.amount,0);
-  const totalRevenue = revenueGoods + deliveryRevenue;
+  const totalRevenue = revenueGoods;
   const grossProfit = revenueGoods - cogs;
-  const netProfit = grossProfit + deliveryRevenue - expensesTotal;
+  const netProfit = grossProfit - expensesTotal;
   const marginPct = totalRevenue>0 ? (netProfit/totalRevenue*100) : 0;
   const avgOrderValue = doneOrders.length>0 ? totalRevenue/doneOrders.length : 0;
   const cancelledCount = ordersArr.filter(o=> o.status==='cancelled' && (o.createdAt||0) > sinceTs && (o.createdAt||0) <= until).length;
