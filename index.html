@@ -1213,10 +1213,12 @@ function renderOrdersStats(){
   const delivering = ORDERS.filter(o=>o.status==='delivering').length;
   const doneOrders = ORDERS.filter(o=>o.status==='done');
   const revenue = doneOrders.reduce((s,o)=>s+(o.subtotal ?? (o.total-(o.deliveryFee||0))),0);
+  const deliveryTotal = doneOrders.reduce((s,o)=>s+(o.deliveryFee||0),0);
   el.innerHTML = `
     <div class="stat-card"><div class="n">${delivering}</div><div class="l">طلب قيد التوصيل</div></div>
     <div class="stat-card"><div class="n">${doneOrders.length}</div><div class="l">طلب مُسلَّم</div></div>
     <div class="stat-card"><div class="n">${money(revenue)}</div><div class="l">إجمالي مبيعات مُسلَّمة (د.أ)</div></div>
+    <div class="stat-card"><div class="n">${money(deliveryTotal)}</div><div class="l">إجمالي أجور التوصيل (د.أ)</div></div>
   `;
 }
 
