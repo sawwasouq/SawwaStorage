@@ -21,6 +21,26 @@
   --red:#A6402F;
   --shadow: 0 1px 0 rgba(43,36,26,.06);
 }
+/* ===== Dark theme ===== */
+body.dark-theme{
+  --paper:#181C18;
+  --card:#20251F;
+  --ink:#ECE7D8;
+  --ink-soft:#A79C86;
+  --line:#39402E;
+  --teal:#2FA184;
+  --teal-dark:#1D6E5A;
+  --amber:#D7A24B;
+  --rust:#CB7048;
+  --green:#4E9B5C;
+  --red:#C1584A;
+  --shadow: 0 1px 0 rgba(0,0,0,.4);
+}
+body.dark-theme{
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0) 0 0/16px 16px,
+    var(--paper);
+}
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
@@ -32,6 +52,7 @@ body{
   min-height:100vh;
   padding-bottom:100px;
   overflow-x:hidden;
+  transition:background-color .2s, color .2s;
 }
 /* Desktop-view mode: force the real desktop width and scroll sideways instead of
    zooming/scaling the page down — this keeps text and controls at full, normal size
@@ -57,7 +78,9 @@ header{
   font-weight:900;color:var(--teal-dark);font-size:18px;
   transform:rotate(-4deg);
   box-shadow:2px 2px 0 rgba(0,0,0,.2);
+  overflow:hidden;
 }
+.brand-mark img{width:100%;height:100%;object-fit:cover; transform:rotate(4deg) scale(1.15);}
 .brand-text h1{margin:0;font-size:19px;font-weight:900;letter-spacing:.3px;}
 .season-switch{
   background:#E14B3D; border:1px solid #E14B3D;
@@ -222,6 +245,25 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .img-upload img{max-height:110px; border-radius:8px;}
 .modal-actions{display:flex; gap:10px; margin-top:6px;}
 
+/* ===== Theme customization ===== */
+.mode-switch{display:flex; gap:8px; margin-bottom:16px;}
+.mode-switch button{
+  flex:1; padding:10px 8px; border-radius:9px; border:1.5px solid var(--line);
+  background:var(--card); color:var(--ink-soft); font-family:inherit; font-weight:700;
+  font-size:13.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.mode-switch button.active{background:var(--teal); border-color:var(--teal); color:#fff;}
+.color-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;}
+.color-field{display:flex; align-items:center; gap:8px; border:1.5px solid var(--line); border-radius:9px; padding:7px 10px; background:var(--card);}
+.color-field label{flex:1; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin:0;}
+.color-field input[type="color"]{
+  width:32px; height:32px; border-radius:7px; border:1.5px solid var(--line); padding:0; cursor:pointer; background:none;
+}
+.logo-upload-row{display:flex; align-items:center; gap:12px;}
+.logo-upload-row .img-upload{flex-shrink:0; width:72px; height:72px; padding:0; justify-content:center;}
+.logo-upload-row .img-upload img{max-height:100%; max-width:100%; object-fit:cover;}
+.logo-upload-row .field{flex:1; margin:0;}
+
 /* cart modal items */
 .cart-row{display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line);}
 .cart-row img, .cart-row .ph{width:44px;height:44px;border-radius:7px;object-fit:cover; background:#E4DAC3; flex-shrink:0;}
@@ -298,6 +340,12 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
   width:22px; height:22px; line-height:1; border-radius:5px; flex-shrink:0;
 }
 .cart-row .remove-x:hover{color:var(--red); background:#F1DAD3;}
+.cart-price-input{
+  width:66px; padding:3px 6px; border-radius:6px; border:1.5px solid var(--line);
+  background:var(--card); color:var(--teal-dark); font-family:'JetBrains Mono',monospace;
+  font-weight:700; font-size:12.5px; text-align:center;
+}
+.cart-price-input:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
 
 .item-count-pill{
   background:var(--teal); color:#fff; font-family:'JetBrains Mono',monospace; font-size:11.5px;
@@ -543,9 +591,9 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 <header>
   <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark">سق</div>
+      <div class="brand-mark" id="brandMark">سق</div>
       <div class="brand-text">
-        <h1>مخزون SawwaSouq</h1>
+        <h1 id="siteTitleEl">مخزون SawwaSouq</h1>
       </div>
     </div>
     <div class="header-right">
@@ -566,6 +614,12 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
           <span id="currentSeasonLabel">الموسم الأول</span> ▾
         </button>
       </div>
+      <button class="view-mode-btn" id="themeModeBtn" onclick="toggleThemeMode()" title="تبديل بين الوضع الفاتح والداكن">
+        <span id="themeModeIcon">🌙</span>
+      </button>
+      <button class="view-mode-btn" id="themeSettingsBtn" onclick="openThemeSettingsModal()" title="تخصيص ألوان وشعار الموقع">
+        <span>🎨</span>
+      </button>
       <button class="view-mode-btn" id="viewModeBtn" onclick="toggleViewMode()" title="تبديل بين وضع الهاتف ووضع الكمبيوتر">
         <span id="viewModeIcon">🖥️</span>
       </button>
@@ -593,6 +647,9 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         <h2>الطلبات</h2>
         <div class="sub">إدارة طلبات البيع وحالتها</div>
       </div>
+      <div class="search-box">
+        <input type="text" id="orderSearch" placeholder="ابحث بالمنتج أو اسم العميل أو رقم الهاتف" oninput="handleOrderSearch(this.value)">
+      </div>
       <button class="btn btn-outline btn-sm" onclick="openShippingCompaniesModal()">🚚 شركات الشحن</button>
     </div>
     <div id="ordersStats" class="stats-bar"></div>
@@ -607,7 +664,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         <div class="sub">قائمة العملاء تلقائيًا من الطلبات، مع المنتجات اللي طلبها كل عميل</div>
       </div>
       <div class="search-box">
-        <input type="text" id="customerSearch" placeholder="ابحث عن عميل بالاسم أو رقم الهاتف" oninput="handleCustomerSearch(this.value)">
+        <input type="text" id="customerSearch" placeholder="ابحث عن عميل بالاسم أو رقم الهاتف أو باسم منتج" oninput="handleCustomerSearch(this.value)">
       </div>
     </div>
     <div id="customersStats" class="stats-bar"></div>
@@ -687,9 +744,20 @@ let editingImageData = null;
 let productSearchQuery = '';
 let customerSearchQuery = '';
 let orderFilter = 'all';
+let orderSearchQuery = '';
 let SEASONS = [];
 let currentSeasonId = null;
 let SHIPPING_COMPANIES = [];
+let themeMode = 'light'; // 'light' | 'dark' — per-device preference
+let THEME_CUSTOM = null;  // shared site-wide color/logo/name customization
+let editingLogoImage = null;
+
+const DEFAULT_THEME_COLORS = {
+  teal:'#1F6F5C', tealDark:'#164F42', amber:'#B9822F',
+  paper:'#EDE5D3', card:'#FBF7EE', ink:'#2B241A'
+};
+const DEFAULT_BRAND_TEXT = 'سق';
+const DEFAULT_SITE_TITLE = 'مخزون SawwaSouq';
 
 function seasonKey(base){
   return base + '::' + currentSeasonId;
@@ -724,6 +792,188 @@ async function loadViewModePref(){
     forceDesktopView = v ? !!JSON.parse(v.value).desktop : false;
   }catch(e){ forceDesktopView = false; }
   applyViewMode();
+}
+
+// ---------- light / dark mode (per-device preference) ----------
+function applyThemeMode(){
+  const icon = document.getElementById('themeModeIcon');
+  const btn = document.getElementById('themeModeBtn');
+  if(themeMode==='dark'){
+    document.body.classList.add('dark-theme');
+    if(icon) icon.textContent = '☀️';
+    if(btn) btn.title = 'تبديل للوضع الفاتح';
+  } else {
+    document.body.classList.remove('dark-theme');
+    if(icon) icon.textContent = '🌙';
+    if(btn) btn.title = 'تبديل للوضع الداكن';
+  }
+}
+
+async function toggleThemeMode(){
+  themeMode = themeMode==='dark' ? 'light' : 'dark';
+  applyThemeMode();
+  try{ await window.storage.set('theme-mode-pref', JSON.stringify({mode: themeMode}), false); }catch(e){}
+}
+
+async function loadThemeModePref(){
+  try{
+    const v = await window.storage.get('theme-mode-pref', false);
+    themeMode = v ? (JSON.parse(v.value).mode || 'light') : 'light';
+  }catch(e){ themeMode = 'light'; }
+  applyThemeMode();
+}
+
+// ---------- detailed theme customization (colors, logo, site name) — shared across the whole site ----------
+function applyCustomTheme(custom){
+  const root = document.documentElement.style;
+  const colorKeys = { teal:'--teal', tealDark:'--teal-dark', amber:'--amber', paper:'--paper', card:'--card', ink:'--ink' };
+  Object.entries(colorKeys).forEach(([k, cssVar])=>{
+    if(custom && custom.colors && custom.colors[k]){
+      root.setProperty(cssVar, custom.colors[k]);
+    } else {
+      root.removeProperty(cssVar);
+    }
+  });
+
+  const mark = document.getElementById('brandMark');
+  if(mark){
+    if(custom && custom.logoImage){
+      mark.innerHTML = `<img src="${custom.logoImage}" alt="شعار">`;
+    } else {
+      mark.textContent = (custom && custom.brandText) ? custom.brandText : DEFAULT_BRAND_TEXT;
+    }
+  }
+  const titleEl = document.getElementById('siteTitleEl');
+  const title = (custom && custom.siteTitle) ? custom.siteTitle : DEFAULT_SITE_TITLE;
+  if(titleEl) titleEl.textContent = title;
+  document.title = title;
+}
+
+async function loadThemeCustomSettings(){
+  try{
+    const v = await window.storage.get('theme-settings', true);
+    THEME_CUSTOM = v ? JSON.parse(v.value) : null;
+  }catch(e){ THEME_CUSTOM = null; }
+  applyCustomTheme(THEME_CUSTOM);
+}
+
+function openThemeSettingsModal(){
+  editingLogoImage = THEME_CUSTOM ? (THEME_CUSTOM.logoImage || null) : null;
+  const colors = Object.assign({}, DEFAULT_THEME_COLORS, (THEME_CUSTOM && THEME_CUSTOM.colors) || {});
+  const brandText = (THEME_CUSTOM && THEME_CUSTOM.brandText) || DEFAULT_BRAND_TEXT;
+  const siteTitle = (THEME_CUSTOM && THEME_CUSTOM.siteTitle) || DEFAULT_SITE_TITLE;
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>🎨 تخصيص ثيم الموقع</h2>
+      <div class="fin-sub">غيّر الألوان والشعار واسم المتجر — التغييرات بتنطبق على كل الأجهزة</div>
+
+      <div class="field" style="margin-top:14px;">
+        <label>شعار المتجر</label>
+        <div class="logo-upload-row">
+          <label class="img-upload" id="logoUploadBox">
+            ${editingLogoImage ? `<img src="${editingLogoImage}" id="logoPreview">` : `<span style="font-size:20px;">${escapeHtml(brandText)}</span>`}
+            <input type="file" accept="image/*" style="display:none" id="logoInput" onchange="handleLogoUpload(event)">
+          </label>
+          <div class="field">
+            <label>نص الشعار (لو ما في صورة)</label>
+            <input type="text" id="fBrandText" maxlength="3" value="${escapeHtml(brandText)}" placeholder="مثال: سق">
+            ${editingLogoImage ? `<button type="button" class="btn btn-ghost btn-sm" style="margin-top:6px; padding:4px 8px;" onclick="removeLogoImage()">إزالة الصورة والرجوع للنص</button>` : ''}
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>اسم المتجر</label>
+        <input type="text" id="fSiteTitle" value="${escapeHtml(siteTitle)}" placeholder="مثال: مخزون SawwaSouq">
+      </div>
+
+      <div class="field">
+        <label>ألوان الموقع</label>
+        <div class="color-grid">
+          <div class="color-field"><label>اللون الأساسي</label><input type="color" id="cTeal" value="${colors.teal}"></div>
+          <div class="color-field"><label>اللون الغامق</label><input type="color" id="cTealDark" value="${colors.tealDark}"></div>
+          <div class="color-field"><label>لون التمييز</label><input type="color" id="cAmber" value="${colors.amber}"></div>
+          <div class="color-field"><label>لون الخلفية</label><input type="color" id="cPaper" value="${colors.paper}"></div>
+          <div class="color-field"><label>لون البطاقات</label><input type="color" id="cCard" value="${colors.card}"></div>
+          <div class="color-field"><label>لون النص</label><input type="color" id="cInk" value="${colors.ink}"></div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-block" onclick="saveThemeSettings()">حفظ التخصيص</button>
+      </div>
+      <div style="margin-top:8px; display:flex; gap:8px;">
+        <button class="btn btn-outline btn-sm" style="flex:1" onclick="resetThemeSettings()">↺ استعادة الألوان الافتراضية</button>
+      </div>
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
+    </div>
+  </div>`;
+  document.getElementById('logoUploadBox').addEventListener('click', (e)=>{
+    if(e.target.tagName!=='INPUT') document.getElementById('logoInput').click();
+  });
+}
+
+function handleLogoUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const img = new Image();
+    img.onload = function(){
+      const maxW = 160;
+      const scale = Math.min(1, maxW/img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width*scale;
+      canvas.height = img.height*scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      editingLogoImage = canvas.toDataURL('image/jpeg', 0.85);
+      openThemeSettingsModal();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeLogoImage(){
+  editingLogoImage = null;
+  openThemeSettingsModal();
+}
+
+async function saveThemeSettings(){
+  const custom = {
+    colors: {
+      teal: document.getElementById('cTeal').value,
+      tealDark: document.getElementById('cTealDark').value,
+      amber: document.getElementById('cAmber').value,
+      paper: document.getElementById('cPaper').value,
+      card: document.getElementById('cCard').value,
+      ink: document.getElementById('cInk').value
+    },
+    brandText: document.getElementById('fBrandText').value.trim() || DEFAULT_BRAND_TEXT,
+    siteTitle: document.getElementById('fSiteTitle').value.trim() || DEFAULT_SITE_TITLE,
+    logoImage: editingLogoImage
+  };
+  THEME_CUSTOM = custom;
+  applyCustomTheme(custom);
+  try{
+    await window.storage.set('theme-settings', JSON.stringify(custom), true);
+    toast('تم حفظ تخصيص الثيم');
+  }catch(e){ toast('تعذّر حفظ التخصيص، حاول مجددًا'); }
+  closeModal();
+}
+
+async function resetThemeSettings(){
+  THEME_CUSTOM = null;
+  editingLogoImage = null;
+  applyCustomTheme(null);
+  try{
+    await window.storage.delete('theme-settings', true);
+    toast('تمت استعادة الثيم الافتراضي');
+  }catch(e){}
+  closeModal();
 }
 
 // ---------- storage ----------
@@ -1065,6 +1315,7 @@ async function switchSeason(seasonId){
   await loadSeasonData(seasonId);
   productSearchQuery = '';
   orderFilter = 'all';
+  orderSearchQuery = '';
   reportPeriod = 'today';
   const searchInput = document.getElementById('productSearch');
   if(searchInput) searchInput.value = '';
@@ -1305,6 +1556,19 @@ function getStatusMeta(status){
   return statusMeta[status] || {label: status || 'غير معروف', cls:'badge-warehouse'};
 }
 
+function orderMatchesSearch(o, q){
+  if(!q) return true;
+  if(o.customer && o.customer.toLowerCase().includes(q)) return true;
+  if(o.phone && o.phone.toLowerCase().includes(q)) return true;
+  if((o.items||[]).some(it=>it.name && it.name.toLowerCase().includes(q))) return true;
+  return false;
+}
+
+function handleOrderSearch(val){
+  orderSearchQuery = val.trim().toLowerCase();
+  renderOrders();
+}
+
 function renderOrders(){
   const list = document.getElementById('ordersList');
   if(ORDERS.length===0){
@@ -1315,11 +1579,14 @@ function renderOrders(){
     </div>`;
     return;
   }
-  const filteredOrders = orderFilter==='all' ? ORDERS : ORDERS.filter(o=>o.status===orderFilter);
+  let filteredOrders = orderFilter==='all' ? ORDERS : ORDERS.filter(o=>o.status===orderFilter);
+  if(orderSearchQuery){
+    filteredOrders = filteredOrders.filter(o=>orderMatchesSearch(o, orderSearchQuery));
+  }
   if(filteredOrders.length===0){
     list.innerHTML = `<div class="empty-state">
       <div class="big">🧾</div>
-      <div style="font-weight:700;">ما في طلبات بهاي الحالة</div>
+      <div style="font-weight:700;">${orderSearchQuery ? 'ما في نتائج مطابقة' : 'ما في طلبات بهاي الحالة'}</div>
     </div>`;
     return;
   }
@@ -1332,8 +1599,10 @@ function renderOrders(){
     let actions = `<button class="icon-btn" onclick="openReceiptModal('${o.id}')" title="الفاتورة">🧾</button>`;
     if(o.status==='delivering'){
       actions += `<button class="btn btn-primary btn-sm" onclick="advanceOrder('${o.id}')">✅ تم التسليم</button>
-                 <button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل بيانات العميل">✎</button>
+                 <button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل الطلب">✎</button>
                  <button class="btn btn-danger btn-sm" onclick="cancelOrder('${o.id}')">إلغاء</button>`;
+    } else if(o.status==='done'){
+      actions += `<button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل الطلب بعد التسليم">✎</button>`;
     }
     const addressLine = o.address ? `<div style="font-size:12.5px; color:var(--ink-soft); margin-top:2px;">📍 ${escapeHtml(o.address)}</div>` : '';
     const deliveryFee = o.deliveryFee || 0;
@@ -1375,13 +1644,15 @@ function computeCustomersList(){
         address: o.address || '',
         orders: 0,
         total: 0,
+        delivery: 0,
         lastAt: 0,
         products: {}
       };
     }
     const c = map[key];
     c.orders += 1;
-    c.total += o.total;
+    c.total += (o.subtotal ?? (o.total-(o.deliveryFee||0)));
+    c.delivery += (o.deliveryFee||0);
     if(o.createdAt > c.lastAt){
       c.lastAt = o.createdAt;
       // keep the most recent address/name in case they were edited later
@@ -1409,9 +1680,11 @@ function renderCustomers(){
 
   if(statsEl){
     const totalRevenue = all.reduce((s,c)=>s+c.total,0);
+    const totalDelivery = all.reduce((s,c)=>s+c.delivery,0);
     statsEl.innerHTML = `
       <div class="stat-card"><div class="n">${all.length}</div><div class="l">إجمالي العملاء</div></div>
       <div class="stat-card"><div class="n">${money(totalRevenue)}</div><div class="l">إجمالي المبيعات (د.أ)</div></div>
+      <div class="stat-card"><div class="n">${money(totalDelivery)}</div><div class="l">إجمالي أجور التوصيل (د.أ)</div></div>
     `;
   }
 
@@ -1419,7 +1692,8 @@ function renderCustomers(){
   if(customerSearchQuery){
     list = list.filter(c=>
       c.name.toLowerCase().includes(customerSearchQuery) ||
-      (c.phone && c.phone.toLowerCase().includes(customerSearchQuery))
+      (c.phone && c.phone.toLowerCase().includes(customerSearchQuery)) ||
+      Object.keys(c.products).some(name=>name.toLowerCase().includes(customerSearchQuery))
     );
   }
 
@@ -1455,7 +1729,8 @@ function renderCustomers(){
       </div>
       <div class="customer-stats">
         <div class="cs-item">عدد الطلبات<b>${c.orders}</b></div>
-        <div class="cs-item">إجمالي المبالغ<b>${money(c.total)} د.أ</b></div>
+        <div class="cs-item">إجمالي المبيعات<b>${money(c.total)} د.أ</b></div>
+        <div class="cs-item">أجور التوصيل<b>${money(c.delivery)} د.أ</b></div>
       </div>
       <div class="customer-products">${productTags}</div>
     </div>`;
@@ -1689,20 +1964,56 @@ function openCartModal(){
   renderCartModalContent();
 }
 
+function getCartItemPrice(c, p){
+  return (c.priceOverride!=null && !isNaN(c.priceOverride)) ? c.priceOverride : p.price;
+}
+
+function computeCartSubtotal(){
+  return CART.reduce((s,c)=>{
+    const p = PRODUCTS.find(x=>x.id===c.productId);
+    return s + (p ? getCartItemPrice(c,p)*c.qty : 0);
+  }, 0);
+}
+
+function updateCartItemPrice(productId, val){
+  const c = CART.find(x=>x.productId===productId);
+  if(!c) return;
+  let v = parseFloat(val);
+  if(isNaN(v) || v<0) v = 0;
+  c.priceOverride = v;
+  const p = PRODUCTS.find(x=>x.id===productId);
+  const lt = document.getElementById('lt-'+productId);
+  if(lt && p) lt.textContent = money(v*c.qty);
+  recalcCartTotals();
+}
+
+function recalcCartTotals(){
+  const subtotal = computeCartSubtotal();
+  const feeInput = document.getElementById('cDeliveryFee');
+  const fee = feeInput ? (parseFloat(feeInput.value)||0) : 0;
+  const subEl = document.getElementById('rSubtotalDisplay');
+  if(subEl) subEl.textContent = money(subtotal)+' د.أ';
+  const delEl = document.getElementById('rDeliveryDisplay');
+  if(delEl) delEl.textContent = money(fee)+' د.أ';
+  const totEl = document.getElementById('cTotalDisplay');
+  if(totEl) totEl.textContent = money(subtotal+fee)+' د.أ';
+}
+
 function renderCartModalContent(){
   const modalRoot = document.getElementById('modalRoot');
   const itemCount = CART.reduce((s,c)=>s+c.qty,0);
   const rows = CART.map(c=>{
     const p = PRODUCTS.find(x=>x.id===c.productId);
     if(!p) return '';
+    const price = getCartItemPrice(c,p);
     return `
     <div class="cart-row">
       ${p.image ? `<img src="${p.image}">` : `<div class="ph"></div>`}
       <div class="info">
         <h4>${escapeHtml(p.name)}</h4>
-        <div class="p">${money(p.price)} د.أ × ${c.qty}</div>
+        <div class="p">السعر: <input type="number" min="0" step="0.01" class="cart-price-input" value="${price}" oninput="updateCartItemPrice('${p.id}', this.value)"> د.أ × ${c.qty}</div>
       </div>
-      <div class="line-total">${money(p.price*c.qty)}</div>
+      <div class="line-total" id="lt-${p.id}">${money(price*c.qty)}</div>
       <div class="qty-ctrl">
         <button onclick="changeCartQty('${p.id}', -1)">−</button>
         <span>${c.qty}</span>
@@ -1711,10 +2022,7 @@ function renderCartModalContent(){
       <button class="remove-x" onclick="removeCartItem('${p.id}')" title="إزالة">✕</button>
     </div>`;
   }).join('');
-  const subtotal = CART.reduce((s,c)=>{
-    const p = PRODUCTS.find(x=>x.id===c.productId);
-    return s + (p ? p.price*c.qty : 0);
-  }, 0);
+  const subtotal = computeCartSubtotal();
 
   modalRoot.innerHTML = `
   <div class="overlay" onclick="if(event.target===this) closeModal()">
@@ -1743,12 +2051,17 @@ function renderCartModalContent(){
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>أجور التوصيل *</label>
-          <input type="number" min="0" step="0.01" id="cDeliveryFee" value="0" placeholder="0.00" oninput="updateCartTotalDisplay(${subtotal})">
+          <input type="number" min="0" step="0.01" id="cDeliveryFee" value="0" placeholder="0.00" oninput="recalcCartTotals()">
         </div>
       </div>
 
       <div class="sale-section">
         <div class="sale-section-label"><span class="ic">👤</span> بيانات العميل</div>
+        <div class="shipping-hint" style="margin:-2px 0 10px;">
+          <span></span>
+          <a onclick="toggleCustomerPicker()">👥 اختر عميل مسجل</a>
+        </div>
+        <div id="customerPickerBox"></div>
         <div class="field">
           <label>رقم الهاتف *</label>
           <input type="text" id="cPhone" placeholder="07xxxxxxxx" oninput="handleCustomerLookup()">
@@ -1763,25 +2076,19 @@ function renderCartModalContent(){
       <div class="sale-section">
         <div class="sale-section-label"><span class="ic">💵</span> الحساب</div>
         <div class="receipt-box">
-          <div class="r-row"><span>المبلغ بدون التوصيل</span><span>${money(subtotal)} د.أ</span></div>
+          <div class="r-row"><span>المبلغ بدون التوصيل</span><span id="rSubtotalDisplay">${money(subtotal)} د.أ</span></div>
           <div class="r-row"><span>أجور التوصيل</span><span id="rDeliveryDisplay">${money(0)} د.أ</span></div>
           <div class="r-row grand"><span>الإجمالي</span><span class="mono" id="cTotalDisplay">${money(subtotal)} د.أ</span></div>
         </div>
       </div>
 
       <div class="modal-actions" style="margin-top:16px;">
-        <button class="btn btn-primary btn-block" onclick="checkoutCart(${subtotal})">✅ تأكيد البيع</button>
+        <button class="btn btn-primary btn-block" onclick="checkoutCart()">✅ تأكيد البيع</button>
       </div>
       `}
       <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
     </div>
   </div>`;
-}
-
-function updateCartTotalDisplay(subtotal){
-  const fee = parseFloat(document.getElementById('cDeliveryFee').value) || 0;
-  document.getElementById('rDeliveryDisplay').textContent = money(fee) + ' د.أ';
-  document.getElementById('cTotalDisplay').textContent = money(subtotal + fee) + ' د.أ';
 }
 
 function removeCartItem(productId){
@@ -1802,7 +2109,7 @@ function changeCartQty(productId, delta){
   renderCartFab();
 }
 
-async function checkoutCart(subtotal){
+async function checkoutCart(){
   if(CART.length===0) return;
   const customer = document.getElementById('cCustomer').value.trim();
   const phone = document.getElementById('cPhone').value.trim();
@@ -1826,9 +2133,10 @@ async function checkoutCart(subtotal){
   }
   for(const c of CART){
     const p = PRODUCTS.find(x=>x.id===c.productId);
+    const salePrice = getCartItemPrice(c,p);
     p.qty -= c.qty;
-    items.push({productId:p.id, name:p.name, price:p.price, wholesalePrice:p.wholesalePrice||0, qty:c.qty});
-    itemsTotal += p.price * c.qty;
+    items.push({productId:p.id, name:p.name, price:salePrice, wholesalePrice:p.wholesalePrice||0, qty:c.qty});
+    itemsTotal += salePrice * c.qty;
   }
   ORDERS.push({
     id: uid('ord'), items,
@@ -1865,33 +2173,53 @@ function openEditOrderModal(orderId){
   const o = ORDERS.find(x=>x.id===orderId);
   if(!o) return;
   const modalRoot = document.getElementById('modalRoot');
+  const itemsHtml = (o.items||[]).map((it,idx)=>`
+    <div class="cart-row">
+      <div class="info">
+        <h4>${escapeHtml(it.name)}</h4>
+        <div class="p">السعر: <input type="number" min="0" step="0.01" class="cart-price-input oe-price-input" data-idx="${idx}" data-qty="${it.qty}" value="${it.price}" oninput="recalcOrderEditTotals()"> د.أ × ${it.qty}</div>
+      </div>
+      <div class="line-total" id="olt-${idx}">${money(it.price*it.qty)}</div>
+    </div>
+  `).join('');
   modalRoot.innerHTML = `
   <div class="overlay" onclick="if(event.target===this) closeModal()">
     <div class="modal">
-      <h2>تعديل بيانات الطلب #${o.id.slice(-6)}</h2>
-      <div class="field">
-        <label>اسم العميل *</label>
-        <input type="text" id="eCustomer" value="${escapeHtml(o.customer)}">
+      <h2>تعديل الطلب #${o.id.slice(-6)}</h2>
+      ${o.status==='done' ? `<div class="fin-sub" style="margin-bottom:10px;">هذا الطلب مُسلَّم مسبقًا — أي تعديل هون بينعكس فورًا على المبيعات والتقارير.</div>` : ''}
+      <div class="sale-section">
+        <div class="sale-section-label"><span class="ic">🧺</span> المنتجات والأسعار</div>
+        <div>${itemsHtml}</div>
       </div>
-      <div class="field">
-        <label>رقم الهاتف *</label>
-        <input type="text" id="ePhone" value="${escapeHtml(o.phone)}">
+      <div class="sale-section">
+        <div class="sale-section-label"><span class="ic">👤</span> بيانات العميل</div>
+        <div class="field">
+          <label>اسم العميل *</label>
+          <input type="text" id="eCustomer" value="${escapeHtml(o.customer)}">
+        </div>
+        <div class="field">
+          <label>رقم الهاتف *</label>
+          <input type="text" id="ePhone" value="${escapeHtml(o.phone)}">
+        </div>
+        <div class="field">
+          <label>العنوان *</label>
+          <input type="text" id="eAddress" value="${escapeHtml(o.address||'')}">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>شركة الشحن</label>
+          <select id="eShipping" class="select-field">${buildShippingSelectOptions(o.shippingCompanyId)}</select>
+        </div>
       </div>
-      <div class="field">
-        <label>العنوان *</label>
-        <input type="text" id="eAddress" value="${escapeHtml(o.address||'')}">
-      </div>
-      <div class="field">
-        <label>شركة الشحن</label>
-        <select id="eShipping" class="select-field">${buildShippingSelectOptions(o.shippingCompanyId)}</select>
-      </div>
-      <div class="field">
-        <label>المبلغ بدون التوصيل</label>
-        <input type="text" value="${money(o.subtotal ?? o.total)} د.أ" disabled style="opacity:.7;">
-      </div>
-      <div class="field">
-        <label>أجور التوصيل *</label>
-        <input type="number" min="0" step="0.01" id="eDeliveryFee" value="${o.deliveryFee||0}">
+      <div class="sale-section">
+        <div class="sale-section-label"><span class="ic">💵</span> الحساب</div>
+        <div class="field">
+          <label>أجور التوصيل *</label>
+          <input type="number" min="0" step="0.01" id="eDeliveryFee" value="${o.deliveryFee||0}" oninput="recalcOrderEditTotals()">
+        </div>
+        <div class="receipt-box">
+          <div class="r-row"><span>المبلغ بدون التوصيل</span><span id="eSubtotalDisplay">${money(o.subtotal ?? o.total)} د.أ</span></div>
+          <div class="r-row grand"><span>الإجمالي</span><span class="mono" id="eTotalDisplay">${money(o.total)} د.أ</span></div>
+        </div>
       </div>
       <div class="modal-actions">
         <button class="btn btn-primary btn-block" onclick="saveOrderEdit('${o.id}')">حفظ التعديلات</button>
@@ -1899,6 +2227,25 @@ function openEditOrderModal(orderId){
       <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
     </div>
   </div>`;
+}
+
+function recalcOrderEditTotals(){
+  let subtotal = 0;
+  document.querySelectorAll('.oe-price-input').forEach(inp=>{
+    const idx = inp.dataset.idx;
+    const qty = parseFloat(inp.dataset.qty)||0;
+    let v = parseFloat(inp.value);
+    if(isNaN(v) || v<0) v = 0;
+    subtotal += v*qty;
+    const lt = document.getElementById('olt-'+idx);
+    if(lt) lt.textContent = money(v*qty);
+  });
+  const feeInput = document.getElementById('eDeliveryFee');
+  const fee = feeInput ? (parseFloat(feeInput.value)||0) : 0;
+  const subEl = document.getElementById('eSubtotalDisplay');
+  if(subEl) subEl.textContent = money(subtotal)+' د.أ';
+  const totEl = document.getElementById('eTotalDisplay');
+  if(totEl) totEl.textContent = money(subtotal+fee)+' د.أ';
 }
 
 async function saveOrderEdit(orderId){
@@ -1912,9 +2259,27 @@ async function saveOrderEdit(orderId){
   if(!phone){ toast('اكتب رقم هاتف العميل'); return; }
   if(!address){ toast('اكتب عنوان العميل'); return; }
   if(isNaN(deliveryFee) || deliveryFee<0){ toast('أجور التوصيل غير صحيحة'); return; }
-  const subtotal = o.subtotal ?? o.total;
+
+  let subtotal = 0;
+  document.querySelectorAll('.oe-price-input').forEach(inp=>{
+    const idx = parseInt(inp.dataset.idx, 10);
+    let v = parseFloat(inp.value);
+    if(isNaN(v) || v<0) v = 0;
+    if(o.items && o.items[idx]){
+      o.items[idx].price = v;
+      subtotal += v * o.items[idx].qty;
+    }
+  });
+
+  const shippingSel = document.getElementById('eShipping');
+  const shippingId = shippingSel ? shippingSel.value : '';
+  const shippingCompany = shippingId ? SHIPPING_COMPANIES.find(c=>c.id===shippingId) : null;
+
   o.customer = customer; o.phone = phone; o.address = address;
-  o.deliveryFee = deliveryFee; o.total = subtotal + deliveryFee;
+  o.deliveryFee = deliveryFee; o.subtotal = subtotal; o.total = subtotal + deliveryFee;
+  o.shippingCompanyId = shippingCompany ? shippingCompany.id : null;
+  o.shippingCompanyName = shippingCompany ? shippingCompany.name : '';
+  o.shippingCompanyPhone = shippingCompany ? shippingCompany.phone : '';
   await saveOrders();
   closeModal();
   toast('تم تحديث بيانات الطلب');
@@ -1964,6 +2329,68 @@ async function confirmCancelOrder(orderId, mode){
   closeModal();
   toast(mode==='revert' ? 'تم حذف الطلب وإرجاع الكمية للمخزون' : 'تم إلغاء الطلب وإرجاع الكمية للمخزون');
   render();
+}
+
+// ---------- customer picker (choose from previously registered customers) ----------
+function toggleCustomerPicker(){
+  const box = document.getElementById('customerPickerBox');
+  if(!box) return;
+  if(box.innerHTML){ box.innerHTML=''; return; }
+  renderCustomerPickerList('');
+}
+
+function renderCustomerPickerList(query){
+  const box = document.getElementById('customerPickerBox');
+  if(!box) return;
+  const q = (query||'').trim().toLowerCase();
+  let list = computeCustomersList();
+  if(q){
+    list = list.filter(c=>
+      (c.name||'').toLowerCase().includes(q) ||
+      (c.phone||'').replace(/\D/g,'').includes(q.replace(/\D/g,''))
+    );
+  }
+  list = list.slice(0, 30);
+  const rows = list.length ? list.map((c,i)=>`
+    <div class="list-row" style="cursor:pointer;" onclick="pickCustomerFromList(${i}, '${escapeHtml(q).replace(/'/g,"\\'")}')">
+      <div class="lr-main">
+        <div class="lr-title">${escapeHtml(c.name)}</div>
+        <div class="lr-sub">${escapeHtml(c.phone||'بدون رقم')}${c.address ? ' · '+escapeHtml(c.address) : ''}</div>
+      </div>
+      <div class="lr-amount" style="font-size:12px;">${c.orders} طلب</div>
+    </div>
+  `).join('') : `<div class="empty-mini">ما في عملاء مطابقين</div>`;
+  box.innerHTML = `
+    <div style="background:#EFE5CB; border-radius:10px; padding:10px; margin:-6px 0 12px;">
+      <input type="text" placeholder="دور بالاسم أو رقم الهاتف" style="width:100%; margin-bottom:8px;" oninput="renderCustomerPickerList(this.value)" value="${escapeHtml(query||'')}">
+      <div style="max-height:220px; overflow-y:auto;">${rows}</div>
+    </div>
+  `;
+  // refocus the search box and keep cursor at the end after re-render
+  const input = box.querySelector('input');
+  if(input){ input.focus(); input.setSelectionRange(input.value.length, input.value.length); }
+}
+
+function pickCustomerFromList(idx, query){
+  let list = computeCustomersList();
+  const q = (query||'').trim().toLowerCase();
+  if(q){
+    list = list.filter(c=>
+      (c.name||'').toLowerCase().includes(q) ||
+      (c.phone||'').replace(/\D/g,'').includes(q.replace(/\D/g,''))
+    );
+  }
+  const c = list[idx];
+  if(!c) return;
+  const pEl = document.getElementById('cPhone');
+  const cEl = document.getElementById('cCustomer');
+  const aEl = document.getElementById('cAddress');
+  if(pEl) pEl.value = c.phone || '';
+  if(cEl) cEl.value = c.name || '';
+  if(aEl) aEl.value = c.address || '';
+  document.getElementById('customerPickerBox').innerHTML = '';
+  document.getElementById('customerSuggestion').innerHTML = '';
+  toast('تم تعبئة بيانات العميل');
 }
 
 // ---------- customer lookup (autofill from previous orders) ----------
@@ -2280,7 +2707,7 @@ function computeTopCustomers(sinceTs, untilTs, limit){
   ORDERS.filter(o=>o.status==='done' && (o.doneAt||o.createdAt)>sinceTs && (o.doneAt||o.createdAt)<=until).forEach(o=>{
     const key = (o.phone && o.phone.trim()) || ('n:'+(o.customer||'-'));
     if(!map[key]) map[key] = {name:o.customer||'عميل بدون اسم', phone:o.phone||'', total:0, orders:0};
-    map[key].total += o.total;
+    map[key].total += (o.subtotal ?? (o.total-(o.deliveryFee||0)));
     map[key].orders += 1;
   });
   return Object.values(map).sort((a,b)=>b.total-a.total).slice(0, limit||5);
@@ -2311,6 +2738,7 @@ function buildReportsHtml(){
   const topRevenue = computeTopProductsByRevenue(start, end, 5);
   const topCustomers = computeTopCustomers(start, end, 5);
   const expByCat = computeExpensesByCategory(start, end);
+  const deliveryByCompany = computeDeliveryByCompany(start, end);
   const chips = [['today','اليوم'], ['week','هالأسبوع'], ['month','هالشهر'], ['all','من البداية'], ['custom','فترة مخصصة']];
   const dateRangeHtml = reportPeriod==='custom' ? `
     <div class="row2" style="margin:10px 0;">
@@ -2343,6 +2771,11 @@ function buildReportsHtml(){
     <div class="list-row"><div class="lr-main"><div class="lr-title">أجور توصيل</div></div><div class="lr-amount">${money(stats.deliveryRevenue)} د.أ</div></div>
     <div class="list-row"><div class="lr-main"><div class="lr-title">تكلفة البضاعة المباعة</div></div><div class="lr-amount neg">-${money(stats.cogs)} د.أ</div></div>
     <div class="list-row"><div class="lr-main"><div class="lr-title">مصاريف الفترة</div></div><div class="lr-amount neg">-${money(stats.expensesTotal)} د.أ</div></div>
+
+    ${deliveryByCompany.length ? `
+      <div class="fin-sub" style="margin:14px 0 4px;">أجور التوصيل حسب شركة الشحن</div>
+      ${deliveryByCompany.map(([name,d])=>`<div class="list-row"><div class="lr-main"><div class="lr-title">${escapeHtml(name)}</div><div class="lr-sub">${d.orders} طلب</div></div><div class="lr-amount">${money(d.amount)} د.أ</div></div>`).join('')}
+    ` : ''}
 
     ${topRevenue.length ? `
       <div class="fin-sub" style="margin:14px 0 4px;">الأكثر مبيعًا (حسب الإيراد)</div>
@@ -2379,6 +2812,20 @@ function buildRestockLogHtml(){
 // ---------- FINANCE MODULE (الحسابات) ----------
 // ============================================================
 const EXPENSE_CATEGORIES = ['ترويج وتسويق','إيجار','رواتب','فواتير وخدمات','صيانة','نقل وتوصيل','أخرى'];
+
+function computeDeliveryByCompany(sinceTs, untilTs){
+  const until = untilTs===undefined ? Infinity : untilTs;
+  const doneOrders = ORDERS.filter(o=> o.status==='done' && (o.doneAt||o.createdAt) > sinceTs && (o.doneAt||o.createdAt) <= until);
+  const map = {};
+  doneOrders.forEach(o=>{
+    if(!(o.deliveryFee>0)) return;
+    const key = o.shippingCompanyName || 'بدون شركة محددة';
+    if(!map[key]) map[key] = {amount:0, orders:0};
+    map[key].amount += o.deliveryFee;
+    map[key].orders += 1;
+  });
+  return Object.entries(map).sort((a,b)=>b[1].amount-a[1].amount);
+}
 
 function formatDate(ts){
   if(!ts) return '';
@@ -3023,6 +3470,8 @@ async function confirmSettle(){
 // ---------- init ----------
 loadAll();
 loadViewModePref();
+loadThemeModePref();
+loadThemeCustomSettings();
 </script>
 </body>
 </html>
