@@ -301,6 +301,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .search-box::before{
   content:"🔍"; position:absolute; left:11px; top:50%; transform:translateY(-50%); font-size:12px; opacity:.6;
 }
+.search-count-line{font-size:12px; color:var(--ink-soft); margin-top:4px; min-height:14px;}
 
 .filter-chips{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px;}
 .chip{
@@ -312,6 +313,11 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .chip .c{font-family:'JetBrains Mono',monospace; opacity:.85; margin-inline-start:4px;}
 
 .order-note{font-size:12.5px; color:var(--ink-soft); padding-top:6px;}
+.order-note-box{
+  background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--amber);
+  border-radius:8px; padding:8px 10px; font-size:12.5px; color:var(--ink); margin:8px 0;
+  line-height:1.6; white-space:pre-wrap; word-break:break-word;
+}
 .icon-btn{
   background:transparent; border:1.5px solid var(--line); border-radius:7px; width:30px; height:30px;
   cursor:pointer; font-size:13px; color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center;
@@ -634,6 +640,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
     <div class="toolbar">
       <div class="search-box">
         <input type="text" id="productSearch" placeholder="ابحث عن منتج بالاسم" oninput="handleProductSearch(this.value)">
+        <div class="search-count-line" id="productSearchCount"></div>
       </div>
       <button class="btn btn-outline" id="reorderProductsBtn" onclick="toggleProductReorderMode()">↕️ ترتيب المنتجات</button>
       <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
@@ -649,6 +656,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
       </div>
       <div class="search-box">
         <input type="text" id="orderSearch" placeholder="ابحث بالمنتج أو اسم العميل أو رقم الهاتف" oninput="handleOrderSearch(this.value)">
+        <div class="search-count-line" id="orderSearchCount"></div>
       </div>
       <button class="btn btn-outline btn-sm" onclick="openShippingCompaniesModal()">🚚 شركات الشحن</button>
     </div>
@@ -665,6 +673,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
       </div>
       <div class="search-box">
         <input type="text" id="customerSearch" placeholder="ابحث عن عميل بالاسم أو رقم الهاتف أو باسم منتج" oninput="handleCustomerSearch(this.value)">
+        <div class="search-count-line" id="customerSearchCount"></div>
       </div>
     </div>
     <div id="customersStats" class="stats-bar"></div>
@@ -1316,9 +1325,14 @@ async function switchSeason(seasonId){
   productSearchQuery = '';
   orderFilter = 'all';
   orderSearchQuery = '';
+  customerSearchQuery = '';
   reportPeriod = 'today';
   const searchInput = document.getElementById('productSearch');
   if(searchInput) searchInput.value = '';
+  const orderSearchInput = document.getElementById('orderSearch');
+  if(orderSearchInput) orderSearchInput.value = '';
+  const customerSearchInput = document.getElementById('customerSearch');
+  if(customerSearchInput) customerSearchInput.value = '';
   closeModal();
   switchTab('products');
   render();
@@ -1475,7 +1489,9 @@ function renderOrdersStats(){
 
 function renderProducts(){
   const grid = document.getElementById('productsGrid');
+  const countEl = document.getElementById('productSearchCount');
   if(PRODUCTS.length===0){
+    if(countEl) countEl.textContent = '';
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="big">📦</div>
       <div style="font-weight:700; margin-bottom:4px;">المستودع فاضي</div>
@@ -1486,6 +1502,7 @@ function renderProducts(){
   const filtered = productSearchQuery
     ? PRODUCTS.filter(p=>p.name.toLowerCase().includes(productSearchQuery))
     : PRODUCTS;
+  if(countEl) countEl.textContent = productSearchQuery ? `${filtered.length} نتيجة` : '';
   if(filtered.length===0){
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="big">🔍</div>
@@ -1571,7 +1588,9 @@ function handleOrderSearch(val){
 
 function renderOrders(){
   const list = document.getElementById('ordersList');
+  const countEl = document.getElementById('orderSearchCount');
   if(ORDERS.length===0){
+    if(countEl) countEl.textContent = '';
     list.innerHTML = `<div class="empty-state">
       <div class="big">🧾</div>
       <div style="font-weight:700; margin-bottom:4px;">لا توجد طلبات بعد</div>
@@ -1583,6 +1602,7 @@ function renderOrders(){
   if(orderSearchQuery){
     filteredOrders = filteredOrders.filter(o=>orderMatchesSearch(o, orderSearchQuery));
   }
+  if(countEl) countEl.textContent = orderSearchQuery ? `${filteredOrders.length} نتيجة` : '';
   if(filteredOrders.length===0){
     list.innerHTML = `<div class="empty-state">
       <div class="big">🧾</div>
@@ -1604,6 +1624,7 @@ function renderOrders(){
     } else if(o.status==='done'){
       actions += `<button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل الطلب بعد التسليم">✎</button>`;
     }
+    actions += `<button class="icon-btn" onclick="openOrderNoteModal('${o.id}')" title="ملاحظة على الطلب">${o.note ? '🗒️' : '📝'}</button>`;
     const addressLine = o.address ? `<div style="font-size:12.5px; color:var(--ink-soft); margin-top:2px;">📍 ${escapeHtml(o.address)}</div>` : '';
     const deliveryFee = o.deliveryFee || 0;
     return `
@@ -1617,6 +1638,7 @@ function renderOrders(){
         <span class="badge ${meta.cls}">${meta.label}</span>
       </div>
       <div class="order-items">${itemsHtml}</div>
+      ${o.note ? `<div class="order-note-box">🗒️ ${escapeHtml(o.note)}</div>` : ''}
       <div class="order-item-row"><span>المبلغ بدون التوصيل</span><span>${money(o.subtotal ?? o.total)} د.أ</span></div>
       <div class="order-item-row"><span>أجور التوصيل</span><span>${money(deliveryFee)} د.أ</span></div>
       <div class="order-total"><span>الإجمالي</span><span class="mono">${money(o.total)} د.أ</span></div>
@@ -1696,6 +1718,8 @@ function renderCustomers(){
       Object.keys(c.products).some(name=>name.toLowerCase().includes(customerSearchQuery))
     );
   }
+  const countEl = document.getElementById('customerSearchCount');
+  if(countEl) countEl.textContent = customerSearchQuery ? `${list.length} نتيجة` : '';
 
   if(all.length===0){
     listEl.innerHTML = `<div class="empty-state">
@@ -2283,6 +2307,49 @@ async function saveOrderEdit(orderId){
   await saveOrders();
   closeModal();
   toast('تم تحديث بيانات الطلب');
+  render();
+}
+
+// ---- manual order note ----
+function openOrderNoteModal(orderId){
+  const o = ORDERS.find(x=>x.id===orderId);
+  if(!o) return;
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>ملاحظة على الطلب #${o.id.slice(-6)}</h2>
+      <div class="field" style="margin-bottom:0;">
+        <label>الملاحظة</label>
+        <textarea id="oNoteText" rows="4" placeholder="اكتب أي ملاحظة عن هالطلب...">${escapeHtml(o.note||'')}</textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-block" onclick="saveOrderNote('${o.id}')">حفظ الملاحظة</button>
+      </div>
+      ${o.note ? `<div style="margin-top:10px;"><button class="btn btn-danger btn-block" onclick="clearOrderNote('${o.id}')">حذف الملاحظة</button></div>` : ''}
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
+    </div>
+  </div>`;
+}
+
+async function saveOrderNote(orderId){
+  const o = ORDERS.find(x=>x.id===orderId);
+  if(!o) return;
+  const text = document.getElementById('oNoteText').value.trim();
+  o.note = text;
+  await saveOrders();
+  closeModal();
+  toast(text ? 'تم حفظ الملاحظة' : 'تم حذف الملاحظة');
+  render();
+}
+
+async function clearOrderNote(orderId){
+  const o = ORDERS.find(x=>x.id===orderId);
+  if(!o) return;
+  o.note = '';
+  await saveOrders();
+  closeModal();
+  toast('تم حذف الملاحظة');
   render();
 }
 
