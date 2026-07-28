@@ -167,6 +167,24 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .order-total{display:flex; justify-content:space-between; font-weight:900; font-size:15px; margin-top:4px;}
 .order-actions{display:flex; gap:8px; justify-content:flex-end; margin-top:10px; flex-wrap:wrap;}
 
+/* ===== Customers ===== */
+.customer-list{display:flex; flex-direction:column; gap:12px;}
+.customer-card{
+  background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
+  box-shadow:var(--shadow);
+}
+.customer-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
+.customer-name{font-weight:700; font-size:15px;}
+.customer-meta{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+.customer-stats{display:flex; gap:16px; margin:10px 0; padding:8px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line);}
+.customer-stats .cs-item{font-size:12.5px; color:var(--ink-soft);}
+.customer-stats .cs-item b{display:block; font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:900; color:var(--teal-dark);}
+.customer-products{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+.customer-product-tag{
+  background:#F1E4C6; color:var(--amber); font-size:11.5px; font-weight:700;
+  padding:3px 10px; border-radius:20px;
+}
+
 /* ===== Cart floating ===== */
 .cart-fab{
   position:fixed; bottom:22px; left:22px; z-index:40;
@@ -523,6 +541,9 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         <button class="tab-btn" id="tabOrdersBtn" onclick="switchTab('orders')">
           الطلبات <span class="tab-count" id="countOrders">0</span>
         </button>
+        <button class="tab-btn" id="tabCustomersBtn" onclick="switchTab('customers')">
+          العملاء <span class="tab-count" id="countCustomers">0</span>
+        </button>
         <button class="tab-btn" id="tabFinanceBtn" onclick="switchTab('finance')">
           الحسابات
         </button>
@@ -562,6 +583,20 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
     <div id="ordersStats" class="stats-bar"></div>
     <div id="orderFilters" class="filter-chips"></div>
     <div id="ordersList" class="order-list"></div>
+  </div>
+
+  <div id="customersView" style="display:none;">
+    <div class="toolbar">
+      <div>
+        <h2>العملاء</h2>
+        <div class="sub">قائمة العملاء تلقائيًا من الطلبات، مع المنتجات اللي طلبها كل عميل</div>
+      </div>
+      <div class="search-box">
+        <input type="text" id="customerSearch" placeholder="ابحث عن عميل بالاسم أو رقم الهاتف" oninput="handleCustomerSearch(this.value)">
+      </div>
+    </div>
+    <div id="customersStats" class="stats-bar"></div>
+    <div id="customersList" class="customer-list"></div>
   </div>
 
   <div id="financeView" style="display:none;"></div>
@@ -635,6 +670,7 @@ let reportPeriod = 'today';
 let currentTab = 'products';
 let editingImageData = null;
 let productSearchQuery = '';
+let customerSearchQuery = '';
 let orderFilter = 'all';
 let SEASONS = [];
 let currentSeasonId = null;
@@ -1063,11 +1099,14 @@ function switchTab(tab){
   currentTab = tab;
   document.getElementById('productsView').style.display = tab==='products' ? 'block':'none';
   document.getElementById('ordersView').style.display = tab==='orders' ? 'block':'none';
+  document.getElementById('customersView').style.display = tab==='customers' ? 'block':'none';
   document.getElementById('financeView').style.display = tab==='finance' ? 'block':'none';
   document.getElementById('tabProductsBtn').classList.toggle('active', tab==='products');
   document.getElementById('tabOrdersBtn').classList.toggle('active', tab==='orders');
+  document.getElementById('tabCustomersBtn').classList.toggle('active', tab==='customers');
   document.getElementById('tabFinanceBtn').classList.toggle('active', tab==='finance');
   if(tab==='finance') renderFinance();
+  if(tab==='customers') renderCustomers();
 }
 
 // ---------- render ----------
@@ -1079,10 +1118,12 @@ function render(){
   renderOrderFilters();
   renderOrdersStats();
   renderOrders();
+  renderCustomers();
   renderCartFab();
   renderFinance();
   document.getElementById('countProducts').textContent = PRODUCTS.length;
   document.getElementById('countOrders').textContent = ORDERS.filter(o=>o.status!=='cancelled').length;
+  document.getElementById('countCustomers').textContent = computeCustomersList().length;
 }
 
 function renderLowStockBanner(){
@@ -1303,6 +1344,105 @@ function renderCartFab(){
   const count = CART.reduce((s,c)=>s+c.qty,0);
   document.getElementById('cartCount').textContent = count;
   fab.style.display = count>0 ? 'flex' : 'none';
+}
+
+// ---------- customers (derived automatically from orders) ----------
+function computeCustomersList(){
+  const map = {};
+  ORDERS.filter(o=>o.status!=='cancelled').forEach(o=>{
+    const key = (o.phone && o.phone.trim()) || ('n:'+(o.customer||'-'));
+    if(!map[key]){
+      map[key] = {
+        name: o.customer || 'عميل بدون اسم',
+        phone: o.phone || '',
+        address: o.address || '',
+        orders: 0,
+        total: 0,
+        lastAt: 0,
+        products: {}
+      };
+    }
+    const c = map[key];
+    c.orders += 1;
+    c.total += o.total;
+    if(o.createdAt > c.lastAt){
+      c.lastAt = o.createdAt;
+      // keep the most recent address/name in case they were edited later
+      if(o.customer) c.name = o.customer;
+      if(o.address) c.address = o.address;
+    }
+    (o.items||[]).forEach(it=>{
+      c.products[it.name] = (c.products[it.name]||0) + it.qty;
+    });
+  });
+  return Object.values(map).sort((a,b)=>b.lastAt-a.lastAt);
+}
+
+function handleCustomerSearch(val){
+  customerSearchQuery = val.trim().toLowerCase();
+  renderCustomers();
+}
+
+function renderCustomers(){
+  const statsEl = document.getElementById('customersStats');
+  const listEl = document.getElementById('customersList');
+  if(!listEl) return;
+
+  const all = computeCustomersList();
+
+  if(statsEl){
+    const totalRevenue = all.reduce((s,c)=>s+c.total,0);
+    statsEl.innerHTML = `
+      <div class="stat-card"><div class="n">${all.length}</div><div class="l">إجمالي العملاء</div></div>
+      <div class="stat-card"><div class="n">${money(totalRevenue)}</div><div class="l">إجمالي المبيعات (د.أ)</div></div>
+    `;
+  }
+
+  let list = all;
+  if(customerSearchQuery){
+    list = list.filter(c=>
+      c.name.toLowerCase().includes(customerSearchQuery) ||
+      (c.phone && c.phone.toLowerCase().includes(customerSearchQuery))
+    );
+  }
+
+  if(all.length===0){
+    listEl.innerHTML = `<div class="empty-state">
+      <div class="big">👥</div>
+      <div style="font-weight:700; margin-bottom:4px;">لا يوجد عملاء بعد</div>
+      <div style="font-size:13px;">أي طلب بيع جديد بيضيف صاحبه هون تلقائيًا</div>
+    </div>`;
+    return;
+  }
+  if(list.length===0){
+    listEl.innerHTML = `<div class="empty-state">
+      <div class="big">👥</div>
+      <div style="font-weight:700;">ما في نتائج مطابقة</div>
+    </div>`;
+    return;
+  }
+
+  listEl.innerHTML = list.map(c=>{
+    const addressLine = c.address ? `<div class="customer-meta">📍 ${escapeHtml(c.address)}</div>` : '';
+    const productTags = Object.entries(c.products).map(([name,qty])=>
+      `<span class="customer-product-tag">${escapeHtml(name)} × ${qty}</span>`
+    ).join('');
+    return `
+    <div class="customer-card">
+      <div class="customer-top">
+        <div>
+          <div class="customer-name">${escapeHtml(c.name)}</div>
+          <div class="customer-meta">${c.phone ? '📞 '+escapeHtml(c.phone) : 'بدون رقم هاتف'}</div>
+          ${addressLine}
+        </div>
+      </div>
+      <div class="customer-stats">
+        <div class="cs-item">عدد الطلبات<b>${c.orders}</b></div>
+        <div class="cs-item">إجمالي المبالغ<b>${money(c.total)} د.أ</b></div>
+      </div>
+      <div class="customer-products">${productTags}</div>
+    </div>`;
+  }).join('');
 }
 
 function escapeHtml(s){
