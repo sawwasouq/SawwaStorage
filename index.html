@@ -372,31 +372,46 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 
 /* ===== Printable invoice ===== */
 #printInvoiceArea{ display:none; }
-.inv-wrap{
-  max-width:480px; margin:0 auto; font-family:'Tajawal', sans-serif; color:#2B241A; padding:24px;
+.inv-page{
+  max-width:640px; margin:0 auto; font-family:'Tajawal', sans-serif; color:#20241F;
+  background:#fff; padding:38px 42px 30px;
 }
-.inv-head{ display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #164F42; padding-bottom:14px; margin-bottom:16px; }
-.inv-brand{ display:flex; align-items:center; gap:10px; }
-.inv-mark{ width:40px;height:40px;border-radius:8px; background:#B9822F; color:#164F42; font-weight:900; font-size:18px; display:flex;align-items:center;justify-content:center; }
-.inv-brand-name{ font-size:19px; font-weight:900; }
-.inv-brand-sub{ font-size:12px; color:#6B5F4C; }
-.inv-meta{ text-align:left; font-size:12.5px; color:#6B5F4C; }
-.inv-meta b{ color:#2B241A; }
-.inv-customer{ font-size:13.5px; line-height:1.9; margin-bottom:16px; background:#FBF7EE; border:1px solid #D9CBA9; border-radius:10px; padding:10px 14px; }
-.inv-table{ width:100%; border-collapse:collapse; margin-bottom:14px; font-size:13px; }
+.inv-topbar{ height:6px; background:linear-gradient(90deg,#164F42,#1F6F5C 55%,#B9822F); border-radius:3px; margin-bottom:26px; }
+.inv-head{ display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:18px; margin-bottom:20px; border-bottom:1px solid #E3DBC5; }
+.inv-brand{ display:flex; align-items:center; gap:12px; }
+.inv-mark{ width:46px;height:46px;border-radius:10px; background:#164F42; color:#F3EEDF; font-weight:900; font-size:18px; display:flex;align-items:center;justify-content:center; letter-spacing:.5px; }
+.inv-brand-name{ font-size:20px; font-weight:900; color:#164F42; }
+.inv-brand-sub{ font-size:12px; color:#8A7C61; margin-top:2px; }
+.inv-meta{ text-align:left; }
+.inv-meta-label{ font-size:11px; color:#8A7C61; font-weight:700; letter-spacing:.4px; margin-bottom:3px; }
+.inv-meta-num{ font-family:'JetBrains Mono',monospace; font-size:17px; font-weight:700; color:#164F42; }
+.inv-meta-date{ font-size:12.5px; color:#8A7C61; margin-top:6px; }
+.inv-customer{ font-size:13.5px; line-height:1.85; margin-bottom:22px; background:#FAF7EF; border:1px solid #ECE3CB; border-radius:10px; padding:12px 16px; }
+.inv-customer div{ display:flex; gap:6px; }
+.inv-customer b{ color:#6B5F4C; font-weight:700; min-width:56px; }
+.inv-table{ width:100%; border-collapse:collapse; margin-bottom:6px; font-size:13px; }
 .inv-table th, .inv-table td{ text-align:right; }
 .inv-table th.c, .inv-table td.c{ text-align:center; }
-.inv-table th{ background:#164F42; color:#F3EEDF; padding:8px 10px; font-weight:700; }
-.inv-table td{ padding:8px 10px; border-bottom:1px solid #D9CBA9; }
-.inv-totals{ font-size:14px; margin-bottom:20px; }
-.inv-totals > div{ display:flex; justify-content:space-between; padding:4px 0; }
-.inv-grand{ font-weight:900; font-size:17px; border-top:2px solid #164F42; margin-top:6px; padding-top:8px !important; }
-.inv-footer{ text-align:center; font-size:13px; color:#6B5F4C; margin-top:10px; }
+.inv-table thead th{ background:#164F42; color:#F3EEDF; padding:10px 12px; font-weight:700; font-size:12.5px; }
+.inv-table thead th:first-child{ border-radius:6px 0 0 0; }
+.inv-table thead th:last-child{ border-radius:0 6px 0 0; }
+.inv-table tbody tr:nth-child(even){ background:#FAF7EF; }
+.inv-table td{ padding:9px 12px; border-bottom:1px solid #ECE3CB; font-family:'JetBrains Mono',monospace; }
+.inv-table td:first-child{ font-family:'Tajawal', sans-serif; }
+.inv-totals{ margin:16px 0 24px; padding-top:10px; }
+.inv-totals > div{ display:flex; justify-content:space-between; padding:5px 2px; font-size:13.5px; color:#6B5F4C; font-family:'JetBrains Mono',monospace; }
+.inv-totals > div span:first-child{ font-family:'Tajawal', sans-serif; }
+.inv-grand{ font-weight:900 !important; font-size:17px !important; color:#164F42 !important; background:#FBF0DB; border-radius:8px; margin-top:6px; padding:12px 14px !important; }
+.inv-footer{ text-align:center; font-size:12.5px; color:#8A7C61; margin-top:8px; padding-top:16px; border-top:1px dashed #E3DBC5; }
+.inv-footer .thanks{ font-size:14px; font-weight:700; color:#164F42; margin-bottom:4px; }
 
 @media print{
+  @page{ size:A4; margin:12mm; }
   body *{ visibility:hidden; }
   #printInvoiceArea, #printInvoiceArea *{ visibility:visible; }
   #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:100%; }
+  .inv-page{ padding:0; max-width:100%; }
+  .inv-topbar{ margin-bottom:20px; }
 }
 
 /* ===================================================================
@@ -2020,7 +2035,8 @@ function printInvoice(orderId){
     </tr>
   `).join('');
   area.innerHTML = `
-    <div class="inv-wrap">
+    <div class="inv-page">
+      <div class="inv-topbar"></div>
       <div class="inv-head">
         <div class="inv-brand">
           <div class="inv-mark">SS</div>
@@ -2030,14 +2046,16 @@ function printInvoice(orderId){
           </div>
         </div>
         <div class="inv-meta">
-          <div>فاتورة رقم <b>#${o.id.slice(-6)}</b></div>
-          <div>${formatDate(o.createdAt)}</div>
+          <div class="inv-meta-label">رقم الفاتورة</div>
+          <div class="inv-meta-num">#${o.id.slice(-6)}</div>
+          <div class="inv-meta-date">${formatDate(o.createdAt)}</div>
         </div>
       </div>
+      <div class="inv-section-label">بيانات العميل</div>
       <div class="inv-customer">
-        <div><b>العميل:</b> ${escapeHtml(o.customer || '-')}</div>
-        <div><b>الهاتف:</b> ${escapeHtml(o.phone || '-')}</div>
-        ${o.address ? `<div><b>العنوان:</b> ${escapeHtml(o.address)}</div>` : ''}
+        <div><b>العميل</b> ${escapeHtml(o.customer || '-')}</div>
+        <div><b>الهاتف</b> ${escapeHtml(o.phone || '-')}</div>
+        ${o.address ? `<div><b>العنوان</b> ${escapeHtml(o.address)}</div>` : ''}
       </div>
       <table class="inv-table">
         <thead><tr><th>الصنف</th><th class="c">الكمية</th><th class="c">السعر</th><th class="c">الإجمالي</th></tr></thead>
@@ -2046,9 +2064,12 @@ function printInvoice(orderId){
       <div class="inv-totals">
         <div><span>المبلغ بدون التوصيل</span><span>${money(o.subtotal ?? o.total)} د.أ</span></div>
         <div><span>أجور التوصيل</span><span>${money(deliveryFee)} د.أ</span></div>
-        <div class="inv-grand"><span>الإجمالي</span><span>${money(o.total)} د.أ</span></div>
+        <div class="inv-grand"><span>الإجمالي المطلوب</span><span>${money(o.total)} د.أ</span></div>
       </div>
-      <div class="inv-footer">شكرًا لتعاملكم معنا 🌟</div>
+      <div class="inv-footer">
+        <div class="thanks">شكرًا لتعاملكم معنا 🌟</div>
+        <div>مخزون SawwaSouq</div>
+      </div>
     </div>
   `;
   setTimeout(()=>{
