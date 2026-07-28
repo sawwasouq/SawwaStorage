@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مخزون سوّي سوق</title>
+<title>مخزون SawwaSouq</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap');
 
@@ -31,7 +31,13 @@ body{
   font-family:'Tajawal', 'Segoe UI', Tahoma, sans-serif;
   min-height:100vh;
   padding-bottom:100px;
+  overflow-x:hidden;
 }
+/* Desktop-view mode: force the real desktop width and scroll sideways instead of
+   zooming/scaling the page down — this keeps text and controls at full, normal size
+   in BOTH modes, and mobile mode is never affected by having used desktop mode. */
+body.force-desktop{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+body.force-desktop header, body.force-desktop main{ min-width:1100px; }
 .mono{font-family:'JetBrains Mono', monospace;}
 
 /* ===== Header ===== */
@@ -345,6 +351,35 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 }
 @keyframes toastin{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
 .loading{text-align:center; padding:60px; color:var(--ink-soft);}
+
+/* ===== Printable invoice ===== */
+#printInvoiceArea{ display:none; }
+.inv-wrap{
+  max-width:480px; margin:0 auto; font-family:'Tajawal', sans-serif; color:#2B241A; padding:24px;
+}
+.inv-head{ display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #164F42; padding-bottom:14px; margin-bottom:16px; }
+.inv-brand{ display:flex; align-items:center; gap:10px; }
+.inv-mark{ width:40px;height:40px;border-radius:8px; background:#B9822F; color:#164F42; font-weight:900; font-size:18px; display:flex;align-items:center;justify-content:center; }
+.inv-brand-name{ font-size:19px; font-weight:900; }
+.inv-brand-sub{ font-size:12px; color:#6B5F4C; }
+.inv-meta{ text-align:left; font-size:12.5px; color:#6B5F4C; }
+.inv-meta b{ color:#2B241A; }
+.inv-customer{ font-size:13.5px; line-height:1.9; margin-bottom:16px; background:#FBF7EE; border:1px solid #D9CBA9; border-radius:10px; padding:10px 14px; }
+.inv-table{ width:100%; border-collapse:collapse; margin-bottom:14px; font-size:13px; }
+.inv-table th, .inv-table td{ text-align:right; }
+.inv-table th.c, .inv-table td.c{ text-align:center; }
+.inv-table th{ background:#164F42; color:#F3EEDF; padding:8px 10px; font-weight:700; }
+.inv-table td{ padding:8px 10px; border-bottom:1px solid #D9CBA9; }
+.inv-totals{ font-size:14px; margin-bottom:20px; }
+.inv-totals > div{ display:flex; justify-content:space-between; padding:4px 0; }
+.inv-grand{ font-weight:900; font-size:17px; border-top:2px solid #164F42; margin-top:6px; padding-top:8px !important; }
+.inv-footer{ text-align:center; font-size:13px; color:#6B5F4C; margin-top:10px; }
+
+@media print{
+  body *{ visibility:hidden; }
+  #printInvoiceArea, #printInvoiceArea *{ visibility:visible; }
+  #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:100%; }
+}
 </style>
 </head>
 <body>
@@ -354,7 +389,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
     <div class="brand">
       <div class="brand-mark">سق</div>
       <div class="brand-text">
-        <h1>مخزون سوّي سوق</h1>
+        <h1>مخزون SawwaSouq</h1>
         <button class="season-switch" id="seasonSwitchBtn" onclick="openSeasonModal()">
           <span id="currentSeasonLabel">الموسم الأول</span> ▾
         </button>
@@ -413,7 +448,52 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 </button>
 
 <div id="modalRoot"></div>
+<div id="printInvoiceArea"></div>
 <input type="file" id="importBackupInput" accept="application/json" style="display:none" onchange="handleImportBackup(event)">
+
+<!-- ===== Firebase SDK (compat build) ===== -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script>
+// ====== إعدادات Firebase — عبّي هاي القيم من مشروعك (Project settings > General > Your apps) ======
+const firebaseConfig = {
+  apiKey: "AIzaSyAHz3anxeVjOm-y0w1w-Sb8vvBYjeV8gC4",
+  authDomain: "sawwa-60ae2.firebaseapp.com",
+  projectId: "sawwa-60ae2",
+  storageBucket: "sawwa-60ae2.firebasestorage.app",
+  messagingSenderId: "571078819349",
+  appId: "1:571078819349:web:ec8dc899ca19db81d6981c"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ====== بديل window.storage يشتغل على Firestore بدل خزنة Claude المؤقتة ======
+// نفس الشكل تماماً (get/set/delete/list) عشان باقي الكود ما يحتاج أي تعديل.
+window.storage = {
+  async get(key, shared = false){
+    const col = shared ? 'shared_storage' : 'storage';
+    const snap = await db.collection(col).doc(key).get();
+    if(!snap.exists) return null;
+    return { key, value: snap.data().value, shared };
+  },
+  async set(key, value, shared = false){
+    const col = shared ? 'shared_storage' : 'storage';
+    await db.collection(col).doc(key).set({ value, updatedAt: Date.now() });
+    return { key, value, shared };
+  },
+  async delete(key, shared = false){
+    const col = shared ? 'shared_storage' : 'storage';
+    await db.collection(col).doc(key).delete();
+    return { key, deleted: true, shared };
+  },
+  async list(prefix = '', shared = false){
+    const col = shared ? 'shared_storage' : 'storage';
+    const snap = await db.collection(col).get();
+    const keys = snap.docs.map(d => d.id).filter(k => k.startsWith(prefix || ''));
+    return { keys, prefix, shared };
+  }
+};
+</script>
 
 <script>
 let PRODUCTS = [];
@@ -444,15 +524,14 @@ function seasonKey(base){
 let forceDesktopView = false;
 
 function applyViewMode(){
-  const meta = document.querySelector('meta[name="viewport"]');
   const icon = document.getElementById('viewModeIcon');
   const btn = document.getElementById('viewModeBtn');
   if(forceDesktopView){
-    if(meta) meta.setAttribute('content', 'width=1100');
+    document.body.classList.add('force-desktop');
     if(icon) icon.textContent = '📱';
     if(btn) btn.title = 'الرجوع لوضع الهاتف';
   } else {
-    if(meta) meta.setAttribute('content', 'width=device-width, initial-scale=1.0');
+    document.body.classList.remove('force-desktop');
     if(icon) icon.textContent = '🖥️';
     if(btn) btn.title = 'تبديل لوضع الكمبيوتر';
   }
@@ -506,7 +585,56 @@ async function loadAll(){
       ? settings.currentSeasonId : SEASONS[0].id;
     await loadSeasonData(currentSeasonId);
   }
+  await seedLaunchProducts();
   render();
+}
+
+// One-time seed of the initial catalog: Glass Pad / Rubber Pad in the first two
+// seasons (by creation order), with different qty/price per season. Safe to run
+// on every load — it skips a season+product pair that already exists by name,
+// and only marks itself fully "done" once both seasons have received their items.
+async function seedLaunchProducts(){
+  try{
+    const flag = await window.storage.get('seed-glass-rubber-v1', false);
+    if(flag && flag.value==='done') return;
+  }catch(e){ /* not seeded yet, continue */ }
+
+  const sorted = [...SEASONS].sort((a,b)=>a.createdAt-b.createdAt);
+  const season1 = sorted[0];
+  const season2 = sorted[1];
+
+  const makeProduct = (name, wholesalePrice, price, qty) => ({
+    id: uid('prod'), name, wholesalePrice, price, qty, image: null, createdAt: Date.now()
+  });
+
+  let addedAny = false;
+
+  async function addToSeason(season, items){
+    if(!season) return;
+    const key = 'products-list::' + season.id;
+    let list = [];
+    try{ const r = await window.storage.get(key, false); list = r ? JSON.parse(r.value) : []; }catch(e){ list = []; }
+    const existingNames = new Set(list.map(p=>p.name));
+    const toAdd = items.filter(it=>!existingNames.has(it.name));
+    if(toAdd.length===0) return;
+    list = list.concat(toAdd);
+    try{ await window.storage.set(key, JSON.stringify(list), false); }catch(e){ return; }
+    addedAny = true;
+    if(season.id===currentSeasonId){ PRODUCTS = list; }
+  }
+
+  await addToSeason(season1, [
+    makeProduct('Glass Pad', 7.5, 15, 4),
+    makeProduct('Rubber Pad', 4, 10, 5)
+  ]);
+  if(season2){
+    await addToSeason(season2, [
+      makeProduct('Glass Pad', 7.5, 20, 10),
+      makeProduct('Rubber Pad', 4, 10, 10)
+    ]);
+    try{ await window.storage.set('seed-glass-rubber-v1', 'done', false); }catch(e){}
+  }
+  if(addedAny) toast('تمت إضافة المنتجات الجاهزة (Glass Pad, Rubber Pad)');
 }
 
 // Loads the old un-scoped keys (pre-season version of the app)
@@ -1071,14 +1199,18 @@ function escapeHtml(s){
 }
 
 // ---------- product CRUD ----------
-function openProductModal(productId){
+function openProductModal(productId, cloneFromId){
   const p = productId ? PRODUCTS.find(x=>x.id===productId) : null;
-  editingImageData = p ? p.image : null;
+  const cloneFrom = (!p && cloneFromId) ? PRODUCTS.find(x=>x.id===cloneFromId) : null;
+  const prefill = p || cloneFrom;
+  editingImageData = prefill ? prefill.image : null;
   const modalRoot = document.getElementById('modalRoot');
+  const otherSeasons = SEASONS.filter(s=>s.id!==currentSeasonId);
   modalRoot.innerHTML = `
   <div class="overlay" onclick="if(event.target===this) closeModal()">
     <div class="modal">
-      <h2>${p ? 'تعديل المنتج' : 'إضافة منتج جديد'}</h2>
+      <h2>${p ? 'تعديل المنتج' : (cloneFrom ? 'استنساخ منتج' : 'إضافة منتج جديد')}</h2>
+      ${cloneFrom ? `<div class="fin-sub" style="margin-bottom:10px;">البيانات والصورة منسوخة من "${escapeHtml(cloneFrom.name)}" — عدّل أي شي تحبه، وإذا بدك صورة جديدة اضغط عليها وارفع وحدة بدالها.</div>` : ''}
       <div class="field">
         <label>صورة المنتج</label>
         <label class="img-upload" id="imgUploadBox">
@@ -1088,32 +1220,40 @@ function openProductModal(productId){
       </div>
       <div class="field">
         <label>اسم المنتج</label>
-        <input type="text" id="fName" value="${p ? escapeHtml(p.name) : ''}" placeholder="مثال: قميص قطن أبيض">
+        <input type="text" id="fName" value="${prefill ? escapeHtml(prefill.name) : ''}" placeholder="مثال: قميص قطن أبيض">
       </div>
       <div class="row2">
         <div class="field">
           <label>الكمية</label>
-          <input type="number" id="fQty" min="0" value="${p ? p.qty : ''}" placeholder="0">
+          <input type="number" id="fQty" min="0" value="${prefill ? prefill.qty : ''}" placeholder="0">
         </div>
         <div class="field">
           <label>سعر الجملة (شراء)</label>
-          <input type="number" id="fWholesale" min="0" step="0.01" value="${p ? (p.wholesalePrice ?? '') : ''}" placeholder="0.00">
+          <input type="number" id="fWholesale" min="0" step="0.01" value="${prefill ? (prefill.wholesalePrice ?? '') : ''}" placeholder="0.00">
         </div>
       </div>
       <div class="field">
         <label>سعر البيع (مفرق) *</label>
-        <input type="number" id="fPrice" min="0" step="0.01" value="${p ? p.price : ''}" placeholder="0.00">
+        <input type="number" id="fPrice" min="0" step="0.01" value="${prefill ? prefill.price : ''}" placeholder="0.00">
       </div>
       <div class="modal-actions">
-        <button class="btn btn-primary btn-block" onclick="saveProductForm(${p ? `'${p.id}'` : 'null'})">${p ? 'حفظ التعديلات' : 'إضافة المنتج'}</button>
+        <button class="btn btn-primary btn-block" onclick="saveProductForm(${p ? `'${p.id}'` : 'null'})">${p ? 'حفظ التعديلات' : (cloneFrom ? 'إضافة كمنتج جديد' : 'إضافة المنتج')}</button>
       </div>
-      ${p ? `<div style="margin-top:10px;"><button class="btn btn-danger btn-block" onclick="deleteProduct('${p.id}')">حذف المنتج</button></div>` : ''}
+      ${p ? `<div style="margin-top:10px; display:flex; gap:8px;">
+        <button class="btn btn-outline btn-sm" style="flex:1" onclick="cloneProduct('${p.id}')">📋 استنساخ</button>
+        ${otherSeasons.length ? `<button class="btn btn-outline btn-sm" style="flex:1" onclick="openMoveProductModal('${p.id}')">↪️ نقل لموسم</button>` : ''}
+      </div>
+      <div style="margin-top:8px;"><button class="btn btn-danger btn-block" onclick="deleteProduct('${p.id}')">حذف المنتج</button></div>` : ''}
       <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
     </div>
   </div>`;
   document.getElementById('imgUploadBox').addEventListener('click', (e)=>{
     if(e.target.tagName!=='INPUT') document.getElementById('imgInput').click();
   });
+}
+
+function cloneProduct(productId){
+  openProductModal(null, productId);
 }
 
 function handleImageUpload(e){
@@ -1169,6 +1309,63 @@ function deleteProduct(productId){
     await saveProducts();
     render();
   }, 'حذف المنتج');
+}
+
+// ---------- move product to another season ----------
+function openMoveProductModal(productId){
+  const p = PRODUCTS.find(x=>x.id===productId);
+  if(!p) return;
+  const others = SEASONS.filter(s=>s.id!==currentSeasonId);
+  if(others.length===0){ toast('ما في مواسم ثانية لنقل المنتج إليها'); return; }
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>نقل "${escapeHtml(p.name)}" لموسم آخر</h2>
+      <div class="fin-sub" style="margin-bottom:10px;">المنتج (بكل بياناته وصورته) رح ينحذف من الموسم الحالي وينضاف للموسم يلي تختاره. الطلبات القديمة المرتبطة فيه بتضل بمكانها.</div>
+      <div class="field">
+        <label>الموسم الهدف</label>
+        <select id="moveTargetSeason" class="select-field">
+          ${others.map(s=>`<option value="${s.id}">${escapeHtml(s.name)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-block" onclick="confirmMoveProduct('${p.id}')">نقل المنتج</button>
+      </div>
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
+    </div>
+  </div>`;
+}
+
+function confirmMoveProduct(productId){
+  const targetId = document.getElementById('moveTargetSeason').value;
+  const target = SEASONS.find(s=>s.id===targetId);
+  if(!target) return;
+  showConfirm(`نقل هذا المنتج إلى "${target.name}"؟ رح ينحذف من الموسم الحالي.`, async ()=>{
+    await moveProductToSeason(productId, targetId);
+  }, 'نقل المنتج');
+}
+
+async function moveProductToSeason(productId, targetSeasonId){
+  const p = PRODUCTS.find(x=>x.id===productId);
+  if(!p) return;
+  const targetKey = 'products-list::' + targetSeasonId;
+  let targetProducts = [];
+  try{
+    const r = await window.storage.get(targetKey, false);
+    targetProducts = r ? JSON.parse(r.value) : [];
+  }catch(e){ targetProducts = []; }
+  targetProducts.push(p);
+  try{
+    await window.storage.set(targetKey, JSON.stringify(targetProducts), false);
+  }catch(e){ toast('تعذّر النقل، حاول مجددًا'); return; }
+  PRODUCTS = PRODUCTS.filter(x=>x.id!==productId);
+  CART = CART.filter(c=>c.productId!==productId);
+  await saveProducts();
+  closeModal();
+  const target = SEASONS.find(s=>s.id===targetSeasonId);
+  toast(`تم نقل المنتج إلى ${target ? target.name : 'الموسم الآخر'}`);
+  render();
 }
 
 function closeModal(){
@@ -1541,6 +1738,7 @@ ${itemsText}
       <div class="modal-actions">
         <a class="btn btn-primary btn-block" href="${waLink}" target="_blank" rel="noopener" style="text-decoration:none;">📲 إرسال عبر واتساب</a>
       </div>
+      <div style="margin-top:8px;"><button class="btn btn-amber btn-block" onclick="printInvoice('${o.id}')">🖨️ طباعة الفاتورة</button></div>
       <div style="margin-top:8px;"><button class="btn btn-outline btn-block" onclick="copyReceiptText()">📋 نسخ النص</button></div>
       <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
     </div>
@@ -1554,6 +1752,58 @@ function copyReceiptText(){
   } else {
     toast('تعذّر النسخ بهذا المتصفح');
   }
+}
+
+function printInvoice(orderId){
+  const o = ORDERS.find(x=>x.id===orderId);
+  if(!o) return;
+  const area = document.getElementById('printInvoiceArea');
+  if(!area) return;
+  const deliveryFee = o.deliveryFee || 0;
+  const itemsRows = o.items.map(it=>`
+    <tr>
+      <td>${escapeHtml(it.name)}</td>
+      <td class="c">${it.qty}</td>
+      <td class="c">${money(it.price)}</td>
+      <td class="c">${money(it.price*it.qty)}</td>
+    </tr>
+  `).join('');
+  area.innerHTML = `
+    <div class="inv-wrap">
+      <div class="inv-head">
+        <div class="inv-brand">
+          <div class="inv-mark">SS</div>
+          <div>
+            <div class="inv-brand-name">مخزون SawwaSouq</div>
+            <div class="inv-brand-sub">فاتورة بيع</div>
+          </div>
+        </div>
+        <div class="inv-meta">
+          <div>فاتورة رقم <b>#${o.id.slice(-6)}</b></div>
+          <div>${formatDate(o.createdAt)}</div>
+        </div>
+      </div>
+      <div class="inv-customer">
+        <div><b>العميل:</b> ${escapeHtml(o.customer || '-')}</div>
+        <div><b>الهاتف:</b> ${escapeHtml(o.phone || '-')}</div>
+        ${o.address ? `<div><b>العنوان:</b> ${escapeHtml(o.address)}</div>` : ''}
+      </div>
+      <table class="inv-table">
+        <thead><tr><th>الصنف</th><th class="c">الكمية</th><th class="c">السعر</th><th class="c">الإجمالي</th></tr></thead>
+        <tbody>${itemsRows}</tbody>
+      </table>
+      <div class="inv-totals">
+        <div><span>المبلغ بدون التوصيل</span><span>${money(o.subtotal ?? o.total)} د.أ</span></div>
+        <div><span>أجور التوصيل</span><span>${money(deliveryFee)} د.أ</span></div>
+        <div class="inv-grand"><span>الإجمالي</span><span>${money(o.total)} د.أ</span></div>
+      </div>
+      <div class="inv-footer">شكرًا لتعاملكم معنا 🌟</div>
+    </div>
+  `;
+  setTimeout(()=>{
+    try{ window.print(); }
+    catch(e){ toast('تعذّرت الطباعة بهاي المعاينة — جرّب من الموقع بعد ما يترفع عالسيرفر'); }
+  }, 60);
 }
 
 // ---------- restock (receiving new goods) ----------
@@ -1675,7 +1925,10 @@ async function handleImportBackup(e){
   }, 'استيراد واستبدال');
 }
 
-// ---------- quick reports by period ----------
+// ---------- reports by period ----------
+let reportCustomFrom = '';
+let reportCustomTo = '';
+
 function getPeriodStart(period){
   const now = new Date();
   if(period==='today'){
@@ -1695,12 +1948,47 @@ function getPeriodStart(period){
   return 0;
 }
 
-function computeTopProducts(sinceTs, limit){
+function getReportRange(){
+  if(reportPeriod==='custom'){
+    const from = reportCustomFrom ? new Date(reportCustomFrom+'T00:00:00').getTime() : 0;
+    const to = reportCustomTo ? new Date(reportCustomTo+'T23:59:59').getTime() : Date.now();
+    return {start:from, end:to};
+  }
+  return {start:getPeriodStart(reportPeriod), end:Date.now()};
+}
+
+function computeTopProductsByRevenue(sinceTs, untilTs, limit){
+  const until = untilTs===undefined ? Infinity : untilTs;
   const map = {};
-  ORDERS.filter(o=>o.status==='done' && (o.doneAt||o.createdAt)>sinceTs).forEach(o=>{
-    (o.items||[]).forEach(it=>{ map[it.name] = (map[it.name]||0)+it.qty; });
+  ORDERS.filter(o=>o.status==='done' && (o.doneAt||o.createdAt)>sinceTs && (o.doneAt||o.createdAt)<=until).forEach(o=>{
+    (o.items||[]).forEach(it=>{
+      if(!map[it.name]) map[it.name] = {qty:0, revenue:0};
+      map[it.name].qty += it.qty;
+      map[it.name].revenue += it.price*it.qty;
+    });
   });
-  return Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,limit||3);
+  return Object.entries(map).sort((a,b)=>b[1].revenue-a[1].revenue).slice(0, limit||5);
+}
+
+function computeTopCustomers(sinceTs, untilTs, limit){
+  const until = untilTs===undefined ? Infinity : untilTs;
+  const map = {};
+  ORDERS.filter(o=>o.status==='done' && (o.doneAt||o.createdAt)>sinceTs && (o.doneAt||o.createdAt)<=until).forEach(o=>{
+    const key = (o.phone && o.phone.trim()) || ('n:'+(o.customer||'-'));
+    if(!map[key]) map[key] = {name:o.customer||'عميل بدون اسم', phone:o.phone||'', total:0, orders:0};
+    map[key].total += o.total;
+    map[key].orders += 1;
+  });
+  return Object.values(map).sort((a,b)=>b.total-a.total).slice(0, limit||5);
+}
+
+function computeExpensesByCategory(sinceTs, untilTs){
+  const until = untilTs===undefined ? Infinity : untilTs;
+  const map = {};
+  EXPENSES.filter(e=>(e.createdAt||0)>sinceTs && (e.createdAt||0)<=until).forEach(e=>{
+    map[e.category] = (map[e.category]||0) + e.amount;
+  });
+  return Object.entries(map).sort((a,b)=>b[1]-a[1]);
 }
 
 function setReportPeriod(p){
@@ -1708,24 +1996,64 @@ function setReportPeriod(p){
   renderFinance();
 }
 
+function setReportCustomDate(which, val){
+  if(which==='from') reportCustomFrom = val; else reportCustomTo = val;
+  if(reportPeriod==='custom') renderFinance();
+}
+
 function buildReportsHtml(){
-  const start = getPeriodStart(reportPeriod);
-  const stats = computeStatsSince(start);
-  const top = computeTopProducts(start, 3);
-  const chips = [['today','اليوم'], ['week','هالأسبوع'], ['month','هالشهر']];
+  const {start, end} = getReportRange();
+  const stats = computeStatsForData(ORDERS, EXPENSES, start, end);
+  const topRevenue = computeTopProductsByRevenue(start, end, 5);
+  const topCustomers = computeTopCustomers(start, end, 5);
+  const expByCat = computeExpensesByCategory(start, end);
+  const chips = [['today','اليوم'], ['week','هالأسبوع'], ['month','هالشهر'], ['all','من البداية'], ['custom','فترة مخصصة']];
+  const dateRangeHtml = reportPeriod==='custom' ? `
+    <div class="row2" style="margin:10px 0;">
+      <div class="field" style="margin-bottom:0;">
+        <label>من تاريخ</label>
+        <input type="date" value="${reportCustomFrom}" onchange="setReportCustomDate('from', this.value)">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>إلى تاريخ</label>
+        <input type="date" value="${reportCustomTo}" onchange="setReportCustomDate('to', this.value)">
+      </div>
+    </div>
+  ` : '';
   return `
     <div class="filter-chips" style="margin-bottom:12px;">
       ${chips.map(([k,l])=>`<button class="chip ${reportPeriod===k?'active':''}" onclick="setReportPeriod('${k}')">${l}</button>`).join('')}
     </div>
+    ${dateRangeHtml}
     <div class="fin-grid">
       <div class="fin-tile"><div class="n">${stats.ordersCount}</div><div class="l">طلب مُسلَّم</div></div>
       <div class="fin-tile"><div class="n">${money(stats.totalRevenue)}</div><div class="l">مبيعات (د.أ)</div></div>
+      <div class="fin-tile"><div class="n">${money(stats.avgOrderValue)}</div><div class="l">متوسط قيمة الطلب (د.أ)</div></div>
       <div class="fin-tile"><div class="n ${stats.netProfit<0?'neg':''}">${money(stats.netProfit)}</div><div class="l">صافي ربح (د.أ)</div></div>
+      <div class="fin-tile"><div class="n ${stats.marginPct<0?'neg':''}">${stats.marginPct.toFixed(1)}%</div><div class="l">هامش الربح</div></div>
+      <div class="fin-tile"><div class="n">${stats.cancelledCount}</div><div class="l">طلب ملغي</div></div>
     </div>
-    ${top.length ? `
-      <div class="fin-sub" style="margin:12px 0 4px;">الأكثر مبيعًا بهالفترة</div>
-      ${top.map(([name,qty],i)=>`<div class="list-row"><div class="lr-main"><div class="lr-title">${i+1}. ${escapeHtml(name)}</div></div><div class="lr-amount">${qty} قطعة</div></div>`).join('')}
+
+    <div class="fin-sub" style="margin:14px 0 4px;">مصدر المبيعات</div>
+    <div class="list-row"><div class="lr-main"><div class="lr-title">مبيعات بضاعة</div></div><div class="lr-amount">${money(stats.revenueGoods)} د.أ</div></div>
+    <div class="list-row"><div class="lr-main"><div class="lr-title">أجور توصيل</div></div><div class="lr-amount">${money(stats.deliveryRevenue)} د.أ</div></div>
+    <div class="list-row"><div class="lr-main"><div class="lr-title">تكلفة البضاعة المباعة</div></div><div class="lr-amount neg">-${money(stats.cogs)} د.أ</div></div>
+    <div class="list-row"><div class="lr-main"><div class="lr-title">مصاريف الفترة</div></div><div class="lr-amount neg">-${money(stats.expensesTotal)} د.أ</div></div>
+
+    ${topRevenue.length ? `
+      <div class="fin-sub" style="margin:14px 0 4px;">الأكثر مبيعًا (حسب الإيراد)</div>
+      ${topRevenue.map(([name,d],i)=>`<div class="list-row"><div class="lr-main"><div class="lr-title">${i+1}. ${escapeHtml(name)}</div><div class="lr-sub">${d.qty} قطعة</div></div><div class="lr-amount">${money(d.revenue)} د.أ</div></div>`).join('')}
     ` : `<div class="empty-mini">ما في مبيعات بهالفترة</div>`}
+
+    ${topCustomers.length ? `
+      <div class="fin-sub" style="margin:14px 0 4px;">أكثر العملاء شراءً</div>
+      ${topCustomers.map((c,i)=>`<div class="list-row"><div class="lr-main"><div class="lr-title">${i+1}. ${escapeHtml(c.name)}</div><div class="lr-sub">${c.orders} طلب${c.phone ? ' · '+escapeHtml(c.phone) : ''}</div></div><div class="lr-amount">${money(c.total)} د.أ</div></div>`).join('')}
+    ` : ''}
+
+    ${expByCat.length ? `
+      <div class="fin-sub" style="margin:14px 0 4px;">المصاريف حسب الفئة</div>
+      ${expByCat.map(([cat,amt])=>`<div class="list-row"><div class="lr-main"><div class="lr-title">${escapeHtml(cat)}</div></div><div class="lr-amount neg">-${money(amt)} د.أ</div></div>`).join('')}
+    ` : ''}
   `;
 }
 
@@ -1756,8 +2084,9 @@ function formatDate(ts){
 // Revenue is recognized when an order is marked "done" (delivered & paid).
 // COGS uses the wholesalePrice snapshotted on the order item at sale time,
 // so later edits to a product's cost don't distort historical profit.
-function computeStatsForData(ordersArr, expensesArr, sinceTs){
-  const doneOrders = ordersArr.filter(o=> o.status==='done' && (o.doneAt||o.createdAt) > sinceTs);
+function computeStatsForData(ordersArr, expensesArr, sinceTs, untilTs){
+  const until = (untilTs===undefined || untilTs===null) ? Infinity : untilTs;
+  const doneOrders = ordersArr.filter(o=> o.status==='done' && (o.doneAt||o.createdAt) > sinceTs && (o.doneAt||o.createdAt) <= until);
   let revenueGoods=0, deliveryRevenue=0, cogs=0;
   doneOrders.forEach(o=>{
     deliveryRevenue += (o.deliveryFee||0);
@@ -1766,17 +2095,19 @@ function computeStatsForData(ordersArr, expensesArr, sinceTs){
       cogs += (it.wholesalePrice||0)*it.qty;
     });
   });
-  const periodExpenses = expensesArr.filter(e=> (e.createdAt||0) > sinceTs);
+  const periodExpenses = expensesArr.filter(e=> (e.createdAt||0) > sinceTs && (e.createdAt||0) <= until);
   const expensesTotal = periodExpenses.reduce((s,e)=>s+e.amount,0);
   const totalRevenue = revenueGoods + deliveryRevenue;
   const grossProfit = revenueGoods - cogs;
   const netProfit = grossProfit + deliveryRevenue - expensesTotal;
   const marginPct = totalRevenue>0 ? (netProfit/totalRevenue*100) : 0;
-  return {ordersCount:doneOrders.length, revenueGoods, deliveryRevenue, totalRevenue, cogs, expensesTotal, grossProfit, netProfit, marginPct};
+  const avgOrderValue = doneOrders.length>0 ? totalRevenue/doneOrders.length : 0;
+  const cancelledCount = ordersArr.filter(o=> o.status==='cancelled' && (o.createdAt||0) > sinceTs && (o.createdAt||0) <= until).length;
+  return {ordersCount:doneOrders.length, revenueGoods, deliveryRevenue, totalRevenue, cogs, expensesTotal, grossProfit, netProfit, marginPct, avgOrderValue, cancelledCount};
 }
 
-function computeStatsSince(sinceTs){
-  return computeStatsForData(ORDERS, EXPENSES, sinceTs);
+function computeStatsSince(sinceTs, untilTs){
+  return computeStatsForData(ORDERS, EXPENSES, sinceTs, untilTs);
 }
 
 // ---- cross-season aggregate ----
@@ -1914,7 +2245,8 @@ function renderFinance(){
     </div>
 
     <div class="fin-section">
-      <h3>تقارير سريعة</h3>
+      <h3>التقارير</h3>
+      <div class="fin-sub">أداء المبيعات حسب الفترة — منتجات، عملاء، ومصاريف</div>
       ${buildReportsHtml()}
     </div>
 
