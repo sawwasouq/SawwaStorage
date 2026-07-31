@@ -137,6 +137,18 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 
 /* ===== Product grid ===== */
 .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:16px;}
+.category-divider{
+  grid-column:1/-1; display:flex; align-items:center; gap:10px;
+  margin:22px 0 2px;
+}
+.category-divider:first-child{ margin-top:0; }
+.category-divider .cd-title{font-weight:900; font-size:15.5px; white-space:nowrap; color:var(--ink);}
+.category-divider .cd-count{
+  font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft);
+  background:var(--card); border:1px solid var(--line); border-radius:20px; padding:1px 9px; white-space:nowrap;
+}
+.category-divider::after{content:""; flex:1; height:1px; background:var(--line);}
+.category-divider .cd-actions{display:flex; gap:4px;}
 .card{
   background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;
   box-shadow:var(--shadow); position:relative; display:flex; flex-direction:column;
@@ -645,6 +657,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         <input type="text" id="productSearch" placeholder="ابحث عن منتج بالاسم" oninput="handleProductSearch(this.value)">
         <div class="search-count-line" id="productSearchCount"></div>
       </div>
+      <button class="btn btn-outline" onclick="openCategoriesModal()">🗂️ الأقسام</button>
       <button class="btn btn-outline" id="reorderProductsBtn" onclick="toggleProductReorderMode()">↕️ ترتيب المنتجات</button>
       <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
     </div>
@@ -740,6 +753,7 @@ window.storage = {
 
 <script>
 let PRODUCTS = [];
+let CATEGORIES = []; // product sections, e.g. "Glass Pad", "Rubber Pad" — {id, name, createdAt}
 let ORDERS = [];
 let CART = []; // {productId, qty}
 let EXPENSES = [];
@@ -779,6 +793,7 @@ const DEFAULT_SITE_TITLE = 'مخزون SawwaSouq';
 const ACTIVITY_LOG_COLLECTION = 'activity_logs';
 const ACTIVITY_ICONS = {
   product_add:'🆕', product_edit:'✎', product_delete:'🗑', product_move:'📦',
+  category_add:'🗂️', category_edit:'✎', category_delete:'🗑',
   restock:'📥',
   order_create:'🛒', order_status:'🚚', order_edit:'✎', order_note:'📝',
   order_cancel:'❌', order_delete:'🗑',
@@ -824,6 +839,7 @@ function openActivityLogModal(){
         <select class="select-field" id="activityLogFilterSelect" onchange="handleActivityLogFilterChange(this.value)">
           <option value="">كل العمليات</option>
           <option value="product">المنتجات</option>
+          <option value="category">الأقسام</option>
           <option value="order">الطلبات</option>
           <option value="restock">استلام بضاعة</option>
           <option value="expense">المصاريف</option>
@@ -1134,6 +1150,7 @@ async function loadAll(){
 // Loads the old un-scoped keys (pre-season version of the app)
 async function loadLegacyFlatData(){
   try{ const p = await window.storage.get('products-list', false); PRODUCTS = p ? JSON.parse(p.value) : []; }catch(e){ PRODUCTS = []; }
+  try{ const cg = await window.storage.get('categories-list', false); CATEGORIES = cg ? JSON.parse(cg.value) : []; }catch(e){ CATEGORIES = []; }
   try{ const o = await window.storage.get('orders-list', false); ORDERS = o ? JSON.parse(o.value) : []; }catch(e){ ORDERS = []; }
   migrateLegacyOrderStatuses();
   try{ const ex = await window.storage.get('expenses-list', false); EXPENSES = ex ? JSON.parse(ex.value) : []; }catch(e){ EXPENSES = []; }
@@ -1152,6 +1169,7 @@ async function loadLegacyFlatData(){
 async function loadSeasonData(seasonId){
   const sk = (base)=> base + '::' + seasonId;
   try{ const p = await window.storage.get(sk('products-list'), false); PRODUCTS = p ? JSON.parse(p.value) : []; }catch(e){ PRODUCTS = []; }
+  try{ const cg = await window.storage.get(sk('categories-list'), false); CATEGORIES = cg ? JSON.parse(cg.value) : []; }catch(e){ CATEGORIES = []; }
   try{ const o = await window.storage.get(sk('orders-list'), false); ORDERS = o ? JSON.parse(o.value) : []; }catch(e){ ORDERS = []; }
   migrateLegacyOrderStatuses();
   try{ const ex = await window.storage.get(sk('expenses-list'), false); EXPENSES = ex ? JSON.parse(ex.value) : []; }catch(e){ EXPENSES = []; }
@@ -1193,7 +1211,7 @@ function migrateLegacyOrderStatuses(){
 
 async function saveAllCurrentSeasonData(){
   await Promise.all([
-    saveProducts(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
+    saveProducts(), saveCategories(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
     saveReserveLog(), savePartnerPayouts(), saveSettlements(), saveRestockLog(), saveFinanceConfig()
   ]);
 }
@@ -1307,6 +1325,10 @@ function deleteShippingCompany(companyId){
 
 async function saveProducts(){
   try{ await window.storage.set(seasonKey('products-list'), JSON.stringify(PRODUCTS), false); }
+  catch(e){ toast('تعذّر الحفظ، حاول مجددًا'); }
+}
+async function saveCategories(){
+  try{ await window.storage.set(seasonKey('categories-list'), JSON.stringify(CATEGORIES), false); }
   catch(e){ toast('تعذّر الحفظ، حاول مجددًا'); }
 }
 async function saveOrders(){
@@ -1460,7 +1482,7 @@ function deleteSeason(seasonId){
   const s = SEASONS.find(x=>x.id===seasonId);
   showConfirm(`حذف "${s.name}" نهائيًا؟ رح تنحذف كل منتجاته وطلباته وحساباته بدون رجعة.`, async ()=>{
     const sk = (base)=> base + '::' + seasonId;
-    const keys = ['products-list','orders-list','expenses-list','partners-list','capital-log','reserve-log','partner-payouts','settlements-list','restock-log','finance-config'];
+    const keys = ['products-list','categories-list','orders-list','expenses-list','partners-list','capital-log','reserve-log','partner-payouts','settlements-list','restock-log','finance-config'];
     for(const k of keys){
       try{ await window.storage.delete(sk(k), false); }catch(e){ /* key may not exist, ignore */ }
     }
@@ -1616,47 +1638,77 @@ function renderProducts(){
     </div>`;
     return;
   }
-  const filtered = productSearchQuery
-    ? PRODUCTS.filter(p=>p.name.toLowerCase().includes(productSearchQuery))
-    : PRODUCTS;
-  if(countEl) countEl.textContent = productSearchQuery ? `${filtered.length} نتيجة` : '';
-  if(filtered.length===0){
+  const q = productSearchQuery;
+  const matchesSearch = p => !q || p.name.toLowerCase().includes(q);
+  const totalMatches = PRODUCTS.filter(matchesSearch).length;
+  if(countEl) countEl.textContent = q ? `${totalMatches} نتيجة` : '';
+  if(q && totalMatches===0){
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="big">🔍</div>
       <div style="font-weight:700;">ما لقينا منتج يطابق البحث</div>
     </div>`;
     return;
   }
-  grid.innerHTML = filtered.map((p,idx)=>{
-    const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
-    const imgHtml = p.image
-      ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
-      : `<div class="card-img empty"></div>`;
-    const isFirst = idx===0;
-    const isLast = idx===filtered.length-1;
-    const reorderRow = productReorderMode ? `
-        <div class="card-actions" style="margin-top:6px;">
-          <button class="icon-btn" style="flex:1" ${isFirst?'disabled':''} onclick="moveProduct('${p.id}',-1)" title="تحريك لأعلى">⬆️</button>
-          <button class="icon-btn" style="flex:1" ${isLast?'disabled':''} onclick="moveProduct('${p.id}',1)" title="تحريك لأسفل">⬇️</button>
-        </div>` : '';
-    return `
-    <div class="card">
-      ${imgHtml}
-      <div class="stock-tag ${stockClass}">الكمية: ${p.qty}</div>
-      <div class="card-body">
-        <h3>${escapeHtml(p.name)}</h3>
-        <div class="price">${money(p.price)} د.أ <span style="font-size:11px; color:var(--ink-soft); font-weight:500;">مفرق</span></div>
-        ${p.wholesalePrice ? `<div style="font-size:12px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; margin-top:-4px;">جملة: ${money(p.wholesalePrice)} د.أ</div>` : ''}
-        <div class="card-actions">
-          <button class="btn btn-primary btn-sm" style="flex:1" ${p.qty<=0?'disabled':''} onclick="quickSell('${p.id}')">بيع الآن</button>
-          <button class="btn btn-outline btn-sm" ${p.qty<=0?'disabled':''} onclick="addToCart('${p.id}')" title="أضف للسلة">🛒</button>
-          <button class="icon-btn" onclick="openRestockModal('${p.id}')" title="استلام بضاعة">📥</button>
-          <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">تعديل</button>
-        </div>
-        ${reorderRow}
-      </div>
+
+  // Group products into sections: "بدون قسم" (only shown if it has products) then
+  // every defined category in its saved order — all on the SAME page, each section
+  // is just a divider line with a title above its products (no separate tabs/pages).
+  const groups = [];
+  const uncategorized = PRODUCTS.filter(p=>!p.categoryId);
+  if(uncategorized.length>0){
+    groups.push({id:null, name:'بدون قسم', products:uncategorized});
+  }
+  CATEGORIES.forEach(cat=>{
+    groups.push({id:cat.id, name:cat.name, products: PRODUCTS.filter(p=>p.categoryId===cat.id)});
+  });
+
+  let html = '';
+  groups.forEach(g=>{
+    const visible = g.products.filter(matchesSearch);
+    if(q && visible.length===0) return; // hide empty sections while searching
+    html += `<div class="category-divider">
+      <span class="cd-title">${escapeHtml(g.name)}</span>
+      <span class="cd-count">${g.products.length}</span>
     </div>`;
-  }).join('');
+    if(visible.length===0){
+      html += `<div class="empty-mini" style="grid-column:1/-1;">لا يوجد منتجات بهذا القسم بعد</div>`;
+    } else {
+      html += visible.map(p=>renderProductCard(p, g.products)).join('');
+    }
+  });
+  grid.innerHTML = html;
+}
+
+function renderProductCard(p, siblings){
+  const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
+  const imgHtml = p.image
+    ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
+    : `<div class="card-img empty"></div>`;
+  const idx = siblings.findIndex(x=>x.id===p.id);
+  const isFirst = idx===0;
+  const isLast = idx===siblings.length-1;
+  const reorderRow = productReorderMode ? `
+      <div class="card-actions" style="margin-top:6px;">
+        <button class="icon-btn" style="flex:1" ${isFirst?'disabled':''} onclick="moveProduct('${p.id}',-1)" title="تحريك لأعلى">⬆️</button>
+        <button class="icon-btn" style="flex:1" ${isLast?'disabled':''} onclick="moveProduct('${p.id}',1)" title="تحريك لأسفل">⬇️</button>
+      </div>` : '';
+  return `
+  <div class="card">
+    ${imgHtml}
+    <div class="stock-tag ${stockClass}">الكمية: ${p.qty}</div>
+    <div class="card-body">
+      <h3>${escapeHtml(p.name)}</h3>
+      <div class="price">${money(p.price)} د.أ <span style="font-size:11px; color:var(--ink-soft); font-weight:500;">مفرق</span></div>
+      ${p.wholesalePrice ? `<div style="font-size:12px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; margin-top:-4px;">جملة: ${money(p.wholesalePrice)} د.أ</div>` : ''}
+      <div class="card-actions">
+        <button class="btn btn-primary btn-sm" style="flex:1" ${p.qty<=0?'disabled':''} onclick="quickSell('${p.id}')">بيع الآن</button>
+        <button class="btn btn-outline btn-sm" ${p.qty<=0?'disabled':''} onclick="addToCart('${p.id}')" title="أضف للسلة">🛒</button>
+        <button class="icon-btn" onclick="openRestockModal('${p.id}')" title="استلام بضاعة">📥</button>
+        <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">تعديل</button>
+      </div>
+      ${reorderRow}
+    </div>
+  </div>`;
 }
 
 let productReorderMode = false;
@@ -1668,15 +1720,21 @@ function toggleProductReorderMode(){
 }
 async function moveProduct(productId, direction){
   // direction: -1 = up (earlier), 1 = down (later)
-  // Reordering always applies to the full PRODUCTS list so the saved order
-  // stays correct even if a search filter is active in the grid.
-  const idx = PRODUCTS.findIndex(p=>p.id===productId);
-  if(idx===-1) return;
-  const targetIdx = idx + direction;
-  if(targetIdx<0 || targetIdx>=PRODUCTS.length) return;
-  const tmp = PRODUCTS[idx];
-  PRODUCTS[idx] = PRODUCTS[targetIdx];
-  PRODUCTS[targetIdx] = tmp;
+  // Reordering happens WITHIN the product's own category section (its siblings —
+  // same categoryId, or same "no category" bucket), not the whole flat list, so
+  // arrows always move a product relative to the other products in its own section.
+  const p = PRODUCTS.find(x=>x.id===productId);
+  if(!p) return;
+  const catId = p.categoryId || null;
+  const siblings = PRODUCTS.filter(x=>(x.categoryId||null)===catId);
+  const sIdx = siblings.findIndex(x=>x.id===productId);
+  const targetSIdx = sIdx + direction;
+  if(targetSIdx<0 || targetSIdx>=siblings.length) return;
+  const other = siblings[targetSIdx];
+  const idxA = PRODUCTS.indexOf(p);
+  const idxB = PRODUCTS.indexOf(other);
+  PRODUCTS[idxA] = other;
+  PRODUCTS[idxB] = p;
   await saveProducts();
   renderProducts();
 }
@@ -1882,6 +1940,113 @@ function escapeHtml(s){
   const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML;
 }
 
+// ---------- product categories (أقسام مثل: Glass Pad / Rubber Pad) ----------
+// Categories just group products visually into labeled sections on the same
+// products page (a divider line + title) — no separate pages/tabs involved.
+function openCategoriesModal(){
+  const modalRoot = document.getElementById('modalRoot');
+  const rows = CATEGORIES.length===0
+    ? `<div class="empty-mini">ما في أقسام مضافة بعد — المنتجات كلها بتظهر تحت "بدون قسم"</div>`
+    : CATEGORIES.map((c,idx)=>{
+        const count = PRODUCTS.filter(p=>p.categoryId===c.id).length;
+        const isFirst = idx===0, isLast = idx===CATEGORIES.length-1;
+        return `
+        <div class="list-row">
+          <div class="lr-main">
+            <div class="lr-title">${escapeHtml(c.name)}</div>
+            <div class="lr-sub">${count} منتج</div>
+          </div>
+          <div class="lr-actions">
+            <button class="icon-btn" ${isFirst?'disabled':''} onclick="moveCategory('${c.id}',-1)" title="تحريك لأعلى">⬆️</button>
+            <button class="icon-btn" ${isLast?'disabled':''} onclick="moveCategory('${c.id}',1)" title="تحريك لأسفل">⬇️</button>
+            <button class="icon-btn" onclick="openCategoryForm('${c.id}')" title="تعديل">✎</button>
+            <button class="icon-btn" onclick="deleteCategory('${c.id}')" title="حذف">🗑</button>
+          </div>
+        </div>`;
+      }).join('');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>🗂️ أقسام المنتجات</h2>
+      <div class="fin-sub">قسّم منتجاتك لأقسام (متل: Glass Pad، Rubber Pad) — كلها بتظهر بنفس صفحة المنتجات، كل قسم بعنوانه وخط فاصل فوق منتجاته</div>
+      <div style="margin:14px 0;">${rows}</div>
+      <button class="btn btn-primary btn-block" onclick="openCategoryForm()">+ إضافة قسم</button>
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
+    </div>
+  </div>`;
+}
+
+function openCategoryForm(categoryId){
+  const c = categoryId ? CATEGORIES.find(x=>x.id===categoryId) : null;
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>${c ? 'تعديل القسم' : 'إضافة قسم جديد'}</h2>
+      <div class="field">
+        <label>اسم القسم *</label>
+        <input type="text" id="catName" value="${c ? escapeHtml(c.name) : ''}" placeholder="مثال: Glass Pad">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-block" onclick="saveCategoryForm(${c ? `'${c.id}'` : 'null'})">حفظ</button>
+      </div>
+      ${c ? `<div style="margin-top:10px;"><button class="btn btn-danger btn-block" onclick="deleteCategory('${c.id}')">حذف القسم</button></div>` : ''}
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="openCategoriesModal()">رجوع</button></div>
+    </div>
+  </div>`;
+}
+
+async function saveCategoryForm(categoryId){
+  const name = document.getElementById('catName').value.trim();
+  if(!name){ toast('اكتب اسم القسم'); return; }
+  const isNew = !categoryId;
+  if(categoryId){
+    const c = CATEGORIES.find(x=>x.id===categoryId);
+    c.name = name;
+  } else {
+    CATEGORIES.push({id:uid('cat'), name, createdAt:Date.now()});
+  }
+  await saveCategories();
+  toast('تم الحفظ');
+  render();
+  logActivity(isNew ? 'category_add' : 'category_edit', `${isNew ? 'إضافة' : 'تعديل'} قسم "${name}"`, {});
+  openCategoriesModal();
+}
+
+function deleteCategory(categoryId){
+  const c = CATEGORIES.find(x=>x.id===categoryId);
+  if(!c) return;
+  const count = PRODUCTS.filter(p=>p.categoryId===categoryId).length;
+  showConfirm(count>0 ? `حذف قسم "${c.name}"؟ منتجاته (${count}) رح ترجع لـ "بدون قسم".` : `حذف قسم "${c.name}"؟`, async ()=>{
+    PRODUCTS.forEach(p=>{ if(p.categoryId===categoryId) p.categoryId = null; });
+    CATEGORIES = CATEGORIES.filter(x=>x.id!==categoryId);
+    await saveProducts();
+    await saveCategories();
+    render();
+    logActivity('category_delete', `حذف قسم "${c.name}"`, {});
+    openCategoriesModal();
+  }, 'حذف القسم');
+}
+
+async function moveCategory(categoryId, direction){
+  const idx = CATEGORIES.findIndex(c=>c.id===categoryId);
+  if(idx===-1) return;
+  const targetIdx = idx + direction;
+  if(targetIdx<0 || targetIdx>=CATEGORIES.length) return;
+  const tmp = CATEGORIES[idx];
+  CATEGORIES[idx] = CATEGORIES[targetIdx];
+  CATEGORIES[targetIdx] = tmp;
+  await saveCategories();
+  render();
+  openCategoriesModal();
+}
+
+function buildCategorySelectOptions(selectedId){
+  return `<option value="">بدون قسم</option>` + CATEGORIES.map(c=>
+    `<option value="${c.id}" ${selectedId===c.id?'selected':''}>${escapeHtml(c.name)}</option>`
+  ).join('');
+}
+
 // ---------- product CRUD ----------
 function openProductModal(productId, cloneFromId){
   const p = productId ? PRODUCTS.find(x=>x.id===productId) : null;
@@ -1905,6 +2070,10 @@ function openProductModal(productId, cloneFromId){
       <div class="field">
         <label>اسم المنتج</label>
         <input type="text" id="fName" value="${prefill ? escapeHtml(prefill.name) : ''}" placeholder="مثال: قميص قطن أبيض">
+      </div>
+      <div class="field">
+        <label>القسم</label>
+        <select id="fCategory" class="select-field">${buildCategorySelectOptions(prefill ? prefill.categoryId : null)}</select>
       </div>
       <div class="row2">
         <div class="field">
@@ -1965,6 +2134,7 @@ function handleImageUpload(e){
 
 async function saveProductForm(productId){
   const name = document.getElementById('fName').value.trim();
+  const categoryId = document.getElementById('fCategory').value || null;
   const qty = parseInt(document.getElementById('fQty').value || '0', 10);
   const price = parseFloat(document.getElementById('fPrice').value || '0');
   const wholesalePrice = parseFloat(document.getElementById('fWholesale').value || '0');
@@ -1975,11 +2145,11 @@ async function saveProductForm(productId){
 
   if(productId){
     const p = PRODUCTS.find(x=>x.id===productId);
-    p.name=name; p.qty=qty; p.price=price; p.wholesalePrice=wholesalePrice; p.image=editingImageData;
+    p.name=name; p.categoryId=categoryId; p.qty=qty; p.price=price; p.wholesalePrice=wholesalePrice; p.image=editingImageData;
     toast('تم حفظ التعديلات');
     logActivity('product_edit', `تعديل المنتج "${name}"`, {productId});
   } else {
-    const newProduct = {id:uid('prod'), name, qty, price, wholesalePrice, image:editingImageData, createdAt:Date.now()};
+    const newProduct = {id:uid('prod'), name, categoryId, qty, price, wholesalePrice, image:editingImageData, createdAt:Date.now()};
     PRODUCTS.push(newProduct);
     toast('تمت إضافة المنتج');
     logActivity('product_add', `إضافة منتج جديد "${name}" (الكمية: ${qty})`, {productId:newProduct.id});
@@ -2044,7 +2214,7 @@ async function moveProductToSeason(productId, targetSeasonId){
     const r = await window.storage.get(targetKey, false);
     targetProducts = r ? JSON.parse(r.value) : [];
   }catch(e){ targetProducts = []; }
-  targetProducts.push(p);
+  targetProducts.push(Object.assign({}, p, {categoryId: null}));
   try{
     await window.storage.set(targetKey, JSON.stringify(targetProducts), false);
   }catch(e){ toast('تعذّر النقل، حاول مجددًا'); return; }
