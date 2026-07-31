@@ -468,86 +468,82 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 /* ===== Printable invoice ===== */
 #printInvoiceArea{ display:none; }
 .inv-page{
-  max-width:640px; margin:0 auto; font-family:'Tajawal', sans-serif; color:#233F3A;
-  background:#fff; padding:40px 44px 34px; position:relative; overflow:hidden;
+  width:80mm; max-width:80mm; margin:0 auto; font-family:'Tajawal', sans-serif; color:#1E332E;
+  background:#fff; padding:14px 12px 18px; position:relative;
 }
-.inv-page::after{
-  content:"SAWWA SOUQ"; position:absolute; bottom:60px; left:50%; transform:translateX(-50%) rotate(0deg);
-  font-family:'Orbitron','JetBrains Mono',monospace; font-weight:900; font-size:64px;
-  color:#1B4640; opacity:.035; letter-spacing:4px; white-space:nowrap; pointer-events:none; z-index:0;
+.inv-topbar{ display:none; }
+.inv-head{ text-align:center; padding-bottom:12px; margin-bottom:12px; border-bottom:1.5px dashed #B9CCC8; }
+.inv-brand{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+.inv-mark{
+  width:46px;height:46px;border-radius:14px; background:#1B4640; color:#F3F6F5; font-weight:900; font-size:17px;
+  display:flex;align-items:center;justify-content:center; letter-spacing:.5px; overflow:hidden; flex-shrink:0;
 }
-.inv-page > *{ position:relative; z-index:1; }
-.inv-topbar{ height:6px; background:linear-gradient(90deg,#1B4640,#2E8578 55%,#D9B27F); border-radius:6px; margin-bottom:26px; }
-.inv-head{ display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:18px; margin-bottom:22px; border-bottom:1px solid #E3EBE9; }
-.inv-brand{ display:flex; align-items:center; gap:12px; }
-.inv-mark{ width:48px;height:48px;border-radius:15px; background:#1B4640; color:#F3F6F5; font-weight:900; font-size:18px; display:flex;align-items:center;justify-content:center; letter-spacing:.5px; overflow:hidden; flex-shrink:0; }
 .inv-mark img{ width:100%; height:100%; object-fit:cover; }
-.inv-brand-name{ font-size:20px; font-weight:900; color:#1B4640; }
-.inv-brand-sub{ font-size:12px; color:#7B9995; margin-top:2px; }
-.inv-meta{ text-align:left; }
-.inv-meta-label{ font-size:11px; color:#7B9995; font-weight:700; letter-spacing:.4px; margin-bottom:3px; }
-.inv-meta-num{ font-family:'Orbitron','JetBrains Mono',monospace; font-size:17px; font-weight:700; color:#1B4640; }
-.inv-meta-date{ font-size:12.5px; color:#7B9995; margin-top:6px; }
+.inv-brand-name{ font-size:16.5px; font-weight:900; color:#1B4640; letter-spacing:.2px; }
+.inv-brand-sub{ font-size:10.5px; color:#7B9995; letter-spacing:.3px; }
+.inv-meta{ text-align:center; margin-top:8px; }
+.inv-meta-label{ font-size:9.5px; color:#7B9995; font-weight:700; letter-spacing:.4px; }
+.inv-meta-num{ font-family:'Orbitron','JetBrains Mono',monospace; font-size:14px; font-weight:700; color:#1B4640; letter-spacing:.5px; }
+.inv-meta-date{ font-size:10.5px; color:#7B9995; margin-top:3px; }
 .inv-status{
-  display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700;
-  padding:4px 12px; border-radius:20px; margin-top:8px;
+  display:inline-flex; align-items:center; gap:5px; font-size:9.5px; font-weight:700;
+  padding:3px 11px; border-radius:20px; margin-top:7px;
 }
-.inv-status::before{ content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+.inv-status::before{ content:""; width:5px; height:5px; border-radius:50%; background:currentColor; }
 .inv-status.st-warehouse{ background:#F3E7D5; color:#A9803F; }
 .inv-status.st-delivering{ background:#F2E0D4; color:#C68B6C; }
 .inv-status.st-done{ background:#E1EEE2; color:#7CAB84; }
 .inv-status.st-cancelled{ background:#F3DFDA; color:#C97F72; }
 
 .inv-section-label{
-  font-size:11px; font-weight:800; color:#2E8578; text-transform:uppercase; letter-spacing:.7px;
-  margin-bottom:8px; display:flex; align-items:center; gap:6px;
+  font-size:9.5px; font-weight:800; color:#2E8578; text-transform:uppercase; letter-spacing:.6px;
+  margin-bottom:6px;
 }
-.inv-section-label::after{ content:""; flex:1; height:1px; background:#E3EBE9; }
 
-.inv-customer{ font-size:13.5px; line-height:1.85; margin-bottom:18px; background:#F3F6F5; border:1px solid #E3EBE9; border-radius:16px; padding:14px 18px; }
-.inv-customer div{ display:flex; gap:6px; }
-.inv-customer b{ color:#4E6B66; font-weight:700; min-width:56px; }
+.inv-customer{ font-size:11.5px; line-height:1.8; margin-bottom:10px; }
+.inv-customer div{ display:flex; gap:5px; }
+.inv-customer b{ color:#4E6B66; font-weight:700; min-width:44px; flex-shrink:0; }
 
 .inv-note{
-  font-size:12.5px; line-height:1.7; margin-bottom:18px; background:#FBF5E9; border-inline-start:4px solid #D9B27F;
-  border-radius:14px; padding:11px 16px; color:#5A4A2E;
+  font-size:11px; line-height:1.6; margin-bottom:10px; background:#FBF5E9;
+  border-radius:8px; padding:8px 10px; color:#5A4A2E;
 }
-.inv-note b{ display:block; font-size:11px; color:#A9803F; margin-bottom:3px; text-transform:uppercase; letter-spacing:.4px; }
+.inv-note b{ display:block; font-size:9.5px; color:#A9803F; margin-bottom:2px; text-transform:uppercase; letter-spacing:.3px; }
 
-.inv-shipping{
-  font-size:12.5px; line-height:1.8; margin-bottom:18px; background:#F3F6F5; border:1px solid #E3EBE9; border-radius:16px; padding:12px 18px;
-  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+.inv-shipping{ font-size:11px; line-height:1.8; margin-bottom:10px; }
+.inv-shipping div{ display:flex; gap:5px; }
+.inv-shipping b{ color:#4E6B66; font-weight:700; min-width:60px; flex-shrink:0; }
+
+.inv-divider{ border-top:1.5px dashed #B9CCC8; margin:10px 0; }
+
+.inv-table{ width:100%; border-collapse:collapse; margin-bottom:2px; font-size:11px; }
+.inv-table thead th{
+  text-align:right; padding:0 0 6px; font-weight:700; font-size:9.5px; color:#4E6B66;
+  border-bottom:1.5px dashed #B9CCC8; text-transform:uppercase; letter-spacing:.3px;
 }
-.inv-shipping div{ display:flex; gap:6px; }
-.inv-shipping b{ color:#4E6B66; font-weight:700; }
+.inv-table thead th.c{ text-align:center; }
+.inv-table td{ padding:6px 0; font-family:'Orbitron','JetBrains Mono',monospace; font-size:10.5px; vertical-align:top; }
+.inv-table td:first-child{ font-family:'Tajawal', sans-serif; font-size:11.5px; text-align:right; }
+.inv-table td.c{ text-align:center; color:#4E6B66; }
+.inv-table tbody tr{ border-bottom:1px dotted #DCE6E3; }
 
-.inv-table{ width:100%; border-collapse:collapse; margin-bottom:6px; font-size:13px; }
-.inv-table th, .inv-table td{ text-align:right; }
-.inv-table th.c, .inv-table td.c{ text-align:center; }
-.inv-table thead th{ background:#1B4640; color:#F3F6F5; padding:11px 12px; font-weight:700; font-size:12.5px; }
-.inv-table thead th:first-child{ border-radius:10px 0 0 0; }
-.inv-table thead th:last-child{ border-radius:0 10px 0 0; }
-.inv-table tbody tr:nth-child(even){ background:#F3F6F5; }
-.inv-table td{ padding:10px 12px; border-bottom:1px solid #E3EBE9; font-family:'Orbitron','JetBrains Mono',monospace; }
-.inv-table td:first-child{ font-family:'Tajawal', sans-serif; }
-.inv-table tbody tr:last-child td{ border-radius:0 0 0 0; }
-.inv-table-wrap{ border:1px solid #E3EBE9; border-radius:14px; overflow:hidden; margin-bottom:16px; }
-.inv-table-wrap .inv-table{ margin-bottom:0; }
-.inv-totals{ margin:0 0 24px; padding-top:2px; }
-.inv-totals > div{ display:flex; justify-content:space-between; padding:6px 4px; font-size:13.5px; color:#4E6B66; font-family:'Orbitron','JetBrains Mono',monospace; }
+.inv-totals{ margin:10px 0 0; }
+.inv-totals > div{ display:flex; justify-content:space-between; padding:3px 0; font-size:11.5px; color:#4E6B66; font-family:'Orbitron','JetBrains Mono',monospace; }
 .inv-totals > div span:first-child{ font-family:'Tajawal', sans-serif; }
-.inv-grand{ font-weight:900 !important; font-size:18px !important; color:#1B4640 !important; background:#EFE3D0; border-radius:14px; margin-top:8px; padding:14px 18px !important; }
-.inv-footer{ text-align:center; font-size:12.5px; color:#7B9995; margin-top:8px; padding-top:18px; border-top:1px dashed #E3EBE9; }
-.inv-footer .thanks{ font-size:14.5px; font-weight:800; color:#1B4640; margin-bottom:4px; }
-.inv-footer .site{ font-size:11.5px; color:#A9C2BE; margin-top:3px; letter-spacing:.3px; }
+.inv-grand{
+  font-weight:900 !important; font-size:15px !important; color:#1B4640 !important;
+  border-top:1.5px dashed #B9CCC8; margin-top:6px !important; padding-top:9px !important;
+}
+.inv-footer{ text-align:center; font-size:10.5px; color:#7B9995; margin-top:14px; padding-top:12px; border-top:1.5px dashed #B9CCC8; }
+.inv-footer .thanks{ font-size:12.5px; font-weight:800; color:#1B4640; margin-bottom:3px; }
+.inv-footer .barcode{ font-family:'Orbitron','JetBrains Mono',monospace; font-size:9px; letter-spacing:3px; color:#B9CCC8; margin-top:8px; }
 
 @media print{
-  @page{ size:A4; margin:12mm; }
+  @page{ size:80mm auto; margin:0; }
   body *{ visibility:hidden; }
   #printInvoiceArea, #printInvoiceArea *{ visibility:visible; }
-  #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:100%; }
-  .inv-page{ padding:0; max-width:100%; }
-  .inv-topbar{ margin-bottom:20px; }
+  #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:80mm; }
+  .inv-page{ width:80mm; max-width:80mm; }
 }
 
 /* ===================================================================
@@ -3021,14 +3017,11 @@ function printInvoice(orderId){
 
   area.innerHTML = `
     <div class="inv-page">
-      <div class="inv-topbar"></div>
       <div class="inv-head">
         <div class="inv-brand">
           <div class="inv-mark">${markHtml}</div>
-          <div>
-            <div class="inv-brand-name">${escapeHtml(siteTitle)}</div>
-            <div class="inv-brand-sub">فاتورة بيع</div>
-          </div>
+          <div class="inv-brand-name">${escapeHtml(siteTitle)}</div>
+          <div class="inv-brand-sub">فاتورة بيع</div>
         </div>
         <div class="inv-meta">
           <div class="inv-meta-label">رقم الفاتورة</div>
@@ -3043,15 +3036,13 @@ function printInvoice(orderId){
         <div><b>الهاتف</b> ${escapeHtml(o.phone || '-')}</div>
         ${o.address ? `<div><b>العنوان</b> ${escapeHtml(o.address)}</div>` : ''}
       </div>
-      ${shippingHtml}
-      ${noteHtml}
-      <div class="inv-section-label">تفاصيل الطلب</div>
-      <div class="inv-table-wrap">
-        <table class="inv-table">
-          <thead><tr><th>الصنف</th><th class="c">الكمية</th><th class="c">السعر</th><th class="c">الإجمالي</th></tr></thead>
-          <tbody>${itemsRows}</tbody>
-        </table>
-      </div>
+      ${shippingHtml ? `<div class="inv-divider"></div>${shippingHtml}` : ''}
+      ${noteHtml ? `<div class="inv-divider"></div>${noteHtml}` : ''}
+      <div class="inv-divider"></div>
+      <table class="inv-table">
+        <thead><tr><th>الصنف</th><th class="c">ك</th><th class="c">سعر</th><th class="c">إجمالي</th></tr></thead>
+        <tbody>${itemsRows}</tbody>
+      </table>
       <div class="inv-totals">
         <div><span>المبلغ بدون التوصيل</span><span>${money(o.subtotal ?? o.total)} د.أ</span></div>
         <div><span>أجور التوصيل</span><span>${money(deliveryFee)} د.أ</span></div>
@@ -3059,7 +3050,7 @@ function printInvoice(orderId){
       </div>
       <div class="inv-footer">
         <div class="thanks">شكرًا لتعاملكم معنا 🌟</div>
-        <div class="site">${escapeHtml(siteTitle)}</div>
+        <div class="barcode">*${o.id.slice(-10).toUpperCase()}*</div>
       </div>
     </div>
   `;
