@@ -752,6 +752,30 @@ window.storage = {
 </script>
 
 <script>
+// ---------- global double-click guard ----------
+// Fixes double actions (double product, double order, double payout...) that
+// happen when someone taps/clicks a button twice fast, before the UI (or the
+// async save) has a chance to update. This runs in the CAPTURE phase, so it
+// intercepts the click before the button's own onclick="..." runs, and simply
+// swallows a second click on the exact same button element within 700ms.
+// If the button is re-rendered (e.g. modal closes) it's a new element, so a
+// genuine next click on a fresh screen is never blocked.
+(function(){
+  let lastEl = null, lastTime = 0;
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('button, .icon-btn, .season-switch');
+    if(!btn) return;
+    const now = Date.now();
+    if(btn === lastEl && (now - lastTime) < 700){
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      return;
+    }
+    lastEl = btn;
+    lastTime = now;
+  }, true);
+})();
+
 let PRODUCTS = [];
 let CATEGORIES = []; // product sections, e.g. "Glass Pad", "Rubber Pad" — {id, name, createdAt}
 let ORDERS = [];
