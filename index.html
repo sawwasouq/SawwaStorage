@@ -336,6 +336,20 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 }
 .icon-btn:hover{border-color:var(--teal); color:var(--teal);}
 
+/* ===== Product drag & drop reorder ===== */
+.category-group{ display:contents; } /* keeps children in the parent CSS grid */
+.card.reorder-mode{ cursor:grab; }
+.drag-handle{
+  display:flex; align-items:center; justify-content:center;
+  background:var(--paper); border:1.5px dashed var(--line); border-radius:7px;
+  color:var(--ink-soft); font-size:16px; padding:6px; margin-top:6px;
+  cursor:grab; touch-action:none; user-select:none; letter-spacing:2px;
+}
+.drag-handle:active{ cursor:grabbing; }
+.drag-ghost{ opacity:.35; }
+.drag-chosen .card, .card.drag-chosen{ box-shadow:0 6px 16px rgba(0,0,0,.18); }
+.drag-drag{ transform:rotate(-1.5deg); }
+
 /* ===== Finance page ===== */
 .select-field{
   width:100%; padding:10px 12px; border-radius:8px; border:1.5px solid var(--line);
@@ -710,6 +724,8 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 <!-- ===== Firebase SDK (compat build) ===== -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<!-- ===== SortableJS (drag & drop, works with mouse + touch) ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
 <script>
 // ====== إعدادات Firebase — عبّي هاي القيم من مشروعك (Project settings > General > Your apps) ======
 const firebaseConfig = {
@@ -1697,27 +1713,23 @@ function renderProducts(){
     if(visible.length===0){
       html += `<div class="empty-mini" style="grid-column:1/-1;">لا يوجد منتجات بهذا القسم بعد</div>`;
     } else {
-      html += visible.map(p=>renderProductCard(p, g.products)).join('');
+      const catKey = g.id===null ? 'none' : g.id;
+      html += `<div class="category-group" data-cat-key="${catKey}">${visible.map(p=>renderProductCard(p)).join('')}</div>`;
     }
   });
   grid.innerHTML = html;
+  initProductSortables();
 }
 
-function renderProductCard(p, siblings){
+function renderProductCard(p){
   const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
   const imgHtml = p.image
     ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
     : `<div class="card-img empty"></div>`;
-  const idx = siblings.findIndex(x=>x.id===p.id);
-  const isFirst = idx===0;
-  const isLast = idx===siblings.length-1;
   const reorderRow = productReorderMode ? `
-      <div class="card-actions" style="margin-top:6px;">
-        <button class="icon-btn" style="flex:1" ${isFirst?'disabled':''} onclick="moveProduct('${p.id}',-1)" title="تحريك لأعلى">⬆️</button>
-        <button class="icon-btn" style="flex:1" ${isLast?'disabled':''} onclick="moveProduct('${p.id}',1)" title="تحريك لأسفل">⬇️</button>
-      </div>` : '';
+      <div class="drag-handle" title="اسحب لتغيير الترتيب">⠿ اسحب للترتيب</div>` : '';
   return `
-  <div class="card">
+  <div class="card ${productReorderMode?'reorder-mode':''}" data-product-id="${p.id}">
     ${imgHtml}
     <div class="stock-tag ${stockClass}">الكمية: ${p.qty}</div>
     <div class="card-body">
@@ -1736,31 +1748,66 @@ function renderProductCard(p, siblings){
 }
 
 let productReorderMode = false;
+let productSortables = [];
+
 function toggleProductReorderMode(){
+  if(!productReorderMode && productSearchQuery){
+    toast('امسح البحث الأول قبل ما تبدأ الترتيب');
+    return;
+  }
   productReorderMode = !productReorderMode;
   const btn = document.getElementById('reorderProductsBtn');
   if(btn) btn.textContent = productReorderMode ? '✅ تم الترتيب' : '↕️ ترتيب المنتجات';
   renderProducts();
 }
-async function moveProduct(productId, direction){
-  // direction: -1 = up (earlier), 1 = down (later)
-  // Reordering happens WITHIN the product's own category section (its siblings —
-  // same categoryId, or same "no category" bucket), not the whole flat list, so
-  // arrows always move a product relative to the other products in its own section.
-  const p = PRODUCTS.find(x=>x.id===productId);
-  if(!p) return;
-  const catId = p.categoryId || null;
-  const siblings = PRODUCTS.filter(x=>(x.categoryId||null)===catId);
-  const sIdx = siblings.findIndex(x=>x.id===productId);
-  const targetSIdx = sIdx + direction;
-  if(targetSIdx<0 || targetSIdx>=siblings.length) return;
-  const other = siblings[targetSIdx];
-  const idxA = PRODUCTS.indexOf(p);
-  const idxB = PRODUCTS.indexOf(other);
-  PRODUCTS[idxA] = other;
-  PRODUCTS[idxB] = p;
+
+function destroyProductSortables(){
+  productSortables.forEach(s=>{ try{ s.destroy(); }catch(e){} });
+  productSortables = [];
+}
+
+function initProductSortables(){
+  destroyProductSortables();
+  if(!productReorderMode || typeof Sortable==='undefined') return;
+  document.querySelectorAll('#productsGrid .category-group').forEach(group=>{
+    const s = new Sortable(group, {
+      handle: '.drag-handle',
+      animation: 150,
+      delay: 60,
+      delayOnTouchOnly: true,
+      ghostClass: 'drag-ghost',
+      chosenClass: 'drag-chosen',
+      dragClass: 'drag-drag',
+      onEnd: ()=>{
+        const catKey = group.dataset.catKey;
+        const catId = catKey==='none' ? null : catKey;
+        const orderedIds = Array.from(group.children)
+          .map(el=>el.dataset.productId)
+          .filter(Boolean);
+        reorderProductsInCategory(catId, orderedIds);
+      }
+    });
+    productSortables.push(s);
+  });
+}
+
+async function reorderProductsInCategory(catId, orderedIds){
+  // Rebuilds PRODUCTS keeping every OTHER category's items exactly where they
+  // were, and swapping in this category's items in the new drag order — so
+  // dragging within one section never disturbs the order of other sections.
+  const byId = {};
+  PRODUCTS.filter(p=>(p.categoryId||null)===catId).forEach(p=>{ byId[p.id]=p; });
+  const newOrderForCat = orderedIds.map(id=>byId[id]).filter(Boolean);
+  let ptr = 0;
+  PRODUCTS = PRODUCTS.map(p=>{
+    if((p.categoryId||null)===catId){
+      const next = newOrderForCat[ptr];
+      ptr++;
+      return next || p;
+    }
+    return p;
+  });
   await saveProducts();
-  renderProducts();
 }
 
 const statusMeta = {
