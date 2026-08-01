@@ -21,26 +21,6 @@
   --red:#A6402F;
   --shadow: 0 1px 0 rgba(43,36,26,.06);
 }
-/* ===== Dark theme ===== */
-body.dark-theme{
-  --paper:#181C18;
-  --card:#20251F;
-  --ink:#ECE7D8;
-  --ink-soft:#A79C86;
-  --line:#39402E;
-  --teal:#2FA184;
-  --teal-dark:#1D6E5A;
-  --amber:#D7A24B;
-  --rust:#CB7048;
-  --green:#4E9B5C;
-  --red:#C1584A;
-  --shadow: 0 1px 0 rgba(0,0,0,.4);
-}
-body.dark-theme{
-  background:
-    radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0) 0 0/16px 16px,
-    var(--paper);
-}
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
@@ -52,7 +32,6 @@ body{
   min-height:100vh;
   padding-bottom:100px;
   overflow-x:hidden;
-  transition:background-color .2s, color .2s;
 }
 /* Desktop-view mode: force the real desktop width and scroll sideways instead of
    zooming/scaling the page down — this keeps text and controls at full, normal size
@@ -78,9 +57,7 @@ header{
   font-weight:900;color:var(--teal-dark);font-size:18px;
   transform:rotate(-4deg);
   box-shadow:2px 2px 0 rgba(0,0,0,.2);
-  overflow:hidden;
 }
-.brand-mark img{width:100%;height:100%;object-fit:cover; transform:rotate(4deg) scale(1.15);}
 .brand-text h1{margin:0;font-size:19px;font-weight:900;letter-spacing:.3px;}
 .season-switch{
   background:#E14B3D; border:1px solid #E14B3D;
@@ -190,24 +167,6 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .order-total{display:flex; justify-content:space-between; font-weight:900; font-size:15px; margin-top:4px;}
 .order-actions{display:flex; gap:8px; justify-content:flex-end; margin-top:10px; flex-wrap:wrap;}
 
-/* ===== Customers ===== */
-.customer-list{display:flex; flex-direction:column; gap:12px;}
-.customer-card{
-  background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
-  box-shadow:var(--shadow);
-}
-.customer-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
-.customer-name{font-weight:700; font-size:15px;}
-.customer-meta{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
-.customer-stats{display:flex; gap:16px; margin:10px 0; padding:8px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line);}
-.customer-stats .cs-item{font-size:12.5px; color:var(--ink-soft);}
-.customer-stats .cs-item b{display:block; font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:900; color:var(--teal-dark);}
-.customer-products{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
-.customer-product-tag{
-  background:#F1E4C6; color:var(--amber); font-size:11.5px; font-weight:700;
-  padding:3px 10px; border-radius:20px;
-}
-
 /* ===== Cart floating ===== */
 .cart-fab{
   position:fixed; bottom:22px; left:22px; z-index:40;
@@ -244,25 +203,6 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 }
 .img-upload img{max-height:110px; border-radius:8px;}
 .modal-actions{display:flex; gap:10px; margin-top:6px;}
-
-/* ===== Theme customization ===== */
-.mode-switch{display:flex; gap:8px; margin-bottom:16px;}
-.mode-switch button{
-  flex:1; padding:10px 8px; border-radius:9px; border:1.5px solid var(--line);
-  background:var(--card); color:var(--ink-soft); font-family:inherit; font-weight:700;
-  font-size:13.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
-}
-.mode-switch button.active{background:var(--teal); border-color:var(--teal); color:#fff;}
-.color-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;}
-.color-field{display:flex; align-items:center; gap:8px; border:1.5px solid var(--line); border-radius:9px; padding:7px 10px; background:var(--card);}
-.color-field label{flex:1; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin:0;}
-.color-field input[type="color"]{
-  width:32px; height:32px; border-radius:7px; border:1.5px solid var(--line); padding:0; cursor:pointer; background:none;
-}
-.logo-upload-row{display:flex; align-items:center; gap:12px;}
-.logo-upload-row .img-upload{flex-shrink:0; width:72px; height:72px; padding:0; justify-content:center;}
-.logo-upload-row .img-upload img{max-height:100%; max-width:100%; object-fit:cover;}
-.logo-upload-row .field{flex:1; margin:0;}
 
 /* cart modal items */
 .cart-row{display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line);}
@@ -301,7 +241,6 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .search-box::before{
   content:"🔍"; position:absolute; left:11px; top:50%; transform:translateY(-50%); font-size:12px; opacity:.6;
 }
-.search-count-line{font-size:12px; color:var(--ink-soft); margin-top:4px; min-height:14px;}
 
 .filter-chips{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px;}
 .chip{
@@ -313,11 +252,6 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .chip .c{font-family:'JetBrains Mono',monospace; opacity:.85; margin-inline-start:4px;}
 
 .order-note{font-size:12.5px; color:var(--ink-soft); padding-top:6px;}
-.order-note-box{
-  background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--amber);
-  border-radius:8px; padding:8px 10px; font-size:12.5px; color:var(--ink); margin:8px 0;
-  line-height:1.6; white-space:pre-wrap; word-break:break-word;
-}
 .icon-btn{
   background:transparent; border:1.5px solid var(--line); border-radius:7px; width:30px; height:30px;
   cursor:pointer; font-size:13px; color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center;
@@ -346,12 +280,6 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
   width:22px; height:22px; line-height:1; border-radius:5px; flex-shrink:0;
 }
 .cart-row .remove-x:hover{color:var(--red); background:#F1DAD3;}
-.cart-price-input{
-  width:66px; padding:3px 6px; border-radius:6px; border:1.5px solid var(--line);
-  background:var(--card); color:var(--teal-dark); font-family:'JetBrains Mono',monospace;
-  font-weight:700; font-size:12.5px; text-align:center;
-}
-.cart-price-input:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
 
 .item-count-pill{
   background:var(--teal); color:#fff; font-family:'JetBrains Mono',monospace; font-size:11.5px;
@@ -426,46 +354,31 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 
 /* ===== Printable invoice ===== */
 #printInvoiceArea{ display:none; }
-.inv-page{
-  max-width:640px; margin:0 auto; font-family:'Tajawal', sans-serif; color:#20241F;
-  background:#fff; padding:38px 42px 30px;
+.inv-wrap{
+  max-width:480px; margin:0 auto; font-family:'Tajawal', sans-serif; color:#2B241A; padding:24px;
 }
-.inv-topbar{ height:6px; background:linear-gradient(90deg,#164F42,#1F6F5C 55%,#B9822F); border-radius:3px; margin-bottom:26px; }
-.inv-head{ display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:18px; margin-bottom:20px; border-bottom:1px solid #E3DBC5; }
-.inv-brand{ display:flex; align-items:center; gap:12px; }
-.inv-mark{ width:46px;height:46px;border-radius:10px; background:#164F42; color:#F3EEDF; font-weight:900; font-size:18px; display:flex;align-items:center;justify-content:center; letter-spacing:.5px; }
-.inv-brand-name{ font-size:20px; font-weight:900; color:#164F42; }
-.inv-brand-sub{ font-size:12px; color:#8A7C61; margin-top:2px; }
-.inv-meta{ text-align:left; }
-.inv-meta-label{ font-size:11px; color:#8A7C61; font-weight:700; letter-spacing:.4px; margin-bottom:3px; }
-.inv-meta-num{ font-family:'JetBrains Mono',monospace; font-size:17px; font-weight:700; color:#164F42; }
-.inv-meta-date{ font-size:12.5px; color:#8A7C61; margin-top:6px; }
-.inv-customer{ font-size:13.5px; line-height:1.85; margin-bottom:22px; background:#FAF7EF; border:1px solid #ECE3CB; border-radius:10px; padding:12px 16px; }
-.inv-customer div{ display:flex; gap:6px; }
-.inv-customer b{ color:#6B5F4C; font-weight:700; min-width:56px; }
-.inv-table{ width:100%; border-collapse:collapse; margin-bottom:6px; font-size:13px; }
+.inv-head{ display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #164F42; padding-bottom:14px; margin-bottom:16px; }
+.inv-brand{ display:flex; align-items:center; gap:10px; }
+.inv-mark{ width:40px;height:40px;border-radius:8px; background:#B9822F; color:#164F42; font-weight:900; font-size:18px; display:flex;align-items:center;justify-content:center; }
+.inv-brand-name{ font-size:19px; font-weight:900; }
+.inv-brand-sub{ font-size:12px; color:#6B5F4C; }
+.inv-meta{ text-align:left; font-size:12.5px; color:#6B5F4C; }
+.inv-meta b{ color:#2B241A; }
+.inv-customer{ font-size:13.5px; line-height:1.9; margin-bottom:16px; background:#FBF7EE; border:1px solid #D9CBA9; border-radius:10px; padding:10px 14px; }
+.inv-table{ width:100%; border-collapse:collapse; margin-bottom:14px; font-size:13px; }
 .inv-table th, .inv-table td{ text-align:right; }
 .inv-table th.c, .inv-table td.c{ text-align:center; }
-.inv-table thead th{ background:#164F42; color:#F3EEDF; padding:10px 12px; font-weight:700; font-size:12.5px; }
-.inv-table thead th:first-child{ border-radius:6px 0 0 0; }
-.inv-table thead th:last-child{ border-radius:0 6px 0 0; }
-.inv-table tbody tr:nth-child(even){ background:#FAF7EF; }
-.inv-table td{ padding:9px 12px; border-bottom:1px solid #ECE3CB; font-family:'JetBrains Mono',monospace; }
-.inv-table td:first-child{ font-family:'Tajawal', sans-serif; }
-.inv-totals{ margin:16px 0 24px; padding-top:10px; }
-.inv-totals > div{ display:flex; justify-content:space-between; padding:5px 2px; font-size:13.5px; color:#6B5F4C; font-family:'JetBrains Mono',monospace; }
-.inv-totals > div span:first-child{ font-family:'Tajawal', sans-serif; }
-.inv-grand{ font-weight:900 !important; font-size:17px !important; color:#164F42 !important; background:#FBF0DB; border-radius:8px; margin-top:6px; padding:12px 14px !important; }
-.inv-footer{ text-align:center; font-size:12.5px; color:#8A7C61; margin-top:8px; padding-top:16px; border-top:1px dashed #E3DBC5; }
-.inv-footer .thanks{ font-size:14px; font-weight:700; color:#164F42; margin-bottom:4px; }
+.inv-table th{ background:#164F42; color:#F3EEDF; padding:8px 10px; font-weight:700; }
+.inv-table td{ padding:8px 10px; border-bottom:1px solid #D9CBA9; }
+.inv-totals{ font-size:14px; margin-bottom:20px; }
+.inv-totals > div{ display:flex; justify-content:space-between; padding:4px 0; }
+.inv-grand{ font-weight:900; font-size:17px; border-top:2px solid #164F42; margin-top:6px; padding-top:8px !important; }
+.inv-footer{ text-align:center; font-size:13px; color:#6B5F4C; margin-top:10px; }
 
 @media print{
-  @page{ size:A4; margin:12mm; }
   body *{ visibility:hidden; }
   #printInvoiceArea, #printInvoiceArea *{ visibility:visible; }
   #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:100%; }
-  .inv-page{ padding:0; max-width:100%; }
-  .inv-topbar{ margin-bottom:20px; }
 }
 
 /* ===================================================================
@@ -597,9 +510,9 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 <header>
   <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark" id="brandMark">سق</div>
+      <div class="brand-mark">سق</div>
       <div class="brand-text">
-        <h1 id="siteTitleEl">مخزون SawwaSouq</h1>
+        <h1>مخزون SawwaSouq</h1>
       </div>
     </div>
     <div class="header-right">
@@ -610,9 +523,6 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         <button class="tab-btn" id="tabOrdersBtn" onclick="switchTab('orders')">
           الطلبات <span class="tab-count" id="countOrders">0</span>
         </button>
-        <button class="tab-btn" id="tabCustomersBtn" onclick="switchTab('customers')">
-          العملاء <span class="tab-count" id="countCustomers">0</span>
-        </button>
         <button class="tab-btn" id="tabFinanceBtn" onclick="switchTab('finance')">
           الحسابات
         </button>
@@ -620,15 +530,6 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
           <span id="currentSeasonLabel">الموسم الأول</span> ▾
         </button>
       </div>
-      <button class="view-mode-btn" id="activityLogBtn" onclick="openActivityLogModal()" title="سجل العمليات">
-        <span>📋</span>
-      </button>
-      <button class="view-mode-btn" id="themeModeBtn" onclick="toggleThemeMode()" title="تبديل بين الوضع الفاتح والداكن">
-        <span id="themeModeIcon">🌙</span>
-      </button>
-      <button class="view-mode-btn" id="themeSettingsBtn" onclick="openThemeSettingsModal()" title="تخصيص ألوان وشعار الموقع">
-        <span>🎨</span>
-      </button>
       <button class="view-mode-btn" id="viewModeBtn" onclick="toggleViewMode()" title="تبديل بين وضع الهاتف ووضع الكمبيوتر">
         <span id="viewModeIcon">🖥️</span>
       </button>
@@ -643,7 +544,6 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
     <div class="toolbar">
       <div class="search-box">
         <input type="text" id="productSearch" placeholder="ابحث عن منتج بالاسم" oninput="handleProductSearch(this.value)">
-        <div class="search-count-line" id="productSearchCount"></div>
       </div>
       <button class="btn btn-outline" id="reorderProductsBtn" onclick="toggleProductReorderMode()">↕️ ترتيب المنتجات</button>
       <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
@@ -657,30 +557,11 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         <h2>الطلبات</h2>
         <div class="sub">إدارة طلبات البيع وحالتها</div>
       </div>
-      <div class="search-box">
-        <input type="text" id="orderSearch" placeholder="ابحث بالمنتج أو اسم العميل أو رقم الهاتف" oninput="handleOrderSearch(this.value)">
-        <div class="search-count-line" id="orderSearchCount"></div>
-      </div>
       <button class="btn btn-outline btn-sm" onclick="openShippingCompaniesModal()">🚚 شركات الشحن</button>
     </div>
     <div id="ordersStats" class="stats-bar"></div>
     <div id="orderFilters" class="filter-chips"></div>
     <div id="ordersList" class="order-list"></div>
-  </div>
-
-  <div id="customersView" style="display:none;">
-    <div class="toolbar">
-      <div>
-        <h2>العملاء</h2>
-        <div class="sub">قائمة العملاء تلقائيًا من الطلبات، مع المنتجات اللي طلبها كل عميل</div>
-      </div>
-      <div class="search-box">
-        <input type="text" id="customerSearch" placeholder="ابحث عن عميل بالاسم أو رقم الهاتف أو باسم منتج" oninput="handleCustomerSearch(this.value)">
-        <div class="search-count-line" id="customerSearchCount"></div>
-      </div>
-    </div>
-    <div id="customersStats" class="stats-bar"></div>
-    <div id="customersList" class="customer-list"></div>
   </div>
 
   <div id="financeView" style="display:none;"></div>
@@ -754,127 +635,10 @@ let reportPeriod = 'today';
 let currentTab = 'products';
 let editingImageData = null;
 let productSearchQuery = '';
-let customerSearchQuery = '';
 let orderFilter = 'all';
-let orderSearchQuery = '';
 let SEASONS = [];
 let currentSeasonId = null;
 let SHIPPING_COMPANIES = [];
-let themeMode = 'light'; // 'light' | 'dark' — per-device preference
-let THEME_CUSTOM = null;  // shared site-wide color/logo/name customization
-let editingLogoImage = null;
-
-const DEFAULT_THEME_COLORS = {
-  teal:'#1F6F5C', tealDark:'#164F42', amber:'#B9822F',
-  paper:'#EDE5D3', card:'#FBF7EE', ink:'#2B241A'
-};
-const DEFAULT_BRAND_TEXT = 'سق';
-const DEFAULT_SITE_TITLE = 'مخزون SawwaSouq';
-
-// ---------- Activity Logs (سجل العمليات) ----------
-// Every important write operation gets recorded here automatically, straight to
-// Firestore (its own collection — not through window.storage — since this is an
-// append-only audit trail, not a single overwritable value). Logging failures are
-// swallowed on purpose: an activity log hiccup should never block the real action.
-const ACTIVITY_LOG_COLLECTION = 'activity_logs';
-const ACTIVITY_ICONS = {
-  product_add:'🆕', product_edit:'✎', product_delete:'🗑', product_move:'📦',
-  restock:'📥',
-  order_create:'🛒', order_status:'🚚', order_edit:'✎', order_note:'📝',
-  order_cancel:'❌', order_delete:'🗑',
-  expense_add:'💸', expense_delete:'🗑',
-  partner_add:'🤝', partner_edit:'✎', partner_delete:'🗑', partner_payout:'💰',
-  capital_adjust:'🏦', split_config:'⚖️', settlement:'📊',
-  shipping_add:'🚚', shipping_edit:'✎', shipping_delete:'🗑',
-  season_create:'🌱', season_rename:'✎', season_delete:'🗑', season_switch:'🔁',
-  theme_settings:'🎨'
-};
-
-async function logActivity(action, description, meta = {}){
-  try{
-    await db.collection(ACTIVITY_LOG_COLLECTION).add({
-      action,
-      description,
-      meta,
-      seasonId: currentSeasonId || null,
-      seasonName: (SEASONS.find(s=>s.id===currentSeasonId)||{}).name || '',
-      createdAt: Date.now()
-    });
-  }catch(e){
-    console.error('تعذّر تسجيل العملية بسجل العمليات', e);
-  }
-}
-
-function formatDateTime(ts){
-  if(!ts) return '';
-  return new Date(ts).toLocaleString('en-GB', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
-}
-
-let activityLogFilter = '';
-
-function openActivityLogModal(){
-  activityLogFilter = '';
-  const modalRoot = document.getElementById('modalRoot');
-  modalRoot.innerHTML = `
-  <div class="overlay" onclick="if(event.target===this) closeModal()">
-    <div class="modal" style="max-width:600px;">
-      <h2>📋 سجل العمليات</h2>
-      <div class="fin-sub">كل العمليات المهمة اللي صارت على النظام، مسجلة تلقائيًا</div>
-      <div class="field" style="margin-top:12px; margin-bottom:0;">
-        <select class="select-field" id="activityLogFilterSelect" onchange="handleActivityLogFilterChange(this.value)">
-          <option value="">كل العمليات</option>
-          <option value="product">المنتجات</option>
-          <option value="order">الطلبات</option>
-          <option value="restock">استلام بضاعة</option>
-          <option value="expense">المصاريف</option>
-          <option value="partner">الشركاء</option>
-          <option value="capital">رأس المال</option>
-          <option value="settlement">تصفية الأرباح</option>
-          <option value="shipping">شركات الشحن</option>
-          <option value="season">المواسم</option>
-          <option value="theme">تخصيص الثيم</option>
-        </select>
-      </div>
-      <div id="activityLogList" style="margin-top:14px; max-height:55vh; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
-        <div class="empty-mini">جارِ تحميل السجل...</div>
-      </div>
-      <div style="margin-top:12px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
-    </div>
-  </div>`;
-  renderActivityLogList();
-}
-
-function handleActivityLogFilterChange(val){
-  activityLogFilter = val;
-  renderActivityLogList();
-}
-
-async function renderActivityLogList(){
-  const listEl = document.getElementById('activityLogList');
-  if(!listEl) return;
-  listEl.innerHTML = `<div class="empty-mini">جارِ تحميل السجل...</div>`;
-  try{
-    const snap = await db.collection(ACTIVITY_LOG_COLLECTION).orderBy('createdAt','desc').limit(200).get();
-    let entries = snap.docs.map(d=>d.data());
-    if(activityLogFilter){
-      entries = entries.filter(l=> (l.action||'').startsWith(activityLogFilter));
-    }
-    if(entries.length===0){
-      listEl.innerHTML = `<div class="empty-mini">ما في عمليات مسجلة بعد</div>`;
-      return;
-    }
-    listEl.innerHTML = entries.map(l=>`
-      <div class="list-row">
-        <div class="lr-main">
-          <div class="lr-title">${ACTIVITY_ICONS[l.action] || '🔹'} ${escapeHtml(l.description||'')}</div>
-          <div class="lr-sub">${l.seasonName ? escapeHtml(l.seasonName)+' · ' : ''}${formatDateTime(l.createdAt)}</div>
-        </div>
-      </div>
-    `).join('');
-  }catch(e){
-    listEl.innerHTML = `<div class="empty-mini">تعذّر تحميل السجل، تأكد من الاتصال وحاول مجددًا</div>`;
-  }
-}
 
 function seasonKey(base){
   return base + '::' + currentSeasonId;
@@ -909,189 +673,6 @@ async function loadViewModePref(){
     forceDesktopView = v ? !!JSON.parse(v.value).desktop : false;
   }catch(e){ forceDesktopView = false; }
   applyViewMode();
-}
-
-// ---------- light / dark mode (per-device preference) ----------
-function applyThemeMode(){
-  const icon = document.getElementById('themeModeIcon');
-  const btn = document.getElementById('themeModeBtn');
-  if(themeMode==='dark'){
-    document.body.classList.add('dark-theme');
-    if(icon) icon.textContent = '☀️';
-    if(btn) btn.title = 'تبديل للوضع الفاتح';
-  } else {
-    document.body.classList.remove('dark-theme');
-    if(icon) icon.textContent = '🌙';
-    if(btn) btn.title = 'تبديل للوضع الداكن';
-  }
-}
-
-async function toggleThemeMode(){
-  themeMode = themeMode==='dark' ? 'light' : 'dark';
-  applyThemeMode();
-  try{ await window.storage.set('theme-mode-pref', JSON.stringify({mode: themeMode}), false); }catch(e){}
-}
-
-async function loadThemeModePref(){
-  try{
-    const v = await window.storage.get('theme-mode-pref', false);
-    themeMode = v ? (JSON.parse(v.value).mode || 'light') : 'light';
-  }catch(e){ themeMode = 'light'; }
-  applyThemeMode();
-}
-
-// ---------- detailed theme customization (colors, logo, site name) — shared across the whole site ----------
-function applyCustomTheme(custom){
-  const root = document.documentElement.style;
-  const colorKeys = { teal:'--teal', tealDark:'--teal-dark', amber:'--amber', paper:'--paper', card:'--card', ink:'--ink' };
-  Object.entries(colorKeys).forEach(([k, cssVar])=>{
-    if(custom && custom.colors && custom.colors[k]){
-      root.setProperty(cssVar, custom.colors[k]);
-    } else {
-      root.removeProperty(cssVar);
-    }
-  });
-
-  const mark = document.getElementById('brandMark');
-  if(mark){
-    if(custom && custom.logoImage){
-      mark.innerHTML = `<img src="${custom.logoImage}" alt="شعار">`;
-    } else {
-      mark.textContent = (custom && custom.brandText) ? custom.brandText : DEFAULT_BRAND_TEXT;
-    }
-  }
-  const titleEl = document.getElementById('siteTitleEl');
-  const title = (custom && custom.siteTitle) ? custom.siteTitle : DEFAULT_SITE_TITLE;
-  if(titleEl) titleEl.textContent = title;
-  document.title = title;
-}
-
-async function loadThemeCustomSettings(){
-  try{
-    const v = await window.storage.get('theme-settings', true);
-    THEME_CUSTOM = v ? JSON.parse(v.value) : null;
-  }catch(e){ THEME_CUSTOM = null; }
-  applyCustomTheme(THEME_CUSTOM);
-}
-
-function openThemeSettingsModal(){
-  editingLogoImage = THEME_CUSTOM ? (THEME_CUSTOM.logoImage || null) : null;
-  const colors = Object.assign({}, DEFAULT_THEME_COLORS, (THEME_CUSTOM && THEME_CUSTOM.colors) || {});
-  const brandText = (THEME_CUSTOM && THEME_CUSTOM.brandText) || DEFAULT_BRAND_TEXT;
-  const siteTitle = (THEME_CUSTOM && THEME_CUSTOM.siteTitle) || DEFAULT_SITE_TITLE;
-  const modalRoot = document.getElementById('modalRoot');
-  modalRoot.innerHTML = `
-  <div class="overlay" onclick="if(event.target===this) closeModal()">
-    <div class="modal">
-      <h2>🎨 تخصيص ثيم الموقع</h2>
-      <div class="fin-sub">غيّر الألوان والشعار واسم المتجر — التغييرات بتنطبق على كل الأجهزة</div>
-
-      <div class="field" style="margin-top:14px;">
-        <label>شعار المتجر</label>
-        <div class="logo-upload-row">
-          <label class="img-upload" id="logoUploadBox">
-            ${editingLogoImage ? `<img src="${editingLogoImage}" id="logoPreview">` : `<span style="font-size:20px;">${escapeHtml(brandText)}</span>`}
-            <input type="file" accept="image/*" style="display:none" id="logoInput" onchange="handleLogoUpload(event)">
-          </label>
-          <div class="field">
-            <label>نص الشعار (لو ما في صورة)</label>
-            <input type="text" id="fBrandText" maxlength="3" value="${escapeHtml(brandText)}" placeholder="مثال: سق">
-            ${editingLogoImage ? `<button type="button" class="btn btn-ghost btn-sm" style="margin-top:6px; padding:4px 8px;" onclick="removeLogoImage()">إزالة الصورة والرجوع للنص</button>` : ''}
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>اسم المتجر</label>
-        <input type="text" id="fSiteTitle" value="${escapeHtml(siteTitle)}" placeholder="مثال: مخزون SawwaSouq">
-      </div>
-
-      <div class="field">
-        <label>ألوان الموقع</label>
-        <div class="color-grid">
-          <div class="color-field"><label>اللون الأساسي</label><input type="color" id="cTeal" value="${colors.teal}"></div>
-          <div class="color-field"><label>اللون الغامق</label><input type="color" id="cTealDark" value="${colors.tealDark}"></div>
-          <div class="color-field"><label>لون التمييز</label><input type="color" id="cAmber" value="${colors.amber}"></div>
-          <div class="color-field"><label>لون الخلفية</label><input type="color" id="cPaper" value="${colors.paper}"></div>
-          <div class="color-field"><label>لون البطاقات</label><input type="color" id="cCard" value="${colors.card}"></div>
-          <div class="color-field"><label>لون النص</label><input type="color" id="cInk" value="${colors.ink}"></div>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn btn-primary btn-block" onclick="saveThemeSettings()">حفظ التخصيص</button>
-      </div>
-      <div style="margin-top:8px; display:flex; gap:8px;">
-        <button class="btn btn-outline btn-sm" style="flex:1" onclick="resetThemeSettings()">↺ استعادة الألوان الافتراضية</button>
-      </div>
-      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
-    </div>
-  </div>`;
-  document.getElementById('logoUploadBox').addEventListener('click', (e)=>{
-    if(e.target.tagName!=='INPUT') document.getElementById('logoInput').click();
-  });
-}
-
-function handleLogoUpload(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev){
-    const img = new Image();
-    img.onload = function(){
-      const maxW = 160;
-      const scale = Math.min(1, maxW/img.width);
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width*scale;
-      canvas.height = img.height*scale;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      editingLogoImage = canvas.toDataURL('image/jpeg', 0.85);
-      openThemeSettingsModal();
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function removeLogoImage(){
-  editingLogoImage = null;
-  openThemeSettingsModal();
-}
-
-async function saveThemeSettings(){
-  const custom = {
-    colors: {
-      teal: document.getElementById('cTeal').value,
-      tealDark: document.getElementById('cTealDark').value,
-      amber: document.getElementById('cAmber').value,
-      paper: document.getElementById('cPaper').value,
-      card: document.getElementById('cCard').value,
-      ink: document.getElementById('cInk').value
-    },
-    brandText: document.getElementById('fBrandText').value.trim() || DEFAULT_BRAND_TEXT,
-    siteTitle: document.getElementById('fSiteTitle').value.trim() || DEFAULT_SITE_TITLE,
-    logoImage: editingLogoImage
-  };
-  THEME_CUSTOM = custom;
-  applyCustomTheme(custom);
-  try{
-    await window.storage.set('theme-settings', JSON.stringify(custom), true);
-    toast('تم حفظ تخصيص الثيم');
-    logActivity('theme_settings', `تعديل تخصيص الثيم (اسم المتجر: "${custom.siteTitle}")`, {});
-  }catch(e){ toast('تعذّر حفظ التخصيص، حاول مجددًا'); }
-  closeModal();
-}
-
-async function resetThemeSettings(){
-  THEME_CUSTOM = null;
-  editingLogoImage = null;
-  applyCustomTheme(null);
-  try{
-    await window.storage.delete('theme-settings', true);
-    toast('تمت استعادة الثيم الافتراضي');
-  }catch(e){}
-  closeModal();
 }
 
 // ---------- storage ----------
@@ -1281,7 +862,6 @@ async function saveShippingCompanyForm(companyId){
   const note = document.getElementById('scNote').value.trim();
   if(!name){ toast('اكتب اسم الشركة'); return; }
   if(!phone){ toast('اكتب رقم هاتف الشركة'); return; }
-  const isNew = !companyId;
   if(companyId){
     const c = SHIPPING_COMPANIES.find(x=>x.id===companyId);
     c.name=name; c.phone=phone; c.note=note;
@@ -1290,17 +870,14 @@ async function saveShippingCompanyForm(companyId){
   }
   await saveShippingCompanies();
   toast('تم الحفظ');
-  logActivity(isNew ? 'shipping_add' : 'shipping_edit', `${isNew ? 'إضافة' : 'تعديل'} شركة الشحن "${name}"`, {companyId});
   openShippingCompaniesModal();
 }
 
 function deleteShippingCompany(companyId){
   showConfirm('حذف شركة الشحن هاي؟ الطلبات القديمة المرتبطة فيها بتضل محتفظة باسمها.', async ()=>{
-    const c = SHIPPING_COMPANIES.find(x=>x.id===companyId);
     SHIPPING_COMPANIES = SHIPPING_COMPANIES.filter(c=>c.id!==companyId);
     await saveShippingCompanies();
     toast('تم الحذف');
-    logActivity('shipping_delete', `حذف شركة الشحن "${c ? c.name : companyId}"`, {companyId});
     openShippingCompaniesModal();
   }, 'حذف');
 }
@@ -1396,7 +973,6 @@ async function submitNewSeason(){
   await saveSeasonsList();
   allSeasonsSummaryCache = null;
   toast(`تم إنشاء "${name}"`);
-  logActivity('season_create', `إنشاء موسم جديد "${name}"`, {seasonId:season.id});
   await switchSeason(season.id);
 }
 
@@ -1424,12 +1000,10 @@ async function saveSeasonRename(seasonId){
   const s = SEASONS.find(x=>x.id===seasonId);
   const name = document.getElementById('renameSeasonInput').value.trim();
   if(!name){ toast('اكتب اسم الموسم'); return; }
-  const oldName = s.name;
   s.name = name;
   await saveSeasonsList();
   if(seasonId===currentSeasonId) updateSeasonLabel();
   toast('تم الحفظ');
-  logActivity('season_rename', `إعادة تسمية الموسم "${oldName}" إلى "${name}"`, {seasonId});
   openSeasonModal();
 }
 
@@ -1440,15 +1014,9 @@ async function switchSeason(seasonId){
   await loadSeasonData(seasonId);
   productSearchQuery = '';
   orderFilter = 'all';
-  orderSearchQuery = '';
-  customerSearchQuery = '';
   reportPeriod = 'today';
   const searchInput = document.getElementById('productSearch');
   if(searchInput) searchInput.value = '';
-  const orderSearchInput = document.getElementById('orderSearch');
-  if(orderSearchInput) orderSearchInput.value = '';
-  const customerSearchInput = document.getElementById('customerSearch');
-  if(customerSearchInput) customerSearchInput.value = '';
   closeModal();
   switchTab('products');
   render();
@@ -1467,7 +1035,6 @@ function deleteSeason(seasonId){
     SEASONS = SEASONS.filter(x=>x.id!==seasonId);
     await saveSeasonsList();
     allSeasonsSummaryCache = null;
-    logActivity('season_delete', `حذف الموسم "${s.name}" وكل بياناته`, {seasonId});
     if(seasonId===currentSeasonId){
       await switchSeason(SEASONS[0].id);
     } else {
@@ -1496,14 +1063,11 @@ function switchTab(tab){
   currentTab = tab;
   document.getElementById('productsView').style.display = tab==='products' ? 'block':'none';
   document.getElementById('ordersView').style.display = tab==='orders' ? 'block':'none';
-  document.getElementById('customersView').style.display = tab==='customers' ? 'block':'none';
   document.getElementById('financeView').style.display = tab==='finance' ? 'block':'none';
   document.getElementById('tabProductsBtn').classList.toggle('active', tab==='products');
   document.getElementById('tabOrdersBtn').classList.toggle('active', tab==='orders');
-  document.getElementById('tabCustomersBtn').classList.toggle('active', tab==='customers');
   document.getElementById('tabFinanceBtn').classList.toggle('active', tab==='finance');
   if(tab==='finance') renderFinance();
-  if(tab==='customers') renderCustomers();
 }
 
 // ---------- render ----------
@@ -1515,12 +1079,10 @@ function render(){
   renderOrderFilters();
   renderOrdersStats();
   renderOrders();
-  renderCustomers();
   renderCartFab();
   renderFinance();
   document.getElementById('countProducts').textContent = PRODUCTS.length;
   document.getElementById('countOrders').textContent = ORDERS.filter(o=>o.status!=='cancelled').length;
-  document.getElementById('countCustomers').textContent = computeCustomersList().length;
 }
 
 function renderLowStockBanner(){
@@ -1551,7 +1113,7 @@ function renderProductsStats(){
   const totalValue = PRODUCTS.reduce((s,p)=>s+p.qty*p.price,0);
   const wholesaleValue = PRODUCTS.reduce((s,p)=>s+p.qty*(p.wholesalePrice||0),0);
   const expectedProfit = PRODUCTS.reduce((s,p)=>s+p.qty*(p.price-(p.wholesalePrice||0)),0);
-  const revenueDone = ORDERS.filter(o=>o.status==='done').reduce((s,o)=>s+(o.subtotal ?? (o.total-(o.deliveryFee||0))),0);
+  const revenueDone = ORDERS.filter(o=>o.status==='done').reduce((s,o)=>s+o.total,0);
   const expensesTotalAll = EXPENSES.reduce((s,e)=>s+e.amount,0);
   const cashAfterExpenses = revenueDone - expensesTotalAll;
   el.innerHTML = `
@@ -1594,21 +1156,17 @@ function renderOrdersStats(){
   if(!el) return;
   const delivering = ORDERS.filter(o=>o.status==='delivering').length;
   const doneOrders = ORDERS.filter(o=>o.status==='done');
-  const revenue = doneOrders.reduce((s,o)=>s+(o.subtotal ?? (o.total-(o.deliveryFee||0))),0);
-  const deliveryTotal = doneOrders.reduce((s,o)=>s+(o.deliveryFee||0),0);
+  const revenue = doneOrders.reduce((s,o)=>s+o.total,0);
   el.innerHTML = `
     <div class="stat-card"><div class="n">${delivering}</div><div class="l">طلب قيد التوصيل</div></div>
     <div class="stat-card"><div class="n">${doneOrders.length}</div><div class="l">طلب مُسلَّم</div></div>
     <div class="stat-card"><div class="n">${money(revenue)}</div><div class="l">إجمالي مبيعات مُسلَّمة (د.أ)</div></div>
-    <div class="stat-card"><div class="n">${money(deliveryTotal)}</div><div class="l">إجمالي أجور التوصيل (د.أ)</div></div>
   `;
 }
 
 function renderProducts(){
   const grid = document.getElementById('productsGrid');
-  const countEl = document.getElementById('productSearchCount');
   if(PRODUCTS.length===0){
-    if(countEl) countEl.textContent = '';
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="big">📦</div>
       <div style="font-weight:700; margin-bottom:4px;">المستودع فاضي</div>
@@ -1619,7 +1177,6 @@ function renderProducts(){
   const filtered = productSearchQuery
     ? PRODUCTS.filter(p=>p.name.toLowerCase().includes(productSearchQuery))
     : PRODUCTS;
-  if(countEl) countEl.textContent = productSearchQuery ? `${filtered.length} نتيجة` : '';
   if(filtered.length===0){
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="big">🔍</div>
@@ -1690,24 +1247,9 @@ function getStatusMeta(status){
   return statusMeta[status] || {label: status || 'غير معروف', cls:'badge-warehouse'};
 }
 
-function orderMatchesSearch(o, q){
-  if(!q) return true;
-  if(o.customer && o.customer.toLowerCase().includes(q)) return true;
-  if(o.phone && o.phone.toLowerCase().includes(q)) return true;
-  if((o.items||[]).some(it=>it.name && it.name.toLowerCase().includes(q))) return true;
-  return false;
-}
-
-function handleOrderSearch(val){
-  orderSearchQuery = val.trim().toLowerCase();
-  renderOrders();
-}
-
 function renderOrders(){
   const list = document.getElementById('ordersList');
-  const countEl = document.getElementById('orderSearchCount');
   if(ORDERS.length===0){
-    if(countEl) countEl.textContent = '';
     list.innerHTML = `<div class="empty-state">
       <div class="big">🧾</div>
       <div style="font-weight:700; margin-bottom:4px;">لا توجد طلبات بعد</div>
@@ -1715,15 +1257,11 @@ function renderOrders(){
     </div>`;
     return;
   }
-  let filteredOrders = orderFilter==='all' ? ORDERS : ORDERS.filter(o=>o.status===orderFilter);
-  if(orderSearchQuery){
-    filteredOrders = filteredOrders.filter(o=>orderMatchesSearch(o, orderSearchQuery));
-  }
-  if(countEl) countEl.textContent = orderSearchQuery ? `${filteredOrders.length} نتيجة` : '';
+  const filteredOrders = orderFilter==='all' ? ORDERS : ORDERS.filter(o=>o.status===orderFilter);
   if(filteredOrders.length===0){
     list.innerHTML = `<div class="empty-state">
       <div class="big">🧾</div>
-      <div style="font-weight:700;">${orderSearchQuery ? 'ما في نتائج مطابقة' : 'ما في طلبات بهاي الحالة'}</div>
+      <div style="font-weight:700;">ما في طلبات بهاي الحالة</div>
     </div>`;
     return;
   }
@@ -1736,12 +1274,9 @@ function renderOrders(){
     let actions = `<button class="icon-btn" onclick="openReceiptModal('${o.id}')" title="الفاتورة">🧾</button>`;
     if(o.status==='delivering'){
       actions += `<button class="btn btn-primary btn-sm" onclick="advanceOrder('${o.id}')">✅ تم التسليم</button>
-                 <button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل الطلب">✎</button>
+                 <button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل بيانات العميل">✎</button>
                  <button class="btn btn-danger btn-sm" onclick="cancelOrder('${o.id}')">إلغاء</button>`;
-    } else if(o.status==='done'){
-      actions += `<button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل الطلب بعد التسليم">✎</button>`;
     }
-    actions += `<button class="icon-btn" onclick="openOrderNoteModal('${o.id}')" title="ملاحظة على الطلب">${o.note ? '🗒️' : '📝'}</button>`;
     const addressLine = o.address ? `<div style="font-size:12.5px; color:var(--ink-soft); margin-top:2px;">📍 ${escapeHtml(o.address)}</div>` : '';
     const deliveryFee = o.deliveryFee || 0;
     return `
@@ -1755,7 +1290,6 @@ function renderOrders(){
         <span class="badge ${meta.cls}">${meta.label}</span>
       </div>
       <div class="order-items">${itemsHtml}</div>
-      ${o.note ? `<div class="order-note-box">🗒️ ${escapeHtml(o.note)}</div>` : ''}
       <div class="order-item-row"><span>المبلغ بدون التوصيل</span><span>${money(o.subtotal ?? o.total)} د.أ</span></div>
       <div class="order-item-row"><span>أجور التوصيل</span><span>${money(deliveryFee)} د.أ</span></div>
       <div class="order-total"><span>الإجمالي</span><span class="mono">${money(o.total)} د.أ</span></div>
@@ -1769,113 +1303,6 @@ function renderCartFab(){
   const count = CART.reduce((s,c)=>s+c.qty,0);
   document.getElementById('cartCount').textContent = count;
   fab.style.display = count>0 ? 'flex' : 'none';
-}
-
-// ---------- customers (derived automatically from orders) ----------
-function computeCustomersList(){
-  const map = {};
-  ORDERS.filter(o=>o.status!=='cancelled').forEach(o=>{
-    const key = (o.phone && o.phone.trim()) || ('n:'+(o.customer||'-'));
-    if(!map[key]){
-      map[key] = {
-        name: o.customer || 'عميل بدون اسم',
-        phone: o.phone || '',
-        address: o.address || '',
-        orders: 0,
-        total: 0,
-        delivery: 0,
-        lastAt: 0,
-        products: {}
-      };
-    }
-    const c = map[key];
-    c.orders += 1;
-    c.total += (o.subtotal ?? (o.total-(o.deliveryFee||0)));
-    c.delivery += (o.deliveryFee||0);
-    if(o.createdAt > c.lastAt){
-      c.lastAt = o.createdAt;
-      // keep the most recent address/name in case they were edited later
-      if(o.customer) c.name = o.customer;
-      if(o.address) c.address = o.address;
-    }
-    (o.items||[]).forEach(it=>{
-      c.products[it.name] = (c.products[it.name]||0) + it.qty;
-    });
-  });
-  return Object.values(map).sort((a,b)=>b.lastAt-a.lastAt);
-}
-
-function handleCustomerSearch(val){
-  customerSearchQuery = val.trim().toLowerCase();
-  renderCustomers();
-}
-
-function renderCustomers(){
-  const statsEl = document.getElementById('customersStats');
-  const listEl = document.getElementById('customersList');
-  if(!listEl) return;
-
-  const all = computeCustomersList();
-
-  if(statsEl){
-    const totalRevenue = all.reduce((s,c)=>s+c.total,0);
-    const totalDelivery = all.reduce((s,c)=>s+c.delivery,0);
-    statsEl.innerHTML = `
-      <div class="stat-card"><div class="n">${all.length}</div><div class="l">إجمالي العملاء</div></div>
-      <div class="stat-card"><div class="n">${money(totalRevenue)}</div><div class="l">إجمالي المبيعات (د.أ)</div></div>
-      <div class="stat-card"><div class="n">${money(totalDelivery)}</div><div class="l">إجمالي أجور التوصيل (د.أ)</div></div>
-    `;
-  }
-
-  let list = all;
-  if(customerSearchQuery){
-    list = list.filter(c=>
-      c.name.toLowerCase().includes(customerSearchQuery) ||
-      (c.phone && c.phone.toLowerCase().includes(customerSearchQuery)) ||
-      Object.keys(c.products).some(name=>name.toLowerCase().includes(customerSearchQuery))
-    );
-  }
-  const countEl = document.getElementById('customerSearchCount');
-  if(countEl) countEl.textContent = customerSearchQuery ? `${list.length} نتيجة` : '';
-
-  if(all.length===0){
-    listEl.innerHTML = `<div class="empty-state">
-      <div class="big">👥</div>
-      <div style="font-weight:700; margin-bottom:4px;">لا يوجد عملاء بعد</div>
-      <div style="font-size:13px;">أي طلب بيع جديد بيضيف صاحبه هون تلقائيًا</div>
-    </div>`;
-    return;
-  }
-  if(list.length===0){
-    listEl.innerHTML = `<div class="empty-state">
-      <div class="big">👥</div>
-      <div style="font-weight:700;">ما في نتائج مطابقة</div>
-    </div>`;
-    return;
-  }
-
-  listEl.innerHTML = list.map(c=>{
-    const addressLine = c.address ? `<div class="customer-meta">📍 ${escapeHtml(c.address)}</div>` : '';
-    const productTags = Object.entries(c.products).map(([name,qty])=>
-      `<span class="customer-product-tag">${escapeHtml(name)} × ${qty}</span>`
-    ).join('');
-    return `
-    <div class="customer-card">
-      <div class="customer-top">
-        <div>
-          <div class="customer-name">${escapeHtml(c.name)}</div>
-          <div class="customer-meta">${c.phone ? '📞 '+escapeHtml(c.phone) : 'بدون رقم هاتف'}</div>
-          ${addressLine}
-        </div>
-      </div>
-      <div class="customer-stats">
-        <div class="cs-item">عدد الطلبات<b>${c.orders}</b></div>
-        <div class="cs-item">إجمالي المبيعات<b>${money(c.total)} د.أ</b></div>
-        <div class="cs-item">أجور التوصيل<b>${money(c.delivery)} د.أ</b></div>
-      </div>
-      <div class="customer-products">${productTags}</div>
-    </div>`;
-  }).join('');
 }
 
 function escapeHtml(s){
@@ -1977,12 +1404,9 @@ async function saveProductForm(productId){
     const p = PRODUCTS.find(x=>x.id===productId);
     p.name=name; p.qty=qty; p.price=price; p.wholesalePrice=wholesalePrice; p.image=editingImageData;
     toast('تم حفظ التعديلات');
-    logActivity('product_edit', `تعديل المنتج "${name}"`, {productId});
   } else {
-    const newProduct = {id:uid('prod'), name, qty, price, wholesalePrice, image:editingImageData, createdAt:Date.now()};
-    PRODUCTS.push(newProduct);
+    PRODUCTS.push({id:uid('prod'), name, qty, price, wholesalePrice, image:editingImageData, createdAt:Date.now()});
     toast('تمت إضافة المنتج');
-    logActivity('product_add', `إضافة منتج جديد "${name}" (الكمية: ${qty})`, {productId:newProduct.id});
   }
   await saveProducts();
   closeModal();
@@ -1991,12 +1415,10 @@ async function saveProductForm(productId){
 
 function deleteProduct(productId){
   showConfirm('حذف هذا المنتج نهائيًا؟', async ()=>{
-    const p = PRODUCTS.find(x=>x.id===productId);
     PRODUCTS = PRODUCTS.filter(p=>p.id!==productId);
     CART = CART.filter(c=>c.productId!==productId);
     await saveProducts();
     render();
-    logActivity('product_delete', `حذف المنتج "${p ? p.name : productId}"`, {productId});
   }, 'حذف المنتج');
 }
 
@@ -2055,7 +1477,6 @@ async function moveProductToSeason(productId, targetSeasonId){
   const target = SEASONS.find(s=>s.id===targetSeasonId);
   toast(`تم نقل المنتج إلى ${target ? target.name : 'الموسم الآخر'}`);
   render();
-  logActivity('product_move', `نقل المنتج "${p.name}" إلى موسم "${target ? target.name : ''}"`, {productId, targetSeasonId});
 }
 
 function closeModal(){
@@ -2111,56 +1532,20 @@ function openCartModal(){
   renderCartModalContent();
 }
 
-function getCartItemPrice(c, p){
-  return (c.priceOverride!=null && !isNaN(c.priceOverride)) ? c.priceOverride : p.price;
-}
-
-function computeCartSubtotal(){
-  return CART.reduce((s,c)=>{
-    const p = PRODUCTS.find(x=>x.id===c.productId);
-    return s + (p ? getCartItemPrice(c,p)*c.qty : 0);
-  }, 0);
-}
-
-function updateCartItemPrice(productId, val){
-  const c = CART.find(x=>x.productId===productId);
-  if(!c) return;
-  let v = parseFloat(val);
-  if(isNaN(v) || v<0) v = 0;
-  c.priceOverride = v;
-  const p = PRODUCTS.find(x=>x.id===productId);
-  const lt = document.getElementById('lt-'+productId);
-  if(lt && p) lt.textContent = money(v*c.qty);
-  recalcCartTotals();
-}
-
-function recalcCartTotals(){
-  const subtotal = computeCartSubtotal();
-  const feeInput = document.getElementById('cDeliveryFee');
-  const fee = feeInput ? (parseFloat(feeInput.value)||0) : 0;
-  const subEl = document.getElementById('rSubtotalDisplay');
-  if(subEl) subEl.textContent = money(subtotal)+' د.أ';
-  const delEl = document.getElementById('rDeliveryDisplay');
-  if(delEl) delEl.textContent = money(fee)+' د.أ';
-  const totEl = document.getElementById('cTotalDisplay');
-  if(totEl) totEl.textContent = money(subtotal+fee)+' د.أ';
-}
-
 function renderCartModalContent(){
   const modalRoot = document.getElementById('modalRoot');
   const itemCount = CART.reduce((s,c)=>s+c.qty,0);
   const rows = CART.map(c=>{
     const p = PRODUCTS.find(x=>x.id===c.productId);
     if(!p) return '';
-    const price = getCartItemPrice(c,p);
     return `
     <div class="cart-row">
       ${p.image ? `<img src="${p.image}">` : `<div class="ph"></div>`}
       <div class="info">
         <h4>${escapeHtml(p.name)}</h4>
-        <div class="p">السعر: <input type="number" min="0" step="0.01" class="cart-price-input" value="${price}" oninput="updateCartItemPrice('${p.id}', this.value)"> د.أ × ${c.qty}</div>
+        <div class="p">${money(p.price)} د.أ × ${c.qty}</div>
       </div>
-      <div class="line-total" id="lt-${p.id}">${money(price*c.qty)}</div>
+      <div class="line-total">${money(p.price*c.qty)}</div>
       <div class="qty-ctrl">
         <button onclick="changeCartQty('${p.id}', -1)">−</button>
         <span>${c.qty}</span>
@@ -2169,7 +1554,10 @@ function renderCartModalContent(){
       <button class="remove-x" onclick="removeCartItem('${p.id}')" title="إزالة">✕</button>
     </div>`;
   }).join('');
-  const subtotal = computeCartSubtotal();
+  const subtotal = CART.reduce((s,c)=>{
+    const p = PRODUCTS.find(x=>x.id===c.productId);
+    return s + (p ? p.price*c.qty : 0);
+  }, 0);
 
   modalRoot.innerHTML = `
   <div class="overlay" onclick="if(event.target===this) closeModal()">
@@ -2198,17 +1586,12 @@ function renderCartModalContent(){
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>أجور التوصيل *</label>
-          <input type="number" min="0" step="0.01" id="cDeliveryFee" value="0" placeholder="0.00" oninput="recalcCartTotals()">
+          <input type="number" min="0" step="0.01" id="cDeliveryFee" value="0" placeholder="0.00" oninput="updateCartTotalDisplay(${subtotal})">
         </div>
       </div>
 
       <div class="sale-section">
         <div class="sale-section-label"><span class="ic">👤</span> بيانات العميل</div>
-        <div class="shipping-hint" style="margin:-2px 0 10px;">
-          <span></span>
-          <a onclick="toggleCustomerPicker()">👥 اختر عميل مسجل</a>
-        </div>
-        <div id="customerPickerBox"></div>
         <div class="field">
           <label>رقم الهاتف *</label>
           <input type="text" id="cPhone" placeholder="07xxxxxxxx" oninput="handleCustomerLookup()">
@@ -2223,19 +1606,25 @@ function renderCartModalContent(){
       <div class="sale-section">
         <div class="sale-section-label"><span class="ic">💵</span> الحساب</div>
         <div class="receipt-box">
-          <div class="r-row"><span>المبلغ بدون التوصيل</span><span id="rSubtotalDisplay">${money(subtotal)} د.أ</span></div>
+          <div class="r-row"><span>المبلغ بدون التوصيل</span><span>${money(subtotal)} د.أ</span></div>
           <div class="r-row"><span>أجور التوصيل</span><span id="rDeliveryDisplay">${money(0)} د.أ</span></div>
           <div class="r-row grand"><span>الإجمالي</span><span class="mono" id="cTotalDisplay">${money(subtotal)} د.أ</span></div>
         </div>
       </div>
 
       <div class="modal-actions" style="margin-top:16px;">
-        <button class="btn btn-primary btn-block" onclick="checkoutCart()">✅ تأكيد البيع</button>
+        <button class="btn btn-primary btn-block" onclick="checkoutCart(${subtotal})">✅ تأكيد البيع</button>
       </div>
       `}
       <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
     </div>
   </div>`;
+}
+
+function updateCartTotalDisplay(subtotal){
+  const fee = parseFloat(document.getElementById('cDeliveryFee').value) || 0;
+  document.getElementById('rDeliveryDisplay').textContent = money(fee) + ' د.أ';
+  document.getElementById('cTotalDisplay').textContent = money(subtotal + fee) + ' د.أ';
 }
 
 function removeCartItem(productId){
@@ -2256,7 +1645,7 @@ function changeCartQty(productId, delta){
   renderCartFab();
 }
 
-async function checkoutCart(){
+async function checkoutCart(subtotal){
   if(CART.length===0) return;
   const customer = document.getElementById('cCustomer').value.trim();
   const phone = document.getElementById('cPhone').value.trim();
@@ -2280,12 +1669,11 @@ async function checkoutCart(){
   }
   for(const c of CART){
     const p = PRODUCTS.find(x=>x.id===c.productId);
-    const salePrice = getCartItemPrice(c,p);
     p.qty -= c.qty;
-    items.push({productId:p.id, name:p.name, price:salePrice, wholesalePrice:p.wholesalePrice||0, qty:c.qty});
-    itemsTotal += salePrice * c.qty;
+    items.push({productId:p.id, name:p.name, price:p.price, wholesalePrice:p.wholesalePrice||0, qty:c.qty});
+    itemsTotal += p.price * c.qty;
   }
-  const newOrder = {
+  ORDERS.push({
     id: uid('ord'), items,
     subtotal: itemsTotal, deliveryFee, total: itemsTotal + deliveryFee,
     status:'delivering',
@@ -2294,15 +1682,13 @@ async function checkoutCart(){
     shippingCompanyName: shippingCompany ? shippingCompany.name : '',
     shippingCompanyPhone: shippingCompany ? shippingCompany.phone : '',
     createdAt: Date.now()
-  };
-  ORDERS.push(newOrder);
+  });
   CART = [];
   await saveProducts();
   await saveOrders();
   closeModal();
   toast('تم تنفيذ عملية البيع، الطلب بطريقه للتوصيل 🚚');
   render();
-  logActivity('order_create', `طلب جديد للعميل "${customer}" بقيمة ${money(newOrder.total)} د.أ`, {orderId:newOrder.id});
 }
 
 // ---------- order status ----------
@@ -2313,10 +1699,6 @@ async function advanceOrder(orderId){
     o.status='done';
     o.doneAt = Date.now();
     toast('تم تسليم الطلب ✅');
-    await saveOrders();
-    render();
-    logActivity('order_status', `تسليم الطلب #${o.id.slice(-6)} للعميل "${o.customer}"`, {orderId});
-    return;
   }
   await saveOrders();
   render();
@@ -2326,53 +1708,33 @@ function openEditOrderModal(orderId){
   const o = ORDERS.find(x=>x.id===orderId);
   if(!o) return;
   const modalRoot = document.getElementById('modalRoot');
-  const itemsHtml = (o.items||[]).map((it,idx)=>`
-    <div class="cart-row">
-      <div class="info">
-        <h4>${escapeHtml(it.name)}</h4>
-        <div class="p">السعر: <input type="number" min="0" step="0.01" class="cart-price-input oe-price-input" data-idx="${idx}" data-qty="${it.qty}" value="${it.price}" oninput="recalcOrderEditTotals()"> د.أ × ${it.qty}</div>
-      </div>
-      <div class="line-total" id="olt-${idx}">${money(it.price*it.qty)}</div>
-    </div>
-  `).join('');
   modalRoot.innerHTML = `
   <div class="overlay" onclick="if(event.target===this) closeModal()">
     <div class="modal">
-      <h2>تعديل الطلب #${o.id.slice(-6)}</h2>
-      ${o.status==='done' ? `<div class="fin-sub" style="margin-bottom:10px;">هذا الطلب مُسلَّم مسبقًا — أي تعديل هون بينعكس فورًا على المبيعات والتقارير.</div>` : ''}
-      <div class="sale-section">
-        <div class="sale-section-label"><span class="ic">🧺</span> المنتجات والأسعار</div>
-        <div>${itemsHtml}</div>
+      <h2>تعديل بيانات الطلب #${o.id.slice(-6)}</h2>
+      <div class="field">
+        <label>اسم العميل *</label>
+        <input type="text" id="eCustomer" value="${escapeHtml(o.customer)}">
       </div>
-      <div class="sale-section">
-        <div class="sale-section-label"><span class="ic">👤</span> بيانات العميل</div>
-        <div class="field">
-          <label>اسم العميل *</label>
-          <input type="text" id="eCustomer" value="${escapeHtml(o.customer)}">
-        </div>
-        <div class="field">
-          <label>رقم الهاتف *</label>
-          <input type="text" id="ePhone" value="${escapeHtml(o.phone)}">
-        </div>
-        <div class="field">
-          <label>العنوان *</label>
-          <input type="text" id="eAddress" value="${escapeHtml(o.address||'')}">
-        </div>
-        <div class="field" style="margin-bottom:0;">
-          <label>شركة الشحن</label>
-          <select id="eShipping" class="select-field">${buildShippingSelectOptions(o.shippingCompanyId)}</select>
-        </div>
+      <div class="field">
+        <label>رقم الهاتف *</label>
+        <input type="text" id="ePhone" value="${escapeHtml(o.phone)}">
       </div>
-      <div class="sale-section">
-        <div class="sale-section-label"><span class="ic">💵</span> الحساب</div>
-        <div class="field">
-          <label>أجور التوصيل *</label>
-          <input type="number" min="0" step="0.01" id="eDeliveryFee" value="${o.deliveryFee||0}" oninput="recalcOrderEditTotals()">
-        </div>
-        <div class="receipt-box">
-          <div class="r-row"><span>المبلغ بدون التوصيل</span><span id="eSubtotalDisplay">${money(o.subtotal ?? o.total)} د.أ</span></div>
-          <div class="r-row grand"><span>الإجمالي</span><span class="mono" id="eTotalDisplay">${money(o.total)} د.أ</span></div>
-        </div>
+      <div class="field">
+        <label>العنوان *</label>
+        <input type="text" id="eAddress" value="${escapeHtml(o.address||'')}">
+      </div>
+      <div class="field">
+        <label>شركة الشحن</label>
+        <select id="eShipping" class="select-field">${buildShippingSelectOptions(o.shippingCompanyId)}</select>
+      </div>
+      <div class="field">
+        <label>المبلغ بدون التوصيل</label>
+        <input type="text" value="${money(o.subtotal ?? o.total)} د.أ" disabled style="opacity:.7;">
+      </div>
+      <div class="field">
+        <label>أجور التوصيل *</label>
+        <input type="number" min="0" step="0.01" id="eDeliveryFee" value="${o.deliveryFee||0}">
       </div>
       <div class="modal-actions">
         <button class="btn btn-primary btn-block" onclick="saveOrderEdit('${o.id}')">حفظ التعديلات</button>
@@ -2380,25 +1742,6 @@ function openEditOrderModal(orderId){
       <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
     </div>
   </div>`;
-}
-
-function recalcOrderEditTotals(){
-  let subtotal = 0;
-  document.querySelectorAll('.oe-price-input').forEach(inp=>{
-    const idx = inp.dataset.idx;
-    const qty = parseFloat(inp.dataset.qty)||0;
-    let v = parseFloat(inp.value);
-    if(isNaN(v) || v<0) v = 0;
-    subtotal += v*qty;
-    const lt = document.getElementById('olt-'+idx);
-    if(lt) lt.textContent = money(v*qty);
-  });
-  const feeInput = document.getElementById('eDeliveryFee');
-  const fee = feeInput ? (parseFloat(feeInput.value)||0) : 0;
-  const subEl = document.getElementById('eSubtotalDisplay');
-  if(subEl) subEl.textContent = money(subtotal)+' د.أ';
-  const totEl = document.getElementById('eTotalDisplay');
-  if(totEl) totEl.textContent = money(subtotal+fee)+' د.أ';
 }
 
 async function saveOrderEdit(orderId){
@@ -2412,187 +1755,28 @@ async function saveOrderEdit(orderId){
   if(!phone){ toast('اكتب رقم هاتف العميل'); return; }
   if(!address){ toast('اكتب عنوان العميل'); return; }
   if(isNaN(deliveryFee) || deliveryFee<0){ toast('أجور التوصيل غير صحيحة'); return; }
-
-  let subtotal = 0;
-  document.querySelectorAll('.oe-price-input').forEach(inp=>{
-    const idx = parseInt(inp.dataset.idx, 10);
-    let v = parseFloat(inp.value);
-    if(isNaN(v) || v<0) v = 0;
-    if(o.items && o.items[idx]){
-      o.items[idx].price = v;
-      subtotal += v * o.items[idx].qty;
-    }
-  });
-
-  const shippingSel = document.getElementById('eShipping');
-  const shippingId = shippingSel ? shippingSel.value : '';
-  const shippingCompany = shippingId ? SHIPPING_COMPANIES.find(c=>c.id===shippingId) : null;
-
+  const subtotal = o.subtotal ?? o.total;
   o.customer = customer; o.phone = phone; o.address = address;
-  o.deliveryFee = deliveryFee; o.subtotal = subtotal; o.total = subtotal + deliveryFee;
-  o.shippingCompanyId = shippingCompany ? shippingCompany.id : null;
-  o.shippingCompanyName = shippingCompany ? shippingCompany.name : '';
-  o.shippingCompanyPhone = shippingCompany ? shippingCompany.phone : '';
+  o.deliveryFee = deliveryFee; o.total = subtotal + deliveryFee;
   await saveOrders();
   closeModal();
   toast('تم تحديث بيانات الطلب');
-  render();
-  logActivity('order_edit', `تعديل بيانات الطلب #${o.id.slice(-6)} للعميل "${customer}"`, {orderId});
-}
-
-// ---- manual order note ----
-function openOrderNoteModal(orderId){
-  const o = ORDERS.find(x=>x.id===orderId);
-  if(!o) return;
-  const modalRoot = document.getElementById('modalRoot');
-  modalRoot.innerHTML = `
-  <div class="overlay" onclick="if(event.target===this) closeModal()">
-    <div class="modal">
-      <h2>ملاحظة على الطلب #${o.id.slice(-6)}</h2>
-      <div class="field" style="margin-bottom:0;">
-        <label>الملاحظة</label>
-        <textarea id="oNoteText" rows="4" placeholder="اكتب أي ملاحظة عن هالطلب...">${escapeHtml(o.note||'')}</textarea>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-primary btn-block" onclick="saveOrderNote('${o.id}')">حفظ الملاحظة</button>
-      </div>
-      ${o.note ? `<div style="margin-top:10px;"><button class="btn btn-danger btn-block" onclick="clearOrderNote('${o.id}')">حذف الملاحظة</button></div>` : ''}
-      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
-    </div>
-  </div>`;
-}
-
-async function saveOrderNote(orderId){
-  const o = ORDERS.find(x=>x.id===orderId);
-  if(!o) return;
-  const text = document.getElementById('oNoteText').value.trim();
-  o.note = text;
-  await saveOrders();
-  closeModal();
-  toast(text ? 'تم حفظ الملاحظة' : 'تم حذف الملاحظة');
-  render();
-}
-
-async function clearOrderNote(orderId){
-  const o = ORDERS.find(x=>x.id===orderId);
-  if(!o) return;
-  o.note = '';
-  await saveOrders();
-  closeModal();
-  toast('تم حذف الملاحظة');
   render();
 }
 
 function cancelOrder(orderId){
   const o = ORDERS.find(x=>x.id===orderId);
   if(!o) return;
-  const modalRoot = document.getElementById('modalRoot');
-  modalRoot.innerHTML = `
-  <div class="overlay" onclick="if(event.target===this) closeModal()">
-    <div class="modal" style="max-width:380px;">
-      <h2>إلغاء الطلب</h2>
-      <div style="font-size:13px; color:var(--ink-soft); line-height:1.7; margin-bottom:16px;">بترجع كمية المنتجات للمستودع بالحالتين، بس فرق طريقة الإلغاء:</div>
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="btn btn-outline btn-block" style="flex-direction:column; align-items:stretch; gap:3px; padding:12px 14px; text-align:right;" onclick="confirmCancelOrder('${o.id}','revert')">
-          <span style="font-weight:700; font-size:14px;">↩️ حذف الطلب كأنه ما صار</span>
-          <span style="font-size:12px; color:var(--ink-soft); font-weight:400;">يرجّع المنتج للمخزون وينحذف الطلب نهائيًا من السجل والإحصائيات</span>
-        </button>
-        <button class="btn btn-danger btn-block" style="flex-direction:column; align-items:stretch; gap:3px; padding:12px 14px; text-align:right;" onclick="confirmCancelOrder('${o.id}','customer')">
-          <span style="font-weight:700; font-size:14px;">❌ الزبون لغى الطلب</span>
-          <span style="font-size:12px; font-weight:400;">يرجّع المنتج للمخزون، ويضل الطلب موثّق بالسجل بحالة "ملغي"</span>
-        </button>
-      </div>
-      <div style="margin-top:14px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">تراجع</button></div>
-    </div>
-  </div>`;
-}
-
-async function confirmCancelOrder(orderId, mode){
-  const o = ORDERS.find(x=>x.id===orderId);
-  if(!o) return;
-  o.items.forEach(it=>{
-    const p = PRODUCTS.find(x=>x.id===it.productId);
-    if(p) p.qty += it.qty;
-  });
-  await saveProducts();
-  if(mode==='revert'){
-    ORDERS = ORDERS.filter(x=>x.id!==orderId);
-  } else {
+  showConfirm('إلغاء الطلب وإرجاع الكمية للمستودع؟', async ()=>{
+    o.items.forEach(it=>{
+      const p = PRODUCTS.find(x=>x.id===it.productId);
+      if(p) p.qty += it.qty;
+    });
     o.status = 'cancelled';
-    o.cancelReason = 'customer';
-    o.cancelledAt = Date.now();
-  }
-  await saveOrders();
-  closeModal();
-  toast(mode==='revert' ? 'تم حذف الطلب وإرجاع الكمية للمخزون' : 'تم إلغاء الطلب وإرجاع الكمية للمخزون');
-  render();
-  if(mode==='revert'){
-    logActivity('order_delete', `حذف الطلب #${o.id.slice(-6)} للعميل "${o.customer}" وإرجاع الكمية للمخزون`, {orderId});
-  } else {
-    logActivity('order_cancel', `إلغاء الطلب #${o.id.slice(-6)} للعميل "${o.customer}" (إلغاء من الزبون)`, {orderId});
-  }
-}
-
-// ---------- customer picker (choose from previously registered customers) ----------
-function toggleCustomerPicker(){
-  const box = document.getElementById('customerPickerBox');
-  if(!box) return;
-  if(box.innerHTML){ box.innerHTML=''; return; }
-  renderCustomerPickerList('');
-}
-
-function renderCustomerPickerList(query){
-  const box = document.getElementById('customerPickerBox');
-  if(!box) return;
-  const q = (query||'').trim().toLowerCase();
-  let list = computeCustomersList();
-  if(q){
-    list = list.filter(c=>
-      (c.name||'').toLowerCase().includes(q) ||
-      (c.phone||'').replace(/\D/g,'').includes(q.replace(/\D/g,''))
-    );
-  }
-  list = list.slice(0, 30);
-  const rows = list.length ? list.map((c,i)=>`
-    <div class="list-row" style="cursor:pointer;" onclick="pickCustomerFromList(${i}, '${escapeHtml(q).replace(/'/g,"\\'")}')">
-      <div class="lr-main">
-        <div class="lr-title">${escapeHtml(c.name)}</div>
-        <div class="lr-sub">${escapeHtml(c.phone||'بدون رقم')}${c.address ? ' · '+escapeHtml(c.address) : ''}</div>
-      </div>
-      <div class="lr-amount" style="font-size:12px;">${c.orders} طلب</div>
-    </div>
-  `).join('') : `<div class="empty-mini">ما في عملاء مطابقين</div>`;
-  box.innerHTML = `
-    <div style="background:#EFE5CB; border-radius:10px; padding:10px; margin:-6px 0 12px;">
-      <input type="text" placeholder="دور بالاسم أو رقم الهاتف" style="width:100%; margin-bottom:8px;" oninput="renderCustomerPickerList(this.value)" value="${escapeHtml(query||'')}">
-      <div style="max-height:220px; overflow-y:auto;">${rows}</div>
-    </div>
-  `;
-  // refocus the search box and keep cursor at the end after re-render
-  const input = box.querySelector('input');
-  if(input){ input.focus(); input.setSelectionRange(input.value.length, input.value.length); }
-}
-
-function pickCustomerFromList(idx, query){
-  let list = computeCustomersList();
-  const q = (query||'').trim().toLowerCase();
-  if(q){
-    list = list.filter(c=>
-      (c.name||'').toLowerCase().includes(q) ||
-      (c.phone||'').replace(/\D/g,'').includes(q.replace(/\D/g,''))
-    );
-  }
-  const c = list[idx];
-  if(!c) return;
-  const pEl = document.getElementById('cPhone');
-  const cEl = document.getElementById('cCustomer');
-  const aEl = document.getElementById('cAddress');
-  if(pEl) pEl.value = c.phone || '';
-  if(cEl) cEl.value = c.name || '';
-  if(aEl) aEl.value = c.address || '';
-  document.getElementById('customerPickerBox').innerHTML = '';
-  document.getElementById('customerSuggestion').innerHTML = '';
-  toast('تم تعبئة بيانات العميل');
+    await saveProducts();
+    await saveOrders();
+    render();
+  }, 'إلغاء الطلب');
 }
 
 // ---------- customer lookup (autofill from previous orders) ----------
@@ -2696,8 +1880,7 @@ function printInvoice(orderId){
     </tr>
   `).join('');
   area.innerHTML = `
-    <div class="inv-page">
-      <div class="inv-topbar"></div>
+    <div class="inv-wrap">
       <div class="inv-head">
         <div class="inv-brand">
           <div class="inv-mark">SS</div>
@@ -2707,16 +1890,14 @@ function printInvoice(orderId){
           </div>
         </div>
         <div class="inv-meta">
-          <div class="inv-meta-label">رقم الفاتورة</div>
-          <div class="inv-meta-num">#${o.id.slice(-6)}</div>
-          <div class="inv-meta-date">${formatDate(o.createdAt)}</div>
+          <div>فاتورة رقم <b>#${o.id.slice(-6)}</b></div>
+          <div>${formatDate(o.createdAt)}</div>
         </div>
       </div>
-      <div class="inv-section-label">بيانات العميل</div>
       <div class="inv-customer">
-        <div><b>العميل</b> ${escapeHtml(o.customer || '-')}</div>
-        <div><b>الهاتف</b> ${escapeHtml(o.phone || '-')}</div>
-        ${o.address ? `<div><b>العنوان</b> ${escapeHtml(o.address)}</div>` : ''}
+        <div><b>العميل:</b> ${escapeHtml(o.customer || '-')}</div>
+        <div><b>الهاتف:</b> ${escapeHtml(o.phone || '-')}</div>
+        ${o.address ? `<div><b>العنوان:</b> ${escapeHtml(o.address)}</div>` : ''}
       </div>
       <table class="inv-table">
         <thead><tr><th>الصنف</th><th class="c">الكمية</th><th class="c">السعر</th><th class="c">الإجمالي</th></tr></thead>
@@ -2725,12 +1906,9 @@ function printInvoice(orderId){
       <div class="inv-totals">
         <div><span>المبلغ بدون التوصيل</span><span>${money(o.subtotal ?? o.total)} د.أ</span></div>
         <div><span>أجور التوصيل</span><span>${money(deliveryFee)} د.أ</span></div>
-        <div class="inv-grand"><span>الإجمالي المطلوب</span><span>${money(o.total)} د.أ</span></div>
+        <div class="inv-grand"><span>الإجمالي</span><span>${money(o.total)} د.أ</span></div>
       </div>
-      <div class="inv-footer">
-        <div class="thanks">شكرًا لتعاملكم معنا 🌟</div>
-        <div>مخزون SawwaSouq</div>
-      </div>
+      <div class="inv-footer">شكرًا لتعاملكم معنا 🌟</div>
     </div>
   `;
   setTimeout(()=>{
@@ -2800,7 +1978,6 @@ async function saveRestock(productId){
   closeModal();
   toast('تم تسجيل استلام البضاعة، صارت بالمخزون 📦');
   render();
-  logActivity('restock', `استلام ${qty} قطعة من "${p.name}" بتكلفة ${money(totalCost)} د.أ`, {productId});
 }
 
 // ---------- backup / restore ----------
@@ -2910,7 +2087,7 @@ function computeTopCustomers(sinceTs, untilTs, limit){
   ORDERS.filter(o=>o.status==='done' && (o.doneAt||o.createdAt)>sinceTs && (o.doneAt||o.createdAt)<=until).forEach(o=>{
     const key = (o.phone && o.phone.trim()) || ('n:'+(o.customer||'-'));
     if(!map[key]) map[key] = {name:o.customer||'عميل بدون اسم', phone:o.phone||'', total:0, orders:0};
-    map[key].total += (o.subtotal ?? (o.total-(o.deliveryFee||0)));
+    map[key].total += o.total;
     map[key].orders += 1;
   });
   return Object.values(map).sort((a,b)=>b.total-a.total).slice(0, limit||5);
@@ -2941,7 +2118,6 @@ function buildReportsHtml(){
   const topRevenue = computeTopProductsByRevenue(start, end, 5);
   const topCustomers = computeTopCustomers(start, end, 5);
   const expByCat = computeExpensesByCategory(start, end);
-  const deliveryByCompany = computeDeliveryByCompany(start, end);
   const chips = [['today','اليوم'], ['week','هالأسبوع'], ['month','هالشهر'], ['all','من البداية'], ['custom','فترة مخصصة']];
   const dateRangeHtml = reportPeriod==='custom' ? `
     <div class="row2" style="margin:10px 0;">
@@ -2974,11 +2150,6 @@ function buildReportsHtml(){
     <div class="list-row"><div class="lr-main"><div class="lr-title">أجور توصيل</div></div><div class="lr-amount">${money(stats.deliveryRevenue)} د.أ</div></div>
     <div class="list-row"><div class="lr-main"><div class="lr-title">تكلفة البضاعة المباعة</div></div><div class="lr-amount neg">-${money(stats.cogs)} د.أ</div></div>
     <div class="list-row"><div class="lr-main"><div class="lr-title">مصاريف الفترة</div></div><div class="lr-amount neg">-${money(stats.expensesTotal)} د.أ</div></div>
-
-    ${deliveryByCompany.length ? `
-      <div class="fin-sub" style="margin:14px 0 4px;">أجور التوصيل حسب شركة الشحن</div>
-      ${deliveryByCompany.map(([name,d])=>`<div class="list-row"><div class="lr-main"><div class="lr-title">${escapeHtml(name)}</div><div class="lr-sub">${d.orders} طلب</div></div><div class="lr-amount">${money(d.amount)} د.أ</div></div>`).join('')}
-    ` : ''}
 
     ${topRevenue.length ? `
       <div class="fin-sub" style="margin:14px 0 4px;">الأكثر مبيعًا (حسب الإيراد)</div>
@@ -3016,20 +2187,6 @@ function buildRestockLogHtml(){
 // ============================================================
 const EXPENSE_CATEGORIES = ['ترويج وتسويق','إيجار','رواتب','فواتير وخدمات','صيانة','نقل وتوصيل','أخرى'];
 
-function computeDeliveryByCompany(sinceTs, untilTs){
-  const until = untilTs===undefined ? Infinity : untilTs;
-  const doneOrders = ORDERS.filter(o=> o.status==='done' && (o.doneAt||o.createdAt) > sinceTs && (o.doneAt||o.createdAt) <= until);
-  const map = {};
-  doneOrders.forEach(o=>{
-    if(!(o.deliveryFee>0)) return;
-    const key = o.shippingCompanyName || 'بدون شركة محددة';
-    if(!map[key]) map[key] = {amount:0, orders:0};
-    map[key].amount += o.deliveryFee;
-    map[key].orders += 1;
-  });
-  return Object.entries(map).sort((a,b)=>b[1].amount-a[1].amount);
-}
-
 function formatDate(ts){
   if(!ts) return '';
   return new Date(ts).toLocaleDateString('en-GB');
@@ -3051,9 +2208,9 @@ function computeStatsForData(ordersArr, expensesArr, sinceTs, untilTs){
   });
   const periodExpenses = expensesArr.filter(e=> (e.createdAt||0) > sinceTs && (e.createdAt||0) <= until);
   const expensesTotal = periodExpenses.reduce((s,e)=>s+e.amount,0);
-  const totalRevenue = revenueGoods;
+  const totalRevenue = revenueGoods + deliveryRevenue;
   const grossProfit = revenueGoods - cogs;
-  const netProfit = grossProfit - expensesTotal;
+  const netProfit = grossProfit + deliveryRevenue - expensesTotal;
   const marginPct = totalRevenue>0 ? (netProfit/totalRevenue*100) : 0;
   const avgOrderValue = doneOrders.length>0 ? totalRevenue/doneOrders.length : 0;
   const cancelledCount = ordersArr.filter(o=> o.status==='cancelled' && (o.createdAt||0) > sinceTs && (o.createdAt||0) <= until).length;
@@ -3410,16 +2567,13 @@ async function saveExpenseForm(){
   closeModal();
   toast('تمت إضافة المصروف');
   render();
-  logActivity('expense_add', `إضافة مصروف "${title}" بقيمة ${money(amount)} د.أ`, {category});
 }
 
 function deleteExpense(id){
   showConfirm('حذف هذا المصروف؟', async ()=>{
-    const e = EXPENSES.find(x=>x.id===id);
     EXPENSES = EXPENSES.filter(e=>e.id!==id);
     await saveExpenses();
     render();
-    logActivity('expense_delete', `حذف مصروف "${e ? e.title : id}"`, {expenseId:id});
   }, 'حذف');
 }
 
@@ -3475,7 +2629,6 @@ async function commitCapitalAdjust(type, amount, note){
   closeModal();
   toast('تم تسجيل الحركة');
   render();
-  logActivity('capital_adjust', `${type==='injection' ? 'إيداع' : 'سحب'} ${money(amount)} د.أ من رأس المال${note ? ' — '+note : ''}`, {type, amount});
 }
 
 // ---- partners ----
@@ -3510,7 +2663,6 @@ async function savePartnerForm(partnerId){
   const sharePct = parseFloat(document.getElementById('ptShare').value || '0');
   if(!name){ toast('اكتب اسم الشريك'); return; }
   if(isNaN(sharePct) || sharePct<0 || sharePct>100){ toast('النسبة غير صحيحة'); return; }
-  const isNew = !partnerId;
   if(partnerId){
     const p = PARTNERS.find(x=>x.id===partnerId);
     p.name=name; p.sharePct=sharePct;
@@ -3523,17 +2675,14 @@ async function savePartnerForm(partnerId){
   if(Math.round(total)!==100) toast(`تنبيه: مجموع نسب الشركاء الآن ${total}% (المفروض يكون 100%)`);
   else toast('تم الحفظ');
   render();
-  logActivity(isNew ? 'partner_add' : 'partner_edit', `${isNew ? 'إضافة شريك جديد' : 'تعديل بيانات الشريك'} "${name}" (${sharePct}%)`, {partnerId});
 }
 
 function deletePartner(id){
   if(PARTNERS.length<=1){ toast('لازم يبقى شريك واحد على الأقل'); return; }
   showConfirm('حذف هذا الشريك؟', async ()=>{
-    const p = PARTNERS.find(x=>x.id===id);
     PARTNERS = PARTNERS.filter(p=>p.id!==id);
     await savePartners();
     render();
-    logActivity('partner_delete', `حذف الشريك "${p ? p.name : id}"`, {partnerId:id});
   }, 'حذف الشريك');
 }
 
@@ -3571,7 +2720,6 @@ async function savePartnerPayout(partnerId){
   closeModal();
   toast('تم تسجيل الدفعة');
   render();
-  logActivity('partner_payout', `دفعة ${money(amount)} د.أ للشريك "${p.name}"`, {partnerId});
 }
 
 // ---- profit split config ----
@@ -3612,7 +2760,6 @@ async function saveSplitConfig(){
   closeModal();
   toast('تم حفظ نسب التوزيع');
   render();
-  logActivity('split_config', `تعديل نسب توزيع الأرباح (إعادة استثمار ${r}% / شركاء ${o}% / احتياطي ${v}%)`, {r,o,v});
 }
 
 // ---- settlement ----
@@ -3678,14 +2825,11 @@ async function confirmSettle(){
   closeModal();
   toast('تمت تصفية الأرباح بنجاح 🎉');
   render();
-  logActivity('settlement', `تصفية أرباح — صافي الربح ${money(prev.stats.netProfit)} د.أ`, {netProfit: prev.stats.netProfit});
 }
 
 // ---------- init ----------
 loadAll();
 loadViewModePref();
-loadThemeModePref();
-loadThemeCustomSettings();
 </script>
 </body>
 </html>
