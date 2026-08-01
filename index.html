@@ -5,53 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مخزون SawwaSouq</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap');
 
 :root{
-  /* ===== Sawwa Souq brand palette — soft & gentle ===== */
-  --paper:#F3F6F5;
-  --card:#FFFFFF;
-  --ink:#233F3A;
-  --ink-soft:#7B9995;
-  --line:#E3EBE9;
-  --teal:#2E8578;
-  --teal-dark:#1B4640;
-  --sage:#A9C2BE;
-  --amber:#D9B27F;
-  --rust:#C68B6C;
-  --green:#7CAB84;
-  --red:#C97F72;
-  --shadow: 0 3px 12px rgba(27,70,64,.06);
+  --paper:#EDE5D3;
+  --card:#FBF7EE;
+  --ink:#2B241A;
+  --ink-soft:#6B5F4C;
+  --line:#D9CBA9;
+  --teal:#1F6F5C;
+  --teal-dark:#164F42;
+  --amber:#B9822F;
+  --rust:#B0532A;
+  --green:#3E7C4A;
+  --red:#A6402F;
+  --shadow: 0 1px 0 rgba(43,36,26,.06);
 }
 /* ===== Dark theme ===== */
 body.dark-theme{
-  --paper:#12201D;
-  --card:#1B2B27;
-  --ink:#E8F0ED;
-  --ink-soft:#9DB6B1;
-  --line:#2B3D38;
-  --teal:#4CAF9B;
-  --teal-dark:#2A6459;
-  --sage:#87A6A1;
-  --amber:#E2BE8C;
-  --rust:#D69B7E;
-  --green:#8DC195;
-  --red:#D69083;
-  --shadow: 0 3px 14px rgba(0,0,0,.32);
+  --paper:#181C18;
+  --card:#20251F;
+  --ink:#ECE7D8;
+  --ink-soft:#A79C86;
+  --line:#39402E;
+  --teal:#2FA184;
+  --teal-dark:#1D6E5A;
+  --amber:#D7A24B;
+  --rust:#CB7048;
+  --green:#4E9B5C;
+  --red:#C1584A;
+  --shadow: 0 1px 0 rgba(0,0,0,.4);
 }
 body.dark-theme{
   background:
-    radial-gradient(circle at 1px 1px, rgba(255,255,255,.025) 1px, transparent 0) 0 0/16px 16px,
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0) 0 0/16px 16px,
     var(--paper);
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
   background:
-    radial-gradient(circle at 1px 1px, rgba(27,70,64,.04) 1px, transparent 0) 0 0/16px 16px,
+    radial-gradient(circle at 1px 1px, rgba(43,36,26,.045) 1px, transparent 0) 0 0/16px 16px,
     var(--paper);
   color:var(--ink);
-  font-family:'Baloo Bhaijaan 2', 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+  font-family:'Tajawal', 'Segoe UI', Tahoma, sans-serif;
   min-height:100vh;
   padding-bottom:100px;
   overflow-x:hidden;
@@ -62,227 +59,205 @@ body{
    in BOTH modes, and mobile mode is never affected by having used desktop mode. */
 body.force-desktop{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
 body.force-desktop header, body.force-desktop main{ min-width:1100px; }
-.mono{font-family:'Orbitron', 'JetBrains Mono', monospace; letter-spacing:.2px;}
+.mono{font-family:'JetBrains Mono', monospace;}
 
 /* ===== Header ===== */
 header{
-  background:linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 130%);
-  color:#F3F6F5;
-  padding:20px 22px 18px;
+  background:var(--teal-dark);
+  color:#F3EEDF;
+  padding:18px 20px 16px;
   position:sticky; top:0; z-index:30;
-  border-radius:0 0 26px 26px;
-  box-shadow:0 10px 24px -8px rgba(27,70,64,.35);
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
 }
-.header-inner{display:flex; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto; gap:14px;}
-.brand{display:flex; align-items:center; gap:12px;}
+.header-inner{display:flex; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto;}
+.brand{display:flex; align-items:center; gap:10px;}
 .brand-mark{
-  width:44px;height:44px;border-radius:15px;
-  background:#F3F6F5;
+  width:38px;height:38px;border-radius:8px;
+  background:var(--amber);
   display:flex;align-items:center;justify-content:center;
-  font-family:'Orbitron','Baloo Bhaijaan 2',sans-serif;
-  font-weight:800;color:var(--teal-dark);font-size:20px;
-  box-shadow:0 4px 10px rgba(0,0,0,.16);
+  font-weight:900;color:var(--teal-dark);font-size:18px;
+  transform:rotate(-4deg);
+  box-shadow:2px 2px 0 rgba(0,0,0,.2);
   overflow:hidden;
 }
-.brand-mark img{width:100%;height:100%;object-fit:cover;}
-.brand-text h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.3px;}
+.brand-mark img{width:100%;height:100%;object-fit:cover; transform:rotate(4deg) scale(1.15);}
+.brand-text h1{margin:0;font-size:19px;font-weight:900;letter-spacing:.3px;}
 .season-switch{
-  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3);
-  color:#fff; font-family:'Orbitron','JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.3px;
+  background:#E14B3D; border:1px solid #E14B3D;
+  color:#fff; font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.3px;
   padding:3px 10px; border-radius:20px; cursor:pointer; transition:.15s; font-weight:700;
 }
-.season-switch:hover{background:rgba(255,255,255,.26);}
+.season-switch:hover{background:#c93f32; border-color:#c93f32;}
 
 .header-right{display:flex; align-items:center; gap:10px;}
 .view-mode-btn{
-  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
-  color:#F3F6F5; width:38px; height:38px; border-radius:13px; font-size:17px;
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
+  color:#F3EEDF; width:38px; height:38px; border-radius:9px; font-size:17px;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
   transition:.15s; flex-shrink:0;
 }
-.view-mode-btn:hover{background:rgba(255,255,255,.22); transform:translateY(-1px);}
+.view-mode-btn:hover{background:rgba(255,255,255,.18);}
 
-.tabs{display:flex; gap:4px; background:rgba(255,255,255,.12); padding:5px; border-radius:16px;}
+.tabs{display:flex; gap:6px; background:rgba(255,255,255,.08); padding:4px; border-radius:10px;}
 .tab-btn{
-  background:transparent;border:none;color:#E4EEEB;padding:9px 16px;border-radius:12px;
-  font-family:inherit;font-weight:700;font-size:14.5px;cursor:pointer;transition:.18s;
+  background:transparent;border:none;color:#DDE7DF;padding:9px 16px;border-radius:7px;
+  font-family:inherit;font-weight:700;font-size:14.5px;cursor:pointer;transition:.15s;
 }
-.tab-btn.active{background:#F3F6F5; color:var(--teal-dark); box-shadow:0 3px 8px rgba(0,0,0,.14);}
+.tab-btn.active{background:var(--amber); color:var(--teal-dark);}
 .tab-count{
-  display:inline-block;margin-inline-start:6px;background:rgba(255,255,255,.2);
-  border-radius:20px;padding:1px 7px;font-size:11px;font-family:'Orbitron','JetBrains Mono',monospace;
+  display:inline-block;margin-inline-start:6px;background:rgba(0,0,0,.18);
+  border-radius:20px;padding:1px 7px;font-size:11px;font-family:'JetBrains Mono',monospace;
 }
-.tab-btn.active .tab-count{background:var(--sage); color:var(--teal-dark);}
+.tab-btn.active .tab-count{background:rgba(0,0,0,.15);}
 
-main{max-width:1100px; margin:0 auto; padding:26px 18px;}
+main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 
 /* ===== Toolbar ===== */
-.toolbar{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;}
-.toolbar h2{margin:0;font-size:21px; font-weight:900; color:var(--teal-dark);}
+.toolbar{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;}
+.toolbar h2{margin:0;font-size:20px; font-weight:900;}
 .toolbar .sub{color:var(--ink-soft); font-size:13px; margin-top:2px;}
 
 .btn{
-  border:none;border-radius:999px;padding:11px 18px;font-family:inherit;font-weight:700;
-  font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.16s;
+  border:none;border-radius:9px;padding:10px 16px;font-family:inherit;font-weight:700;
+  font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s;
   white-space:nowrap;
 }
-.btn:active{transform:scale(.96);}
-.btn-primary{background:var(--teal); color:#fff; box-shadow:0 4px 12px rgba(46,133,120,.28);}
-.btn-primary:hover{background:var(--teal-dark); transform:translateY(-1px);}
-.btn-amber{background:var(--amber); color:#4A3821;}
-.btn-amber:hover{filter:brightness(1.06); transform:translateY(-1px);}
-.btn-outline{background:var(--card); border:1.5px solid var(--line); color:var(--ink);}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--teal); color:#fff;}
+.btn-primary:hover{background:var(--teal-dark);}
+.btn-amber{background:var(--amber); color:#2B241A;}
+.btn-amber:hover{filter:brightness(1.06);}
+.btn-outline{background:transparent; border:1.5px solid var(--line); color:var(--ink);}
 .btn-outline:hover{border-color:var(--teal); color:var(--teal);}
-.btn-ghost{background:transparent; color:var(--ink-soft); padding:6px 10px; border-radius:10px;}
-.btn-danger{background:transparent;color:var(--red);border:1.5px solid #EAD8D2;}
+.btn-ghost{background:transparent; color:var(--ink-soft); padding:6px 10px;}
+.btn-danger{background:transparent;color:var(--red);border:1.5px solid #E3C9BE;}
 .btn:disabled{opacity:.4; cursor:not-allowed;}
-.btn-sm{padding:8px 13px; font-size:12.5px; border-radius:999px;}
+.btn-sm{padding:7px 11px; font-size:12.5px; border-radius:7px;}
 .btn-block{width:100%; justify-content:center;}
 
 /* ===== Product grid ===== */
-.grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:18px;}
-.category-divider{
-  grid-column:1/-1; display:flex; align-items:center; gap:10px;
-  margin:26px 0 4px;
-}
-.category-divider:first-child{ margin-top:0; }
-.category-divider .cd-title{
-  font-weight:800; font-size:14px; white-space:nowrap; color:var(--teal-dark);
-  background:var(--sage); padding:5px 14px; border-radius:20px;
-}
-.category-divider .cd-count{
-  font-family:'Orbitron','JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft);
-  background:var(--card); border:1px solid var(--line); border-radius:20px; padding:1px 9px; white-space:nowrap;
-}
-.category-divider::after{content:""; flex:1; height:1px; background:var(--line);}
-.category-divider .cd-actions{display:flex; gap:4px;}
+.grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:16px;}
 .card{
-  background:var(--card); border:1px solid var(--line); border-radius:22px; overflow:hidden;
+  background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;
   box-shadow:var(--shadow); position:relative; display:flex; flex-direction:column;
-  transition:box-shadow .2s, transform .2s;
 }
-.card:hover{ box-shadow:0 12px 26px -6px rgba(27,70,64,.16); transform:translateY(-3px); }
 .card-img{
-  width:100%; background:var(--sage); position:relative;
-  display:flex;align-items:center;justify-content:center; color:var(--teal-dark); font-size:12px;
+  width:100%; background:#E4DAC3; position:relative;
+  display:flex;align-items:center;justify-content:center; color:#B7A986; font-size:12px;
 }
 .card-img img{width:100%; height:auto; display:block;}
-.card-img.empty{height:140px; opacity:.75;}
+.card-img.empty{height:140px;}
 .card-img.empty::after{content:"لا توجد صورة";}
 .stock-tag{
-  position:absolute; top:10px; left:10px; background:rgba(27,70,64,.85); color:#F3F6F5;
-  font-family:'Orbitron','JetBrains Mono',monospace; font-size:11.5px; padding:3px 9px; border-radius:20px;
-  backdrop-filter:blur(2px);
+  position:absolute; top:8px; left:8px; background:rgba(43,36,26,.82); color:#F3EEDF;
+  font-family:'JetBrains Mono',monospace; font-size:11.5px; padding:3px 9px; border-radius:20px;
 }
 .stock-tag.zero{background:var(--red);}
 .stock-tag.low{background:var(--rust);}
-.card-body{padding:14px 15px 15px; display:flex; flex-direction:column; gap:6px; flex:1;}
-.card-body h3{margin:0; font-size:15px; font-weight:600; line-height:1.3;}
-.price{color:var(--teal-dark); font-weight:800; font-family:'Orbitron','JetBrains Mono',monospace; font-size:14.5px;}
-.card-actions{display:flex; gap:6px; margin-top:auto; padding-top:8px;}
-
+.card-body{padding:12px 13px 13px; display:flex; flex-direction:column; gap:6px; flex:1;}
+.card-body h3{margin:0; font-size:15px; font-weight:700; line-height:1.3;}
+.price{color:var(--teal-dark); font-weight:900; font-family:'JetBrains Mono',monospace; font-size:15px;}
+.card-actions{display:flex; gap:6px; margin-top:auto; padding-top:6px;}
 
 .empty-state{
-  text-align:center; padding:64px 20px; color:var(--ink-soft);
-  border:2px dashed var(--sage); border-radius:22px; background:rgba(255,255,255,.5);
+  text-align:center; padding:60px 20px; color:var(--ink-soft);
+  border:2px dashed var(--line); border-radius:14px; background:rgba(255,255,255,.4);
 }
 .empty-state .big{font-size:38px; margin-bottom:8px;}
 
 /* ===== Orders ===== */
 .order-list{display:flex; flex-direction:column; gap:12px;}
 .order-card{
-  background:var(--card); border:1px solid var(--line); border-radius:19px; padding:16px 18px;
+  background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
   box-shadow:var(--shadow);
 }
 .order-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
-.order-id{font-family:'Orbitron','JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft);}
+.order-id{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft);}
 .order-customer{font-weight:700; font-size:14.5px; margin-top:2px;}
 .badge{
-  font-size:12px; font-weight:700; padding:5px 13px; border-radius:20px; white-space:nowrap;
+  font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; white-space:nowrap;
   display:inline-flex; align-items:center; gap:5px;
 }
 .badge::before{content:""; width:7px;height:7px;border-radius:50%; background:currentColor;}
-.badge-warehouse{background:#F3E7D5; color:#A9803F;}
-.badge-delivering{background:#F2E0D4; color:var(--rust);}
-.badge-done{background:#E1EEE2; color:var(--green);}
-.badge-cancelled{background:#F3DFDA; color:var(--red);}
+.badge-warehouse{background:#F1E4C6; color:var(--amber);}
+.badge-delivering{background:#F3DCC9; color:var(--rust);}
+.badge-done{background:#DCEBDD; color:var(--green);}
+.badge-cancelled{background:#F1DAD3; color:var(--red);}
 
-.order-items{margin:12px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line); padding:10px 0;}
+.order-items{margin:10px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line); padding:8px 0;}
 .order-item-row{display:flex; justify-content:space-between; font-size:13.5px; padding:3px 0; color:var(--ink);}
-.order-item-row span:last-child{font-family:'Orbitron','JetBrains Mono',monospace; color:var(--ink-soft);}
+.order-item-row span:last-child{font-family:'JetBrains Mono',monospace; color:var(--ink-soft);}
 .order-total{display:flex; justify-content:space-between; font-weight:900; font-size:15px; margin-top:4px;}
 .order-actions{display:flex; gap:8px; justify-content:flex-end; margin-top:10px; flex-wrap:wrap;}
 
 /* ===== Customers ===== */
 .customer-list{display:flex; flex-direction:column; gap:12px;}
 .customer-card{
-  background:var(--card); border:1px solid var(--line); border-radius:19px; padding:16px 18px;
+  background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
   box-shadow:var(--shadow);
 }
 .customer-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
 .customer-name{font-weight:700; font-size:15px;}
 .customer-meta{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
-.customer-stats{display:flex; gap:16px; margin:10px 0; padding:10px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line);}
+.customer-stats{display:flex; gap:16px; margin:10px 0; padding:8px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line);}
 .customer-stats .cs-item{font-size:12.5px; color:var(--ink-soft);}
-.customer-stats .cs-item b{display:block; font-family:'Orbitron','JetBrains Mono',monospace; font-size:15px; font-weight:900; color:var(--teal-dark);}
+.customer-stats .cs-item b{display:block; font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:900; color:var(--teal-dark);}
 .customer-products{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
 .customer-product-tag{
-  background:var(--sage); color:var(--teal-dark); font-size:11.5px; font-weight:700;
-  padding:3px 11px; border-radius:20px;
+  background:#F1E4C6; color:var(--amber); font-size:11.5px; font-weight:700;
+  padding:3px 10px; border-radius:20px;
 }
 
 /* ===== Cart floating ===== */
 .cart-fab{
   position:fixed; bottom:22px; left:22px; z-index:40;
-  background:linear-gradient(135deg, var(--amber), #C99A62); color:#3F2E17; border:none;
-  padding:15px 22px; border-radius:999px; font-family:inherit; font-weight:900; font-size:15px;
-  box-shadow:0 10px 22px -6px rgba(27,70,64,.35); cursor:pointer; display:flex; align-items:center; gap:8px;
-  transition:transform .15s;
+  background:var(--amber); color:var(--teal-dark); border:none;
+  padding:14px 20px; border-radius:30px; font-family:inherit; font-weight:900; font-size:15px;
+  box-shadow:0 6px 18px rgba(0,0,0,.25); cursor:pointer; display:flex; align-items:center; gap:8px;
 }
-.cart-fab:hover{ transform:translateY(-2px); }
 .cart-fab .n{background:var(--teal-dark); color:#fff; border-radius:50%; width:22px;height:22px;
   display:flex;align-items:center;justify-content:center; font-size:12px;}
 
 /* ===== Modal ===== */
 .overlay{
-  position:fixed; inset:0; background:rgba(20,30,28,.45); backdrop-filter:blur(2px); z-index:50;
+  position:fixed; inset:0; background:rgba(20,16,10,.5); z-index:50;
   display:flex; align-items:center; justify-content:center; padding:16px;
 }
 .modal{
-  background:var(--paper); border-radius:24px; width:100%; max-width:460px;
-  max-height:88vh; overflow-y:auto; padding:24px; border:1px solid var(--line);
-  box-shadow:0 20px 46px rgba(27,70,64,.24);
+  background:var(--paper); border-radius:16px; width:100%; max-width:460px;
+  max-height:88vh; overflow-y:auto; padding:22px; border:1px solid var(--line);
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
 }
-.modal h2{margin:0 0 16px; font-size:19px; font-weight:900; color:var(--teal-dark);}
+.modal h2{margin:0 0 16px; font-size:19px; font-weight:900;}
 .field{margin-bottom:14px;}
 .field label{display:block; font-size:13px; font-weight:700; margin-bottom:5px; color:var(--ink-soft);}
 .field input, .field textarea{
-  width:100%; padding:11px 14px; border-radius:14px; border:1.5px solid var(--line);
+  width:100%; padding:10px 12px; border-radius:8px; border:1.5px solid var(--line);
   font-family:inherit; font-size:14px; background:var(--card); color:var(--ink);
 }
 .field input:focus, .field textarea:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
 .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
 .img-upload{
-  border:2px dashed var(--sage); border-radius:16px; padding:14px; text-align:center;
+  border:2px dashed var(--line); border-radius:10px; padding:14px; text-align:center;
   cursor:pointer; color:var(--ink-soft); font-size:13px; background:var(--card);
   display:flex; flex-direction:column; align-items:center; gap:6px;
 }
-.img-upload img{max-height:110px; border-radius:12px;}
+.img-upload img{max-height:110px; border-radius:8px;}
 .modal-actions{display:flex; gap:10px; margin-top:6px;}
 
 /* ===== Theme customization ===== */
 .mode-switch{display:flex; gap:8px; margin-bottom:16px;}
 .mode-switch button{
-  flex:1; padding:10px 8px; border-radius:14px; border:1.5px solid var(--line);
+  flex:1; padding:10px 8px; border-radius:9px; border:1.5px solid var(--line);
   background:var(--card); color:var(--ink-soft); font-family:inherit; font-weight:700;
   font-size:13.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
 }
 .mode-switch button.active{background:var(--teal); border-color:var(--teal); color:#fff;}
 .color-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;}
-.color-field{display:flex; align-items:center; gap:8px; border:1.5px solid var(--line); border-radius:14px; padding:7px 10px; background:var(--card);}
+.color-field{display:flex; align-items:center; gap:8px; border:1.5px solid var(--line); border-radius:9px; padding:7px 10px; background:var(--card);}
 .color-field label{flex:1; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin:0;}
 .color-field input[type="color"]{
-  width:32px; height:32px; border-radius:10px; border:1.5px solid var(--line); padding:0; cursor:pointer; background:none;
+  width:32px; height:32px; border-radius:7px; border:1.5px solid var(--line); padding:0; cursor:pointer; background:none;
 }
 .logo-upload-row{display:flex; align-items:center; gap:12px;}
 .logo-upload-row .img-upload{flex-shrink:0; width:72px; height:72px; padding:0; justify-content:center;}
@@ -291,83 +266,67 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 
 /* cart modal items */
 .cart-row{display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line);}
-.cart-row img, .cart-row .ph{width:44px;height:44px;border-radius:12px;object-fit:cover; background:var(--sage); flex-shrink:0;}
+.cart-row img, .cart-row .ph{width:44px;height:44px;border-radius:7px;object-fit:cover; background:#E4DAC3; flex-shrink:0;}
 .cart-row .info{flex:1; min-width:0;}
 .cart-row .info h4{margin:0; font-size:13.5px; font-weight:700;}
-.cart-row .info .p{font-size:12px; color:var(--ink-soft); font-family:'Orbitron','JetBrains Mono',monospace;}
+.cart-row .info .p{font-size:12px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace;}
 .qty-ctrl{display:flex; align-items:center; gap:6px;}
 .qty-ctrl button{
-  width:26px;height:26px;border-radius:9px;border:1px solid var(--line); background:var(--card);
+  width:26px;height:26px;border-radius:6px;border:1px solid var(--line); background:var(--card);
   cursor:pointer; font-weight:900; color:var(--teal); font-size:14px;
 }
-.qty-ctrl span{min-width:18px; text-align:center; font-family:'Orbitron','JetBrains Mono',monospace; font-weight:700;}
+.qty-ctrl span{min-width:18px; text-align:center; font-family:'JetBrains Mono',monospace; font-weight:700;}
 .cart-empty{text-align:center; padding:30px 10px; color:var(--ink-soft);}
 .cart-total{display:flex;justify-content:space-between;font-weight:900;font-size:17px;margin:14px 0;
-  padding-top:12px; border-top:2px solid var(--sage);}
+  padding-top:12px; border-top:2px solid var(--ink);}
 
 /* ===== Stats & filters ===== */
-.stats-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;}
+.stats-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;}
 .stat-card{
-  background:var(--card); border:1px solid var(--line); border-radius:16px;
-  padding:11px 18px; min-width:120px; box-shadow:var(--shadow); border-inline-start:4px solid var(--teal);
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:10px 16px; min-width:120px; box-shadow:var(--shadow);
 }
-.stat-card .n{font-family:'Orbitron','JetBrains Mono',monospace; font-weight:900; font-size:19px; color:var(--teal-dark);}
+.stat-card .n{font-family:'JetBrains Mono',monospace; font-weight:900; font-size:19px; color:var(--teal-dark);}
 .stat-card .l{font-size:12px; color:var(--ink-soft); margin-top:1px;}
-.stat-card.warn{ border-inline-start-color:var(--rust); }
 .stat-card.warn .n{color:var(--rust);}
 
 .search-box{
   position:relative; min-width:200px; flex:1; max-width:280px;
 }
 .search-box input{
-  width:100%; padding:10px 14px 10px 34px; border-radius:14px; border:1.5px solid var(--line);
+  width:100%; padding:9px 13px 9px 34px; border-radius:9px; border:1.5px solid var(--line);
   font-family:inherit; font-size:13.5px; background:var(--card); color:var(--ink);
 }
 .search-box input:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
 .search-box::before{
-  content:"🔍"; position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:12px; opacity:.6;
+  content:"🔍"; position:absolute; left:11px; top:50%; transform:translateY(-50%); font-size:12px; opacity:.6;
 }
 .search-count-line{font-size:12px; color:var(--ink-soft); margin-top:4px; min-height:14px;}
 
 .filter-chips{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px;}
 .chip{
   border:1.5px solid var(--line); background:var(--card); color:var(--ink-soft);
-  padding:7px 15px; border-radius:20px; font-family:inherit; font-size:13px; font-weight:700;
+  padding:7px 14px; border-radius:20px; font-family:inherit; font-size:13px; font-weight:700;
   cursor:pointer; transition:.15s;
 }
 .chip.active{background:var(--teal); border-color:var(--teal); color:#fff;}
-.chip .c{font-family:'Orbitron','JetBrains Mono',monospace; opacity:.85; margin-inline-start:4px;}
+.chip .c{font-family:'JetBrains Mono',monospace; opacity:.85; margin-inline-start:4px;}
 
 .order-note{font-size:12.5px; color:var(--ink-soft); padding-top:6px;}
 .order-note-box{
-  background:var(--sage); background:color-mix(in srgb, var(--sage) 35%, var(--card)); border:none; border-inline-start:4px solid var(--amber);
-  border-radius:12px; padding:9px 12px; font-size:12.5px; color:var(--ink); margin:8px 0;
+  background:var(--card); border:1px solid var(--line); border-inline-start:3px solid var(--amber);
+  border-radius:8px; padding:8px 10px; font-size:12.5px; color:var(--ink); margin:8px 0;
   line-height:1.6; white-space:pre-wrap; word-break:break-word;
 }
 .icon-btn{
-  background:transparent; border:1.5px solid var(--line); border-radius:11px; width:32px; height:32px;
+  background:transparent; border:1.5px solid var(--line); border-radius:7px; width:30px; height:30px;
   cursor:pointer; font-size:13px; color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center;
-  transition:.15s;
 }
-.icon-btn:hover{border-color:var(--teal); color:var(--teal); background:var(--sage);}
-
-/* ===== Product drag & drop reorder ===== */
-.category-group{ display:contents; } /* keeps children in the parent CSS grid */
-.card.reorder-mode{ cursor:grab; }
-.drag-handle{
-  display:flex; align-items:center; justify-content:center;
-  background:var(--paper); border:1.5px dashed var(--sage); border-radius:11px;
-  color:var(--ink-soft); font-size:16px; padding:6px; margin-top:6px;
-  cursor:grab; touch-action:none; user-select:none; letter-spacing:2px;
-}
-.drag-handle:active{ cursor:grabbing; }
-.drag-ghost{ opacity:.35; }
-.drag-chosen .card, .card.drag-chosen{ box-shadow:0 10px 22px rgba(27,70,64,.22); }
-.drag-drag{ transform:rotate(-1.5deg); }
+.icon-btn:hover{border-color:var(--teal); color:var(--teal);}
 
 /* ===== Finance page ===== */
 .select-field{
-  width:100%; padding:11px 14px; border-radius:14px; border:1.5px solid var(--line);
+  width:100%; padding:10px 12px; border-radius:8px; border:1.5px solid var(--line);
   font-family:inherit; font-size:14px; background:var(--card); color:var(--ink);
 }
 .select-field:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
@@ -381,34 +340,34 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 .sale-section-label .ic{font-size:13px;}
 
 .cart-row{position:relative; padding-inline-start:0;}
-.cart-row .line-total{font-family:'Orbitron','JetBrains Mono',monospace; font-weight:800; font-size:13.5px; color:var(--teal-dark); min-width:62px; text-align:left;}
+.cart-row .line-total{font-family:'JetBrains Mono',monospace; font-weight:800; font-size:13.5px; color:var(--teal-dark); min-width:62px; text-align:left;}
 .cart-row .remove-x{
   background:transparent; border:none; color:var(--ink-soft); font-size:15px; cursor:pointer;
-  width:22px; height:22px; line-height:1; border-radius:8px; flex-shrink:0;
+  width:22px; height:22px; line-height:1; border-radius:5px; flex-shrink:0;
 }
-.cart-row .remove-x:hover{color:var(--red); background:#F3DFDA;}
+.cart-row .remove-x:hover{color:var(--red); background:#F1DAD3;}
 .cart-price-input{
-  width:66px; padding:3px 6px; border-radius:9px; border:1.5px solid var(--line);
-  background:var(--card); color:var(--teal-dark); font-family:'Orbitron','JetBrains Mono',monospace;
+  width:66px; padding:3px 6px; border-radius:6px; border:1.5px solid var(--line);
+  background:var(--card); color:var(--teal-dark); font-family:'JetBrains Mono',monospace;
   font-weight:700; font-size:12.5px; text-align:center;
 }
 .cart-price-input:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
 
 .item-count-pill{
-  background:var(--teal); color:#fff; font-family:'Orbitron','JetBrains Mono',monospace; font-size:11.5px;
+  background:var(--teal); color:#fff; font-family:'JetBrains Mono',monospace; font-size:11.5px;
   font-weight:800; padding:2px 9px; border-radius:20px; margin-inline-start:6px;
 }
 
 .receipt-box{
-  background:var(--card); border:1.5px dashed var(--sage); border-radius:16px;
+  background:var(--paper); border:1.5px dashed var(--line); border-radius:10px;
   padding:14px 16px; margin-top:4px;
 }
 .receipt-box .r-row{display:flex; justify-content:space-between; font-size:13.5px; padding:4px 0; color:var(--ink-soft);}
 .receipt-box .r-row.grand{
-  border-top:1.5px solid var(--sage); margin-top:6px; padding-top:10px;
+  border-top:1.5px solid var(--ink); margin-top:6px; padding-top:10px;
   font-size:17px; font-weight:900; color:var(--ink);
 }
-.receipt-box .r-row.grand span:last-child{font-family:'Orbitron','JetBrains Mono',monospace; color:var(--teal-dark);}
+.receipt-box .r-row.grand span:last-child{font-family:'JetBrains Mono',monospace; color:var(--teal-dark);}
 
 .shipping-hint{
   font-size:12px; color:var(--ink-soft); margin-top:5px; display:flex; align-items:center; gap:5px; justify-content:space-between;
@@ -416,34 +375,34 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 .shipping-hint a{color:var(--teal); font-weight:700; cursor:pointer;}
 
 .fin-section{
-  background:var(--card); border:1px solid var(--line); border-radius:20px;
-  padding:20px 22px; margin-bottom:18px; box-shadow:var(--shadow);
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:18px 20px; margin-bottom:18px; box-shadow:var(--shadow);
 }
-.fin-section h3{margin:0 0 3px; font-size:16.5px; font-weight:900; color:var(--teal-dark);}
+.fin-section h3{margin:0 0 3px; font-size:16.5px; font-weight:900;}
 .fin-section .fin-sub{font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;}
 .fin-section-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
 
 .fin-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px; margin-bottom:6px;}
-.fin-tile{border:1px solid var(--line); border-radius:15px; padding:13px 15px; background:var(--paper);}
-.fin-tile .n{font-family:'Orbitron','JetBrains Mono',monospace; font-weight:900; font-size:18px; color:var(--teal-dark);}
+.fin-tile{border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:#fff;}
+.fin-tile .n{font-family:'JetBrains Mono',monospace; font-weight:900; font-size:18px; color:var(--teal-dark);}
 .fin-tile .n.neg{color:var(--red);}
 .fin-tile .l{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
 
 .list-row{
   display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding:11px 0; border-bottom:1px solid var(--line);
+  padding:10px 0; border-bottom:1px solid var(--line);
 }
 .list-row:last-child{border-bottom:none;}
 .list-row .lr-main{flex:1; min-width:0;}
 .list-row .lr-title{font-weight:700; font-size:13.5px;}
 .list-row .lr-sub{font-size:11.5px; color:var(--ink-soft); margin-top:1px;}
-.list-row .lr-amount{font-family:'Orbitron','JetBrains Mono',monospace; font-weight:800; font-size:14px; white-space:nowrap;}
+.list-row .lr-amount{font-family:'JetBrains Mono',monospace; font-weight:800; font-size:14px; white-space:nowrap;}
 .list-row .lr-amount.neg{color:var(--red);}
 .list-row .lr-amount.pos{color:var(--green);}
 .list-row .lr-actions{display:flex; gap:6px;}
 
 .cat-badge{
-  font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; background:#F3E7D5; color:#A9803F;
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; background:#EFE5CB; color:var(--amber);
   display:inline-block; margin-bottom:2px;
 }
 
@@ -458,9 +417,9 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 .empty-mini{text-align:center; padding:20px; color:var(--ink-soft); font-size:13px;}
 
 .toast{
-  position:fixed; bottom:24px; right:24px; background:var(--teal-dark); color:#F3F6F5;
-  padding:13px 20px; border-radius:16px; font-weight:700; font-size:13.5px; z-index:60;
-  box-shadow:0 10px 24px rgba(27,70,64,.26); animation:toastin .25s ease;
+  position:fixed; bottom:24px; right:24px; background:var(--teal-dark); color:#F3EEDF;
+  padding:12px 18px; border-radius:9px; font-weight:700; font-size:13.5px; z-index:60;
+  box-shadow:0 8px 20px rgba(0,0,0,.25); animation:toastin .25s ease;
 }
 @keyframes toastin{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
 .loading{text-align:center; padding:60px; color:var(--ink-soft);}
@@ -468,82 +427,45 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 /* ===== Printable invoice ===== */
 #printInvoiceArea{ display:none; }
 .inv-page{
-  width:80mm; max-width:80mm; margin:0 auto; font-family:'Tajawal', sans-serif; color:#1E332E;
-  background:#fff; padding:14px 12px 18px; position:relative;
+  max-width:640px; margin:0 auto; font-family:'Tajawal', sans-serif; color:#20241F;
+  background:#fff; padding:38px 42px 30px;
 }
-.inv-topbar{ display:none; }
-.inv-head{ text-align:center; padding-bottom:12px; margin-bottom:12px; border-bottom:1.5px dashed #B9CCC8; }
-.inv-brand{ display:flex; flex-direction:column; align-items:center; gap:6px; }
-.inv-mark{
-  width:46px;height:46px;border-radius:14px; background:#1B4640; color:#F3F6F5; font-weight:900; font-size:17px;
-  display:flex;align-items:center;justify-content:center; letter-spacing:.5px; overflow:hidden; flex-shrink:0;
-}
-.inv-mark img{ width:100%; height:100%; object-fit:cover; }
-.inv-brand-name{ font-size:16.5px; font-weight:900; color:#1B4640; letter-spacing:.2px; }
-.inv-brand-sub{ font-size:10.5px; color:#7B9995; letter-spacing:.3px; }
-.inv-meta{ text-align:center; margin-top:8px; }
-.inv-meta-label{ font-size:9.5px; color:#7B9995; font-weight:700; letter-spacing:.4px; }
-.inv-meta-num{ font-family:'Orbitron','JetBrains Mono',monospace; font-size:14px; font-weight:700; color:#1B4640; letter-spacing:.5px; }
-.inv-meta-date{ font-size:10.5px; color:#7B9995; margin-top:3px; }
-.inv-status{
-  display:inline-flex; align-items:center; gap:5px; font-size:9.5px; font-weight:700;
-  padding:3px 11px; border-radius:20px; margin-top:7px;
-}
-.inv-status::before{ content:""; width:5px; height:5px; border-radius:50%; background:currentColor; }
-.inv-status.st-warehouse{ background:#F3E7D5; color:#A9803F; }
-.inv-status.st-delivering{ background:#F2E0D4; color:#C68B6C; }
-.inv-status.st-done{ background:#E1EEE2; color:#7CAB84; }
-.inv-status.st-cancelled{ background:#F3DFDA; color:#C97F72; }
-
-.inv-section-label{
-  font-size:9.5px; font-weight:800; color:#2E8578; text-transform:uppercase; letter-spacing:.6px;
-  margin-bottom:6px;
-}
-
-.inv-customer{ font-size:11.5px; line-height:1.8; margin-bottom:10px; }
-.inv-customer div{ display:flex; gap:5px; }
-.inv-customer b{ color:#4E6B66; font-weight:700; min-width:44px; flex-shrink:0; }
-
-.inv-note{
-  font-size:11px; line-height:1.6; margin-bottom:10px; background:#FBF5E9;
-  border-radius:8px; padding:8px 10px; color:#5A4A2E;
-}
-.inv-note b{ display:block; font-size:9.5px; color:#A9803F; margin-bottom:2px; text-transform:uppercase; letter-spacing:.3px; }
-
-.inv-shipping{ font-size:11px; line-height:1.8; margin-bottom:10px; }
-.inv-shipping div{ display:flex; gap:5px; }
-.inv-shipping b{ color:#4E6B66; font-weight:700; min-width:60px; flex-shrink:0; }
-
-.inv-divider{ border-top:1.5px dashed #B9CCC8; margin:10px 0; }
-
-.inv-table{ width:100%; border-collapse:collapse; margin-bottom:2px; font-size:11px; }
-.inv-table thead th{
-  text-align:right; padding:0 0 6px; font-weight:700; font-size:9.5px; color:#4E6B66;
-  border-bottom:1.5px dashed #B9CCC8; text-transform:uppercase; letter-spacing:.3px;
-}
-.inv-table thead th.c{ text-align:center; }
-.inv-table td{ padding:6px 0; font-family:'Orbitron','JetBrains Mono',monospace; font-size:10.5px; vertical-align:top; }
-.inv-table td:first-child{ font-family:'Tajawal', sans-serif; font-size:11.5px; text-align:right; }
-.inv-table td.c{ text-align:center; color:#4E6B66; }
-.inv-table tbody tr{ border-bottom:1px dotted #DCE6E3; }
-
-.inv-totals{ margin:10px 0 0; }
-.inv-totals > div{ display:flex; justify-content:space-between; padding:3px 0; font-size:11.5px; color:#4E6B66; font-family:'Orbitron','JetBrains Mono',monospace; }
+.inv-topbar{ height:6px; background:linear-gradient(90deg,#164F42,#1F6F5C 55%,#B9822F); border-radius:3px; margin-bottom:26px; }
+.inv-head{ display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:18px; margin-bottom:20px; border-bottom:1px solid #E3DBC5; }
+.inv-brand{ display:flex; align-items:center; gap:12px; }
+.inv-mark{ width:46px;height:46px;border-radius:10px; background:#164F42; color:#F3EEDF; font-weight:900; font-size:18px; display:flex;align-items:center;justify-content:center; letter-spacing:.5px; }
+.inv-brand-name{ font-size:20px; font-weight:900; color:#164F42; }
+.inv-brand-sub{ font-size:12px; color:#8A7C61; margin-top:2px; }
+.inv-meta{ text-align:left; }
+.inv-meta-label{ font-size:11px; color:#8A7C61; font-weight:700; letter-spacing:.4px; margin-bottom:3px; }
+.inv-meta-num{ font-family:'JetBrains Mono',monospace; font-size:17px; font-weight:700; color:#164F42; }
+.inv-meta-date{ font-size:12.5px; color:#8A7C61; margin-top:6px; }
+.inv-customer{ font-size:13.5px; line-height:1.85; margin-bottom:22px; background:#FAF7EF; border:1px solid #ECE3CB; border-radius:10px; padding:12px 16px; }
+.inv-customer div{ display:flex; gap:6px; }
+.inv-customer b{ color:#6B5F4C; font-weight:700; min-width:56px; }
+.inv-table{ width:100%; border-collapse:collapse; margin-bottom:6px; font-size:13px; }
+.inv-table th, .inv-table td{ text-align:right; }
+.inv-table th.c, .inv-table td.c{ text-align:center; }
+.inv-table thead th{ background:#164F42; color:#F3EEDF; padding:10px 12px; font-weight:700; font-size:12.5px; }
+.inv-table thead th:first-child{ border-radius:6px 0 0 0; }
+.inv-table thead th:last-child{ border-radius:0 6px 0 0; }
+.inv-table tbody tr:nth-child(even){ background:#FAF7EF; }
+.inv-table td{ padding:9px 12px; border-bottom:1px solid #ECE3CB; font-family:'JetBrains Mono',monospace; }
+.inv-table td:first-child{ font-family:'Tajawal', sans-serif; }
+.inv-totals{ margin:16px 0 24px; padding-top:10px; }
+.inv-totals > div{ display:flex; justify-content:space-between; padding:5px 2px; font-size:13.5px; color:#6B5F4C; font-family:'JetBrains Mono',monospace; }
 .inv-totals > div span:first-child{ font-family:'Tajawal', sans-serif; }
-.inv-grand{
-  font-weight:900 !important; font-size:15px !important; color:#1B4640 !important;
-  border-top:1.5px dashed #B9CCC8; margin-top:6px !important; padding-top:9px !important;
-}
-.inv-footer{ text-align:center; font-size:10.5px; color:#7B9995; margin-top:14px; padding-top:12px; border-top:1.5px dashed #B9CCC8; }
-.inv-footer .thanks{ font-size:12.5px; font-weight:800; color:#1B4640; margin-bottom:3px; }
-.inv-footer .barcode{ font-family:'Orbitron','JetBrains Mono',monospace; font-size:9px; letter-spacing:3px; color:#B9CCC8; margin-top:8px; }
+.inv-grand{ font-weight:900 !important; font-size:17px !important; color:#164F42 !important; background:#FBF0DB; border-radius:8px; margin-top:6px; padding:12px 14px !important; }
+.inv-footer{ text-align:center; font-size:12.5px; color:#8A7C61; margin-top:8px; padding-top:16px; border-top:1px dashed #E3DBC5; }
+.inv-footer .thanks{ font-size:14px; font-weight:700; color:#164F42; margin-bottom:4px; }
 
 @media print{
-  @page{ size:80mm auto; margin:0; }
+  @page{ size:A4; margin:12mm; }
   body *{ visibility:hidden; }
   #printInvoiceArea, #printInvoiceArea *{ visibility:visible; }
-  #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:80mm; }
-  .inv-page{ width:80mm; max-width:80mm; }
+  #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:100%; }
+  .inv-page{ padding:0; max-width:100%; }
+  .inv-topbar{ margin-bottom:20px; }
 }
 
 /* ===================================================================
@@ -632,7 +554,7 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
   /* ---- النماذج والمودالات ---- */
   body:not(.force-desktop) .overlay{ padding:12px; align-items:flex-end; }
   body:not(.force-desktop) .modal{
-    padding:16px; border-radius:22px 22px 0 0; max-width:none; max-height:92vh;
+    padding:16px; border-radius:16px 16px 0 0; max-width:none; max-height:92vh;
   }
   body:not(.force-desktop) .modal h2{ font-size:17px; }
   body:not(.force-desktop) .row2{ grid-template-columns:1fr 1fr; gap:8px; }
@@ -675,7 +597,7 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 <header>
   <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark" id="brandMark">S</div>
+      <div class="brand-mark" id="brandMark">سق</div>
       <div class="brand-text">
         <h1 id="siteTitleEl">مخزون SawwaSouq</h1>
       </div>
@@ -723,7 +645,6 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
         <input type="text" id="productSearch" placeholder="ابحث عن منتج بالاسم" oninput="handleProductSearch(this.value)">
         <div class="search-count-line" id="productSearchCount"></div>
       </div>
-      <button class="btn btn-outline" onclick="openCategoriesModal()">🗂️ الأقسام</button>
       <button class="btn btn-outline" id="reorderProductsBtn" onclick="toggleProductReorderMode()">↕️ ترتيب المنتجات</button>
       <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
     </div>
@@ -776,8 +697,6 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 <!-- ===== Firebase SDK (compat build) ===== -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-<!-- ===== SortableJS (drag & drop, works with mouse + touch) ===== -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
 <script>
 // ====== إعدادات Firebase — عبّي هاي القيم من مشروعك (Project settings > General > Your apps) ======
 const firebaseConfig = {
@@ -820,32 +739,7 @@ window.storage = {
 </script>
 
 <script>
-// ---------- global double-click guard ----------
-// Fixes double actions (double product, double order, double payout...) that
-// happen when someone taps/clicks a button twice fast, before the UI (or the
-// async save) has a chance to update. This runs in the CAPTURE phase, so it
-// intercepts the click before the button's own onclick="..." runs, and simply
-// swallows a second click on the exact same button element within 700ms.
-// If the button is re-rendered (e.g. modal closes) it's a new element, so a
-// genuine next click on a fresh screen is never blocked.
-(function(){
-  let lastEl = null, lastTime = 0;
-  document.addEventListener('click', function(e){
-    const btn = e.target.closest('button, .icon-btn, .season-switch');
-    if(!btn) return;
-    const now = Date.now();
-    if(btn === lastEl && (now - lastTime) < 700){
-      e.stopImmediatePropagation();
-      e.preventDefault();
-      return;
-    }
-    lastEl = btn;
-    lastTime = now;
-  }, true);
-})();
-
 let PRODUCTS = [];
-let CATEGORIES = []; // product sections, e.g. "Glass Pad", "Rubber Pad" — {id, name, createdAt}
 let ORDERS = [];
 let CART = []; // {productId, qty}
 let EXPENSES = [];
@@ -871,10 +765,10 @@ let THEME_CUSTOM = null;  // shared site-wide color/logo/name customization
 let editingLogoImage = null;
 
 const DEFAULT_THEME_COLORS = {
-  teal:'#2E8578', tealDark:'#1B4640', amber:'#D9B27F',
-  paper:'#F3F6F5', card:'#FFFFFF', ink:'#233F3A'
+  teal:'#1F6F5C', tealDark:'#164F42', amber:'#B9822F',
+  paper:'#EDE5D3', card:'#FBF7EE', ink:'#2B241A'
 };
-const DEFAULT_BRAND_TEXT = 'S';
+const DEFAULT_BRAND_TEXT = 'سق';
 const DEFAULT_SITE_TITLE = 'مخزون SawwaSouq';
 
 // ---------- Activity Logs (سجل العمليات) ----------
@@ -885,7 +779,6 @@ const DEFAULT_SITE_TITLE = 'مخزون SawwaSouq';
 const ACTIVITY_LOG_COLLECTION = 'activity_logs';
 const ACTIVITY_ICONS = {
   product_add:'🆕', product_edit:'✎', product_delete:'🗑', product_move:'📦',
-  category_add:'🗂️', category_edit:'✎', category_delete:'🗑',
   restock:'📥',
   order_create:'🛒', order_status:'🚚', order_edit:'✎', order_note:'📝',
   order_cancel:'❌', order_delete:'🗑',
@@ -931,7 +824,6 @@ function openActivityLogModal(){
         <select class="select-field" id="activityLogFilterSelect" onchange="handleActivityLogFilterChange(this.value)">
           <option value="">كل العمليات</option>
           <option value="product">المنتجات</option>
-          <option value="category">الأقسام</option>
           <option value="order">الطلبات</option>
           <option value="restock">استلام بضاعة</option>
           <option value="expense">المصاريف</option>
@@ -1103,7 +995,7 @@ function openThemeSettingsModal(){
           </label>
           <div class="field">
             <label>نص الشعار (لو ما في صورة)</label>
-            <input type="text" id="fBrandText" maxlength="3" value="${escapeHtml(brandText)}" placeholder="مثال: S">
+            <input type="text" id="fBrandText" maxlength="3" value="${escapeHtml(brandText)}" placeholder="مثال: سق">
             ${editingLogoImage ? `<button type="button" class="btn btn-ghost btn-sm" style="margin-top:6px; padding:4px 8px;" onclick="removeLogoImage()">إزالة الصورة والرجوع للنص</button>` : ''}
           </div>
         </div>
@@ -1242,7 +1134,6 @@ async function loadAll(){
 // Loads the old un-scoped keys (pre-season version of the app)
 async function loadLegacyFlatData(){
   try{ const p = await window.storage.get('products-list', false); PRODUCTS = p ? JSON.parse(p.value) : []; }catch(e){ PRODUCTS = []; }
-  try{ const cg = await window.storage.get('categories-list', false); CATEGORIES = cg ? JSON.parse(cg.value) : []; }catch(e){ CATEGORIES = []; }
   try{ const o = await window.storage.get('orders-list', false); ORDERS = o ? JSON.parse(o.value) : []; }catch(e){ ORDERS = []; }
   migrateLegacyOrderStatuses();
   try{ const ex = await window.storage.get('expenses-list', false); EXPENSES = ex ? JSON.parse(ex.value) : []; }catch(e){ EXPENSES = []; }
@@ -1261,7 +1152,6 @@ async function loadLegacyFlatData(){
 async function loadSeasonData(seasonId){
   const sk = (base)=> base + '::' + seasonId;
   try{ const p = await window.storage.get(sk('products-list'), false); PRODUCTS = p ? JSON.parse(p.value) : []; }catch(e){ PRODUCTS = []; }
-  try{ const cg = await window.storage.get(sk('categories-list'), false); CATEGORIES = cg ? JSON.parse(cg.value) : []; }catch(e){ CATEGORIES = []; }
   try{ const o = await window.storage.get(sk('orders-list'), false); ORDERS = o ? JSON.parse(o.value) : []; }catch(e){ ORDERS = []; }
   migrateLegacyOrderStatuses();
   try{ const ex = await window.storage.get(sk('expenses-list'), false); EXPENSES = ex ? JSON.parse(ex.value) : []; }catch(e){ EXPENSES = []; }
@@ -1303,7 +1193,7 @@ function migrateLegacyOrderStatuses(){
 
 async function saveAllCurrentSeasonData(){
   await Promise.all([
-    saveProducts(), saveCategories(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
+    saveProducts(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
     saveReserveLog(), savePartnerPayouts(), saveSettlements(), saveRestockLog(), saveFinanceConfig()
   ]);
 }
@@ -1417,10 +1307,6 @@ function deleteShippingCompany(companyId){
 
 async function saveProducts(){
   try{ await window.storage.set(seasonKey('products-list'), JSON.stringify(PRODUCTS), false); }
-  catch(e){ toast('تعذّر الحفظ، حاول مجددًا'); }
-}
-async function saveCategories(){
-  try{ await window.storage.set(seasonKey('categories-list'), JSON.stringify(CATEGORIES), false); }
   catch(e){ toast('تعذّر الحفظ، حاول مجددًا'); }
 }
 async function saveOrders(){
@@ -1574,7 +1460,7 @@ function deleteSeason(seasonId){
   const s = SEASONS.find(x=>x.id===seasonId);
   showConfirm(`حذف "${s.name}" نهائيًا؟ رح تنحذف كل منتجاته وطلباته وحساباته بدون رجعة.`, async ()=>{
     const sk = (base)=> base + '::' + seasonId;
-    const keys = ['products-list','categories-list','orders-list','expenses-list','partners-list','capital-log','reserve-log','partner-payouts','settlements-list','restock-log','finance-config'];
+    const keys = ['products-list','orders-list','expenses-list','partners-list','capital-log','reserve-log','partner-payouts','settlements-list','restock-log','finance-config'];
     for(const k of keys){
       try{ await window.storage.delete(sk(k), false); }catch(e){ /* key may not exist, ignore */ }
     }
@@ -1730,136 +1616,69 @@ function renderProducts(){
     </div>`;
     return;
   }
-  const q = productSearchQuery;
-  const matchesSearch = p => !q || p.name.toLowerCase().includes(q);
-  const totalMatches = PRODUCTS.filter(matchesSearch).length;
-  if(countEl) countEl.textContent = q ? `${totalMatches} نتيجة` : '';
-  if(q && totalMatches===0){
+  const filtered = productSearchQuery
+    ? PRODUCTS.filter(p=>p.name.toLowerCase().includes(productSearchQuery))
+    : PRODUCTS;
+  if(countEl) countEl.textContent = productSearchQuery ? `${filtered.length} نتيجة` : '';
+  if(filtered.length===0){
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="big">🔍</div>
       <div style="font-weight:700;">ما لقينا منتج يطابق البحث</div>
     </div>`;
     return;
   }
-
-  // Group products into sections: "بدون قسم" (only shown if it has products) then
-  // every defined category in its saved order — all on the SAME page, each section
-  // is just a divider line with a title above its products (no separate tabs/pages).
-  const groups = [];
-  const uncategorized = PRODUCTS.filter(p=>!p.categoryId);
-  if(uncategorized.length>0){
-    groups.push({id:null, name:'بدون قسم', products:uncategorized});
-  }
-  CATEGORIES.forEach(cat=>{
-    groups.push({id:cat.id, name:cat.name, products: PRODUCTS.filter(p=>p.categoryId===cat.id)});
-  });
-
-  let html = '';
-  groups.forEach(g=>{
-    const visible = g.products.filter(matchesSearch);
-    if(q && visible.length===0) return; // hide empty sections while searching
-    html += `<div class="category-divider">
-      <span class="cd-title">${escapeHtml(g.name)}</span>
-      <span class="cd-count">${g.products.length}</span>
-    </div>`;
-    if(visible.length===0){
-      html += `<div class="empty-mini" style="grid-column:1/-1;">لا يوجد منتجات بهذا القسم بعد</div>`;
-    } else {
-      const catKey = g.id===null ? 'none' : g.id;
-      html += `<div class="category-group" data-cat-key="${catKey}">${visible.map(p=>renderProductCard(p)).join('')}</div>`;
-    }
-  });
-  grid.innerHTML = html;
-  initProductSortables();
-}
-
-function renderProductCard(p){
-  const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
-  const imgHtml = p.image
-    ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
-    : `<div class="card-img empty"></div>`;
-  const reorderRow = productReorderMode ? `
-      <div class="drag-handle" title="اسحب لتغيير الترتيب">⠿ اسحب للترتيب</div>` : '';
-  return `
-  <div class="card ${productReorderMode?'reorder-mode':''}" data-product-id="${p.id}">
-    ${imgHtml}
-    <div class="stock-tag ${stockClass}">الكمية: ${p.qty}</div>
-    <div class="card-body">
-      <h3>${escapeHtml(p.name)}</h3>
-      <div class="price">${money(p.price)} د.أ <span style="font-size:11px; color:var(--ink-soft); font-weight:500;">مفرق</span></div>
-      ${p.wholesalePrice ? `<div style="font-size:12px; color:var(--ink-soft); font-family:'Orbitron','JetBrains Mono',monospace; margin-top:-4px;">جملة: ${money(p.wholesalePrice)} د.أ</div>` : ''}
-      <div class="card-actions">
-        <button class="btn btn-primary btn-sm" style="flex:1" ${p.qty<=0?'disabled':''} onclick="quickSell('${p.id}')">بيع الآن</button>
-        <button class="btn btn-outline btn-sm" ${p.qty<=0?'disabled':''} onclick="addToCart('${p.id}')" title="أضف للسلة">🛒</button>
-        <button class="icon-btn" onclick="openRestockModal('${p.id}')" title="استلام بضاعة">📥</button>
-        <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">تعديل</button>
+  grid.innerHTML = filtered.map((p,idx)=>{
+    const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
+    const imgHtml = p.image
+      ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
+      : `<div class="card-img empty"></div>`;
+    const isFirst = idx===0;
+    const isLast = idx===filtered.length-1;
+    const reorderRow = productReorderMode ? `
+        <div class="card-actions" style="margin-top:6px;">
+          <button class="icon-btn" style="flex:1" ${isFirst?'disabled':''} onclick="moveProduct('${p.id}',-1)" title="تحريك لأعلى">⬆️</button>
+          <button class="icon-btn" style="flex:1" ${isLast?'disabled':''} onclick="moveProduct('${p.id}',1)" title="تحريك لأسفل">⬇️</button>
+        </div>` : '';
+    return `
+    <div class="card">
+      ${imgHtml}
+      <div class="stock-tag ${stockClass}">الكمية: ${p.qty}</div>
+      <div class="card-body">
+        <h3>${escapeHtml(p.name)}</h3>
+        <div class="price">${money(p.price)} د.أ <span style="font-size:11px; color:var(--ink-soft); font-weight:500;">مفرق</span></div>
+        ${p.wholesalePrice ? `<div style="font-size:12px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; margin-top:-4px;">جملة: ${money(p.wholesalePrice)} د.أ</div>` : ''}
+        <div class="card-actions">
+          <button class="btn btn-primary btn-sm" style="flex:1" ${p.qty<=0?'disabled':''} onclick="quickSell('${p.id}')">بيع الآن</button>
+          <button class="btn btn-outline btn-sm" ${p.qty<=0?'disabled':''} onclick="addToCart('${p.id}')" title="أضف للسلة">🛒</button>
+          <button class="icon-btn" onclick="openRestockModal('${p.id}')" title="استلام بضاعة">📥</button>
+          <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">تعديل</button>
+        </div>
+        ${reorderRow}
       </div>
-      ${reorderRow}
-    </div>
-  </div>`;
+    </div>`;
+  }).join('');
 }
 
 let productReorderMode = false;
-let productSortables = [];
-
 function toggleProductReorderMode(){
-  if(!productReorderMode && productSearchQuery){
-    toast('امسح البحث الأول قبل ما تبدأ الترتيب');
-    return;
-  }
   productReorderMode = !productReorderMode;
   const btn = document.getElementById('reorderProductsBtn');
   if(btn) btn.textContent = productReorderMode ? '✅ تم الترتيب' : '↕️ ترتيب المنتجات';
   renderProducts();
 }
-
-function destroyProductSortables(){
-  productSortables.forEach(s=>{ try{ s.destroy(); }catch(e){} });
-  productSortables = [];
-}
-
-function initProductSortables(){
-  destroyProductSortables();
-  if(!productReorderMode || typeof Sortable==='undefined') return;
-  document.querySelectorAll('#productsGrid .category-group').forEach(group=>{
-    const s = new Sortable(group, {
-      handle: '.drag-handle',
-      animation: 150,
-      delay: 60,
-      delayOnTouchOnly: true,
-      ghostClass: 'drag-ghost',
-      chosenClass: 'drag-chosen',
-      dragClass: 'drag-drag',
-      onEnd: ()=>{
-        const catKey = group.dataset.catKey;
-        const catId = catKey==='none' ? null : catKey;
-        const orderedIds = Array.from(group.children)
-          .map(el=>el.dataset.productId)
-          .filter(Boolean);
-        reorderProductsInCategory(catId, orderedIds);
-      }
-    });
-    productSortables.push(s);
-  });
-}
-
-async function reorderProductsInCategory(catId, orderedIds){
-  // Rebuilds PRODUCTS keeping every OTHER category's items exactly where they
-  // were, and swapping in this category's items in the new drag order — so
-  // dragging within one section never disturbs the order of other sections.
-  const byId = {};
-  PRODUCTS.filter(p=>(p.categoryId||null)===catId).forEach(p=>{ byId[p.id]=p; });
-  const newOrderForCat = orderedIds.map(id=>byId[id]).filter(Boolean);
-  let ptr = 0;
-  PRODUCTS = PRODUCTS.map(p=>{
-    if((p.categoryId||null)===catId){
-      const next = newOrderForCat[ptr];
-      ptr++;
-      return next || p;
-    }
-    return p;
-  });
+async function moveProduct(productId, direction){
+  // direction: -1 = up (earlier), 1 = down (later)
+  // Reordering always applies to the full PRODUCTS list so the saved order
+  // stays correct even if a search filter is active in the grid.
+  const idx = PRODUCTS.findIndex(p=>p.id===productId);
+  if(idx===-1) return;
+  const targetIdx = idx + direction;
+  if(targetIdx<0 || targetIdx>=PRODUCTS.length) return;
+  const tmp = PRODUCTS[idx];
+  PRODUCTS[idx] = PRODUCTS[targetIdx];
+  PRODUCTS[targetIdx] = tmp;
   await saveProducts();
+  renderProducts();
 }
 
 const statusMeta = {
@@ -2063,113 +1882,6 @@ function escapeHtml(s){
   const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML;
 }
 
-// ---------- product categories (أقسام مثل: Glass Pad / Rubber Pad) ----------
-// Categories just group products visually into labeled sections on the same
-// products page (a divider line + title) — no separate pages/tabs involved.
-function openCategoriesModal(){
-  const modalRoot = document.getElementById('modalRoot');
-  const rows = CATEGORIES.length===0
-    ? `<div class="empty-mini">ما في أقسام مضافة بعد — المنتجات كلها بتظهر تحت "بدون قسم"</div>`
-    : CATEGORIES.map((c,idx)=>{
-        const count = PRODUCTS.filter(p=>p.categoryId===c.id).length;
-        const isFirst = idx===0, isLast = idx===CATEGORIES.length-1;
-        return `
-        <div class="list-row">
-          <div class="lr-main">
-            <div class="lr-title">${escapeHtml(c.name)}</div>
-            <div class="lr-sub">${count} منتج</div>
-          </div>
-          <div class="lr-actions">
-            <button class="icon-btn" ${isFirst?'disabled':''} onclick="moveCategory('${c.id}',-1)" title="تحريك لأعلى">⬆️</button>
-            <button class="icon-btn" ${isLast?'disabled':''} onclick="moveCategory('${c.id}',1)" title="تحريك لأسفل">⬇️</button>
-            <button class="icon-btn" onclick="openCategoryForm('${c.id}')" title="تعديل">✎</button>
-            <button class="icon-btn" onclick="deleteCategory('${c.id}')" title="حذف">🗑</button>
-          </div>
-        </div>`;
-      }).join('');
-  modalRoot.innerHTML = `
-  <div class="overlay" onclick="if(event.target===this) closeModal()">
-    <div class="modal">
-      <h2>🗂️ أقسام المنتجات</h2>
-      <div class="fin-sub">قسّم منتجاتك لأقسام (متل: Glass Pad، Rubber Pad) — كلها بتظهر بنفس صفحة المنتجات، كل قسم بعنوانه وخط فاصل فوق منتجاته</div>
-      <div style="margin:14px 0;">${rows}</div>
-      <button class="btn btn-primary btn-block" onclick="openCategoryForm()">+ إضافة قسم</button>
-      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
-    </div>
-  </div>`;
-}
-
-function openCategoryForm(categoryId){
-  const c = categoryId ? CATEGORIES.find(x=>x.id===categoryId) : null;
-  const modalRoot = document.getElementById('modalRoot');
-  modalRoot.innerHTML = `
-  <div class="overlay" onclick="if(event.target===this) closeModal()">
-    <div class="modal">
-      <h2>${c ? 'تعديل القسم' : 'إضافة قسم جديد'}</h2>
-      <div class="field">
-        <label>اسم القسم *</label>
-        <input type="text" id="catName" value="${c ? escapeHtml(c.name) : ''}" placeholder="مثال: Glass Pad">
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-primary btn-block" onclick="saveCategoryForm(${c ? `'${c.id}'` : 'null'})">حفظ</button>
-      </div>
-      ${c ? `<div style="margin-top:10px;"><button class="btn btn-danger btn-block" onclick="deleteCategory('${c.id}')">حذف القسم</button></div>` : ''}
-      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="openCategoriesModal()">رجوع</button></div>
-    </div>
-  </div>`;
-}
-
-async function saveCategoryForm(categoryId){
-  const name = document.getElementById('catName').value.trim();
-  if(!name){ toast('اكتب اسم القسم'); return; }
-  const isNew = !categoryId;
-  if(categoryId){
-    const c = CATEGORIES.find(x=>x.id===categoryId);
-    c.name = name;
-  } else {
-    CATEGORIES.push({id:uid('cat'), name, createdAt:Date.now()});
-  }
-  await saveCategories();
-  toast('تم الحفظ');
-  render();
-  logActivity(isNew ? 'category_add' : 'category_edit', `${isNew ? 'إضافة' : 'تعديل'} قسم "${name}"`, {});
-  openCategoriesModal();
-}
-
-function deleteCategory(categoryId){
-  const c = CATEGORIES.find(x=>x.id===categoryId);
-  if(!c) return;
-  const count = PRODUCTS.filter(p=>p.categoryId===categoryId).length;
-  showConfirm(count>0 ? `حذف قسم "${c.name}"؟ منتجاته (${count}) رح ترجع لـ "بدون قسم".` : `حذف قسم "${c.name}"؟`, async ()=>{
-    PRODUCTS.forEach(p=>{ if(p.categoryId===categoryId) p.categoryId = null; });
-    CATEGORIES = CATEGORIES.filter(x=>x.id!==categoryId);
-    await saveProducts();
-    await saveCategories();
-    render();
-    logActivity('category_delete', `حذف قسم "${c.name}"`, {});
-    openCategoriesModal();
-  }, 'حذف القسم');
-}
-
-async function moveCategory(categoryId, direction){
-  const idx = CATEGORIES.findIndex(c=>c.id===categoryId);
-  if(idx===-1) return;
-  const targetIdx = idx + direction;
-  if(targetIdx<0 || targetIdx>=CATEGORIES.length) return;
-  const tmp = CATEGORIES[idx];
-  CATEGORIES[idx] = CATEGORIES[targetIdx];
-  CATEGORIES[targetIdx] = tmp;
-  await saveCategories();
-  render();
-  openCategoriesModal();
-}
-
-function buildCategorySelectOptions(selectedId){
-  return `<option value="">بدون قسم</option>` + CATEGORIES.map(c=>
-    `<option value="${c.id}" ${selectedId===c.id?'selected':''}>${escapeHtml(c.name)}</option>`
-  ).join('');
-}
-
 // ---------- product CRUD ----------
 function openProductModal(productId, cloneFromId){
   const p = productId ? PRODUCTS.find(x=>x.id===productId) : null;
@@ -2193,10 +1905,6 @@ function openProductModal(productId, cloneFromId){
       <div class="field">
         <label>اسم المنتج</label>
         <input type="text" id="fName" value="${prefill ? escapeHtml(prefill.name) : ''}" placeholder="مثال: قميص قطن أبيض">
-      </div>
-      <div class="field">
-        <label>القسم</label>
-        <select id="fCategory" class="select-field">${buildCategorySelectOptions(prefill ? prefill.categoryId : null)}</select>
       </div>
       <div class="row2">
         <div class="field">
@@ -2257,7 +1965,6 @@ function handleImageUpload(e){
 
 async function saveProductForm(productId){
   const name = document.getElementById('fName').value.trim();
-  const categoryId = document.getElementById('fCategory').value || null;
   const qty = parseInt(document.getElementById('fQty').value || '0', 10);
   const price = parseFloat(document.getElementById('fPrice').value || '0');
   const wholesalePrice = parseFloat(document.getElementById('fWholesale').value || '0');
@@ -2268,11 +1975,11 @@ async function saveProductForm(productId){
 
   if(productId){
     const p = PRODUCTS.find(x=>x.id===productId);
-    p.name=name; p.categoryId=categoryId; p.qty=qty; p.price=price; p.wholesalePrice=wholesalePrice; p.image=editingImageData;
+    p.name=name; p.qty=qty; p.price=price; p.wholesalePrice=wholesalePrice; p.image=editingImageData;
     toast('تم حفظ التعديلات');
     logActivity('product_edit', `تعديل المنتج "${name}"`, {productId});
   } else {
-    const newProduct = {id:uid('prod'), name, categoryId, qty, price, wholesalePrice, image:editingImageData, createdAt:Date.now()};
+    const newProduct = {id:uid('prod'), name, qty, price, wholesalePrice, image:editingImageData, createdAt:Date.now()};
     PRODUCTS.push(newProduct);
     toast('تمت إضافة المنتج');
     logActivity('product_add', `إضافة منتج جديد "${name}" (الكمية: ${qty})`, {productId:newProduct.id});
@@ -2337,7 +2044,7 @@ async function moveProductToSeason(productId, targetSeasonId){
     const r = await window.storage.get(targetKey, false);
     targetProducts = r ? JSON.parse(r.value) : [];
   }catch(e){ targetProducts = []; }
-  targetProducts.push(Object.assign({}, p, {categoryId: null}));
+  targetProducts.push(p);
   try{
     await window.storage.set(targetKey, JSON.stringify(targetProducts), false);
   }catch(e){ toast('تعذّر النقل، حاول مجددًا'); return; }
@@ -2988,46 +2695,21 @@ function printInvoice(orderId){
       <td class="c">${money(it.price*it.qty)}</td>
     </tr>
   `).join('');
-
-  const brandText = (THEME_CUSTOM && THEME_CUSTOM.brandText) || DEFAULT_BRAND_TEXT;
-  const siteTitle = (THEME_CUSTOM && THEME_CUSTOM.siteTitle) || DEFAULT_SITE_TITLE;
-  const logoImage = THEME_CUSTOM && THEME_CUSTOM.logoImage;
-  const markHtml = logoImage ? `<img src="${logoImage}" alt="شعار">` : escapeHtml(brandText);
-
-  const statusMap = {
-    warehouse: {cls:'st-warehouse', label:'بالمخزن'},
-    delivering: {cls:'st-delivering', label:'قيد التوصيل'},
-    done: {cls:'st-done', label:'تم التسليم'},
-    cancelled: {cls:'st-cancelled', label:'ملغي'}
-  };
-  const st = statusMap[o.status] || null;
-  const statusHtml = st ? `<div class="inv-status ${st.cls}">${st.label}</div>` : '';
-
-  const noteHtml = o.note ? `
-    <div class="inv-note">
-      <b>ملاحظة الطلب</b>
-      ${escapeHtml(o.note)}
-    </div>` : '';
-
-  const shippingHtml = o.shippingCompanyName ? `
-    <div class="inv-shipping">
-      <div><b>شركة الشحن</b> ${escapeHtml(o.shippingCompanyName)}</div>
-      ${o.shippingCompanyPhone ? `<div><b>هاتف الشحن</b> ${escapeHtml(o.shippingCompanyPhone)}</div>` : ''}
-    </div>` : '';
-
   area.innerHTML = `
     <div class="inv-page">
+      <div class="inv-topbar"></div>
       <div class="inv-head">
         <div class="inv-brand">
-          <div class="inv-mark">${markHtml}</div>
-          <div class="inv-brand-name">${escapeHtml(siteTitle)}</div>
-          <div class="inv-brand-sub">فاتورة بيع</div>
+          <div class="inv-mark">SS</div>
+          <div>
+            <div class="inv-brand-name">مخزون SawwaSouq</div>
+            <div class="inv-brand-sub">فاتورة بيع</div>
+          </div>
         </div>
         <div class="inv-meta">
           <div class="inv-meta-label">رقم الفاتورة</div>
           <div class="inv-meta-num">#${o.id.slice(-6)}</div>
           <div class="inv-meta-date">${formatDate(o.createdAt)}</div>
-          ${statusHtml}
         </div>
       </div>
       <div class="inv-section-label">بيانات العميل</div>
@@ -3036,11 +2718,8 @@ function printInvoice(orderId){
         <div><b>الهاتف</b> ${escapeHtml(o.phone || '-')}</div>
         ${o.address ? `<div><b>العنوان</b> ${escapeHtml(o.address)}</div>` : ''}
       </div>
-      ${shippingHtml ? `<div class="inv-divider"></div>${shippingHtml}` : ''}
-      ${noteHtml ? `<div class="inv-divider"></div>${noteHtml}` : ''}
-      <div class="inv-divider"></div>
       <table class="inv-table">
-        <thead><tr><th>الصنف</th><th class="c">ك</th><th class="c">سعر</th><th class="c">إجمالي</th></tr></thead>
+        <thead><tr><th>الصنف</th><th class="c">الكمية</th><th class="c">السعر</th><th class="c">الإجمالي</th></tr></thead>
         <tbody>${itemsRows}</tbody>
       </table>
       <div class="inv-totals">
@@ -3050,7 +2729,7 @@ function printInvoice(orderId){
       </div>
       <div class="inv-footer">
         <div class="thanks">شكرًا لتعاملكم معنا 🌟</div>
-        <div class="barcode">*${o.id.slice(-10).toUpperCase()}*</div>
+        <div>مخزون SawwaSouq</div>
       </div>
     </div>
   `;
