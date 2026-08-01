@@ -540,10 +540,10 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 
 @media print{
   @page{ size:80mm auto; margin:0; }
-  body > *{ display:none !important; }
-  #printInvoiceArea{ display:block !important; }
-  #printInvoiceArea *{ display:revert; }
-  .inv-page{ width:80mm; max-width:80mm; margin:0; }
+  body *{ visibility:hidden; }
+  #printInvoiceArea, #printInvoiceArea *{ visibility:visible; }
+  #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:80mm; }
+  .inv-page{ width:80mm; max-width:80mm; }
 }
 
 /* ===================================================================
@@ -781,12 +781,12 @@ main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 <script>
 // ====== إعدادات Firebase — عبّي هاي القيم من مشروعك (Project settings > General > Your apps) ======
 const firebaseConfig = {
-  apiKey: "AIzaSyDHmhNNsyc9ab_z1DuwlvBj-mihLet9hug",
-  authDomain: "sawwasouq-ea644.firebaseapp.com",
-  projectId: "sawwasouq-ea644",
-  storageBucket: "sawwasouq-ea644.firebasestorage.app",
-  messagingSenderId: "459519224953",
-  appId: "1:459519224953:web:28519358a0ff51155938a8"
+  apiKey: "AIzaSyAHz3anxeVjOm-y0w1w-Sb8vvBYjeV8gC4",
+  authDomain: "sawwa-60ae2.firebaseapp.com",
+  projectId: "sawwa-60ae2",
+  storageBucket: "sawwa-60ae2.firebasestorage.app",
+  messagingSenderId: "571078819349",
+  appId: "1:571078819349:web:ec8dc899ca19db81d6981c"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
