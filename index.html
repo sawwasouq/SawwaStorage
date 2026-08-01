@@ -5,262 +5,369 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مخزون SawwaSouq</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&display=swap');
 
 :root{
-  --paper:#EDE5D3;
-  --card:#FBF7EE;
-  --ink:#2B241A;
-  --ink-soft:#6B5F4C;
-  --line:#D9CBA9;
-  --teal:#1F6F5C;
-  --teal-dark:#164F42;
-  --amber:#B9822F;
-  --rust:#B0532A;
-  --green:#3E7C4A;
-  --red:#A6402F;
-  --shadow: 0 1px 0 rgba(43,36,26,.06);
+  /* ===== Sawwa Souq brand palette — soft & gentle ===== */
+  --paper:#F3F6F5;
+  --card:#FFFFFF;
+  --ink:#233F3A;
+  --ink-soft:#7B9995;
+  --line:#E3EBE9;
+  --teal:#2E8578;
+  --teal-dark:#1B4640;
+  --sage:#A9C2BE;
+  --amber:#D9B27F;
+  --rust:#C68B6C;
+  --green:#7CAB84;
+  --red:#C97F72;
+  --shadow: 0 3px 12px rgba(27,70,64,.06);
+}
+/* ===== Dark theme ===== */
+body.dark-theme{
+  --paper:#12201D;
+  --card:#1B2B27;
+  --ink:#E8F0ED;
+  --ink-soft:#9DB6B1;
+  --line:#2B3D38;
+  --teal:#4CAF9B;
+  --teal-dark:#2A6459;
+  --sage:#87A6A1;
+  --amber:#E2BE8C;
+  --rust:#D69B7E;
+  --green:#8DC195;
+  --red:#D69083;
+  --shadow: 0 3px 14px rgba(0,0,0,.32);
+}
+body.dark-theme{
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.025) 1px, transparent 0) 0 0/16px 16px,
+    var(--paper);
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
   background:
-    radial-gradient(circle at 1px 1px, rgba(43,36,26,.045) 1px, transparent 0) 0 0/16px 16px,
+    radial-gradient(circle at 1px 1px, rgba(27,70,64,.04) 1px, transparent 0) 0 0/16px 16px,
     var(--paper);
   color:var(--ink);
-  font-family:'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+  font-family:'Baloo Bhaijaan 2', 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
   min-height:100vh;
   padding-bottom:100px;
   overflow-x:hidden;
+  transition:background-color .2s, color .2s;
 }
 /* Desktop-view mode: force the real desktop width and scroll sideways instead of
    zooming/scaling the page down — this keeps text and controls at full, normal size
    in BOTH modes, and mobile mode is never affected by having used desktop mode. */
 body.force-desktop{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
 body.force-desktop header, body.force-desktop main{ min-width:1100px; }
-.mono{font-family:'JetBrains Mono', monospace;}
+.mono{font-family:'Orbitron', 'JetBrains Mono', monospace; letter-spacing:.2px;}
 
 /* ===== Header ===== */
 header{
-  background:var(--teal-dark);
-  color:#F3EEDF;
-  padding:18px 20px 16px;
+  background:linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 130%);
+  color:#F3F6F5;
+  padding:20px 22px 18px;
   position:sticky; top:0; z-index:30;
-  box-shadow:0 3px 10px rgba(0,0,0,.15);
+  border-radius:0 0 26px 26px;
+  box-shadow:0 10px 24px -8px rgba(27,70,64,.35);
 }
-.header-inner{display:flex; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto;}
-.brand{display:flex; align-items:center; gap:10px;}
+.header-inner{display:flex; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto; gap:14px;}
+.brand{display:flex; align-items:center; gap:12px;}
 .brand-mark{
-  width:38px;height:38px;border-radius:8px;
-  background:var(--amber);
+  width:44px;height:44px;border-radius:15px;
+  background:#F3F6F5;
   display:flex;align-items:center;justify-content:center;
-  font-weight:900;color:var(--teal-dark);font-size:18px;
-  transform:rotate(-4deg);
-  box-shadow:2px 2px 0 rgba(0,0,0,.2);
+  font-family:'Orbitron','Baloo Bhaijaan 2',sans-serif;
+  font-weight:800;color:var(--teal-dark);font-size:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,.16);
+  overflow:hidden;
 }
-.brand-text h1{margin:0;font-size:19px;font-weight:900;letter-spacing:.3px;}
+.brand-mark img{width:100%;height:100%;object-fit:cover;}
+.brand-text h1{margin:0;font-size:19px;font-weight:700;letter-spacing:.3px;}
 .season-switch{
-  background:#E14B3D; border:1px solid #E14B3D;
-  color:#fff; font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.3px;
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3);
+  color:#fff; font-family:'Orbitron','JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.3px;
   padding:3px 10px; border-radius:20px; cursor:pointer; transition:.15s; font-weight:700;
 }
-.season-switch:hover{background:#c93f32; border-color:#c93f32;}
+.season-switch:hover{background:rgba(255,255,255,.26);}
 
 .header-right{display:flex; align-items:center; gap:10px;}
 .view-mode-btn{
-  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
-  color:#F3EEDF; width:38px; height:38px; border-radius:9px; font-size:17px;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+  color:#F3F6F5; width:38px; height:38px; border-radius:13px; font-size:17px;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
   transition:.15s; flex-shrink:0;
 }
-.view-mode-btn:hover{background:rgba(255,255,255,.18);}
+.view-mode-btn:hover{background:rgba(255,255,255,.22); transform:translateY(-1px);}
 
-.tabs{display:flex; gap:6px; background:rgba(255,255,255,.08); padding:4px; border-radius:10px;}
+.tabs{display:flex; gap:4px; background:rgba(255,255,255,.12); padding:5px; border-radius:16px;}
 .tab-btn{
-  background:transparent;border:none;color:#DDE7DF;padding:9px 16px;border-radius:7px;
-  font-family:inherit;font-weight:700;font-size:14.5px;cursor:pointer;transition:.15s;
+  background:transparent;border:none;color:#E4EEEB;padding:9px 16px;border-radius:12px;
+  font-family:inherit;font-weight:700;font-size:14.5px;cursor:pointer;transition:.18s;
 }
-.tab-btn.active{background:var(--amber); color:var(--teal-dark);}
+.tab-btn.active{background:#F3F6F5; color:var(--teal-dark); box-shadow:0 3px 8px rgba(0,0,0,.14);}
 .tab-count{
-  display:inline-block;margin-inline-start:6px;background:rgba(0,0,0,.18);
-  border-radius:20px;padding:1px 7px;font-size:11px;font-family:'JetBrains Mono',monospace;
+  display:inline-block;margin-inline-start:6px;background:rgba(255,255,255,.2);
+  border-radius:20px;padding:1px 7px;font-size:11px;font-family:'Orbitron','JetBrains Mono',monospace;
 }
-.tab-btn.active .tab-count{background:rgba(0,0,0,.15);}
+.tab-btn.active .tab-count{background:var(--sage); color:var(--teal-dark);}
 
-main{max-width:1100px; margin:0 auto; padding:22px 18px;}
+main{max-width:1100px; margin:0 auto; padding:26px 18px;}
 
 /* ===== Toolbar ===== */
-.toolbar{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;}
-.toolbar h2{margin:0;font-size:20px; font-weight:900;}
+.toolbar{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;}
+.toolbar h2{margin:0;font-size:21px; font-weight:900; color:var(--teal-dark);}
 .toolbar .sub{color:var(--ink-soft); font-size:13px; margin-top:2px;}
 
 .btn{
-  border:none;border-radius:9px;padding:10px 16px;font-family:inherit;font-weight:700;
-  font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s;
+  border:none;border-radius:999px;padding:11px 18px;font-family:inherit;font-weight:700;
+  font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.16s;
   white-space:nowrap;
 }
-.btn:active{transform:scale(.97);}
-.btn-primary{background:var(--teal); color:#fff;}
-.btn-primary:hover{background:var(--teal-dark);}
-.btn-amber{background:var(--amber); color:#2B241A;}
-.btn-amber:hover{filter:brightness(1.06);}
-.btn-outline{background:transparent; border:1.5px solid var(--line); color:var(--ink);}
+.btn:active{transform:scale(.96);}
+.btn-primary{background:var(--teal); color:#fff; box-shadow:0 4px 12px rgba(46,133,120,.28);}
+.btn-primary:hover{background:var(--teal-dark); transform:translateY(-1px);}
+.btn-amber{background:var(--amber); color:#4A3821;}
+.btn-amber:hover{filter:brightness(1.06); transform:translateY(-1px);}
+.btn-outline{background:var(--card); border:1.5px solid var(--line); color:var(--ink);}
 .btn-outline:hover{border-color:var(--teal); color:var(--teal);}
-.btn-ghost{background:transparent; color:var(--ink-soft); padding:6px 10px;}
-.btn-danger{background:transparent;color:var(--red);border:1.5px solid #E3C9BE;}
+.btn-ghost{background:transparent; color:var(--ink-soft); padding:6px 10px; border-radius:10px;}
+.btn-danger{background:transparent;color:var(--red);border:1.5px solid #EAD8D2;}
 .btn:disabled{opacity:.4; cursor:not-allowed;}
-.btn-sm{padding:7px 11px; font-size:12.5px; border-radius:7px;}
+.btn-sm{padding:8px 13px; font-size:12.5px; border-radius:999px;}
 .btn-block{width:100%; justify-content:center;}
 
 /* ===== Product grid ===== */
-.grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:16px;}
-.card{
-  background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;
-  box-shadow:var(--shadow); position:relative; display:flex; flex-direction:column;
+.grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:18px;}
+.category-divider{
+  grid-column:1/-1; display:flex; align-items:center; gap:10px;
+  margin:26px 0 4px;
 }
+.category-divider:first-child{ margin-top:0; }
+.category-divider .cd-title{
+  font-weight:800; font-size:14px; white-space:nowrap; color:var(--teal-dark);
+  background:var(--sage); padding:5px 14px; border-radius:20px;
+}
+.category-divider .cd-count{
+  font-family:'Orbitron','JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft);
+  background:var(--card); border:1px solid var(--line); border-radius:20px; padding:1px 9px; white-space:nowrap;
+}
+.category-divider::after{content:""; flex:1; height:1px; background:var(--line);}
+.category-divider .cd-actions{display:flex; gap:4px;}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:22px; overflow:hidden;
+  box-shadow:var(--shadow); position:relative; display:flex; flex-direction:column;
+  transition:box-shadow .2s, transform .2s;
+}
+.card:hover{ box-shadow:0 12px 26px -6px rgba(27,70,64,.16); transform:translateY(-3px); }
 .card-img{
-  width:100%; background:#E4DAC3; position:relative;
-  display:flex;align-items:center;justify-content:center; color:#B7A986; font-size:12px;
+  width:100%; background:var(--sage); position:relative;
+  display:flex;align-items:center;justify-content:center; color:var(--teal-dark); font-size:12px;
 }
 .card-img img{width:100%; height:auto; display:block;}
-.card-img.empty{height:140px;}
+.card-img.empty{height:140px; opacity:.75;}
 .card-img.empty::after{content:"لا توجد صورة";}
 .stock-tag{
-  position:absolute; top:8px; left:8px; background:rgba(43,36,26,.82); color:#F3EEDF;
-  font-family:'JetBrains Mono',monospace; font-size:11.5px; padding:3px 9px; border-radius:20px;
+  position:absolute; top:10px; left:10px; background:rgba(27,70,64,.85); color:#F3F6F5;
+  font-family:'Orbitron','JetBrains Mono',monospace; font-size:11.5px; padding:3px 9px; border-radius:20px;
+  backdrop-filter:blur(2px);
 }
 .stock-tag.zero{background:var(--red);}
 .stock-tag.low{background:var(--rust);}
-.card-body{padding:12px 13px 13px; display:flex; flex-direction:column; gap:6px; flex:1;}
-.card-body h3{margin:0; font-size:15px; font-weight:700; line-height:1.3;}
-.price{color:var(--teal-dark); font-weight:900; font-family:'JetBrains Mono',monospace; font-size:15px;}
-.card-actions{display:flex; gap:6px; margin-top:auto; padding-top:6px;}
+.card-body{padding:14px 15px 15px; display:flex; flex-direction:column; gap:6px; flex:1;}
+.card-body h3{margin:0; font-size:15px; font-weight:600; line-height:1.3;}
+.price{color:var(--teal-dark); font-weight:800; font-family:'Orbitron','JetBrains Mono',monospace; font-size:14.5px;}
+.card-actions{display:flex; gap:6px; margin-top:auto; padding-top:8px;}
+
 
 .empty-state{
-  text-align:center; padding:60px 20px; color:var(--ink-soft);
-  border:2px dashed var(--line); border-radius:14px; background:rgba(255,255,255,.4);
+  text-align:center; padding:64px 20px; color:var(--ink-soft);
+  border:2px dashed var(--sage); border-radius:22px; background:rgba(255,255,255,.5);
 }
 .empty-state .big{font-size:38px; margin-bottom:8px;}
 
 /* ===== Orders ===== */
 .order-list{display:flex; flex-direction:column; gap:12px;}
 .order-card{
-  background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
+  background:var(--card); border:1px solid var(--line); border-radius:19px; padding:16px 18px;
   box-shadow:var(--shadow);
 }
 .order-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
-.order-id{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft);}
+.order-id{font-family:'Orbitron','JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft);}
 .order-customer{font-weight:700; font-size:14.5px; margin-top:2px;}
 .badge{
-  font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; white-space:nowrap;
+  font-size:12px; font-weight:700; padding:5px 13px; border-radius:20px; white-space:nowrap;
   display:inline-flex; align-items:center; gap:5px;
 }
 .badge::before{content:""; width:7px;height:7px;border-radius:50%; background:currentColor;}
-.badge-warehouse{background:#F1E4C6; color:var(--amber);}
-.badge-delivering{background:#F3DCC9; color:var(--rust);}
-.badge-done{background:#DCEBDD; color:var(--green);}
-.badge-cancelled{background:#F1DAD3; color:var(--red);}
+.badge-warehouse{background:#F3E7D5; color:#A9803F;}
+.badge-delivering{background:#F2E0D4; color:var(--rust);}
+.badge-done{background:#E1EEE2; color:var(--green);}
+.badge-cancelled{background:#F3DFDA; color:var(--red);}
 
-.order-items{margin:10px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line); padding:8px 0;}
+.order-items{margin:12px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line); padding:10px 0;}
 .order-item-row{display:flex; justify-content:space-between; font-size:13.5px; padding:3px 0; color:var(--ink);}
-.order-item-row span:last-child{font-family:'JetBrains Mono',monospace; color:var(--ink-soft);}
+.order-item-row span:last-child{font-family:'Orbitron','JetBrains Mono',monospace; color:var(--ink-soft);}
 .order-total{display:flex; justify-content:space-between; font-weight:900; font-size:15px; margin-top:4px;}
 .order-actions{display:flex; gap:8px; justify-content:flex-end; margin-top:10px; flex-wrap:wrap;}
+
+/* ===== Customers ===== */
+.customer-list{display:flex; flex-direction:column; gap:12px;}
+.customer-card{
+  background:var(--card); border:1px solid var(--line); border-radius:19px; padding:16px 18px;
+  box-shadow:var(--shadow);
+}
+.customer-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
+.customer-name{font-weight:700; font-size:15px;}
+.customer-meta{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+.customer-stats{display:flex; gap:16px; margin:10px 0; padding:10px 0; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line);}
+.customer-stats .cs-item{font-size:12.5px; color:var(--ink-soft);}
+.customer-stats .cs-item b{display:block; font-family:'Orbitron','JetBrains Mono',monospace; font-size:15px; font-weight:900; color:var(--teal-dark);}
+.customer-products{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+.customer-product-tag{
+  background:var(--sage); color:var(--teal-dark); font-size:11.5px; font-weight:700;
+  padding:3px 11px; border-radius:20px;
+}
 
 /* ===== Cart floating ===== */
 .cart-fab{
   position:fixed; bottom:22px; left:22px; z-index:40;
-  background:var(--amber); color:var(--teal-dark); border:none;
-  padding:14px 20px; border-radius:30px; font-family:inherit; font-weight:900; font-size:15px;
-  box-shadow:0 6px 18px rgba(0,0,0,.25); cursor:pointer; display:flex; align-items:center; gap:8px;
+  background:linear-gradient(135deg, var(--amber), #C99A62); color:#3F2E17; border:none;
+  padding:15px 22px; border-radius:999px; font-family:inherit; font-weight:900; font-size:15px;
+  box-shadow:0 10px 22px -6px rgba(27,70,64,.35); cursor:pointer; display:flex; align-items:center; gap:8px;
+  transition:transform .15s;
 }
+.cart-fab:hover{ transform:translateY(-2px); }
 .cart-fab .n{background:var(--teal-dark); color:#fff; border-radius:50%; width:22px;height:22px;
   display:flex;align-items:center;justify-content:center; font-size:12px;}
 
 /* ===== Modal ===== */
 .overlay{
-  position:fixed; inset:0; background:rgba(20,16,10,.5); z-index:50;
+  position:fixed; inset:0; background:rgba(20,30,28,.45); backdrop-filter:blur(2px); z-index:50;
   display:flex; align-items:center; justify-content:center; padding:16px;
 }
 .modal{
-  background:var(--paper); border-radius:16px; width:100%; max-width:460px;
-  max-height:88vh; overflow-y:auto; padding:22px; border:1px solid var(--line);
-  box-shadow:0 20px 50px rgba(0,0,0,.3);
+  background:var(--paper); border-radius:24px; width:100%; max-width:460px;
+  max-height:88vh; overflow-y:auto; padding:24px; border:1px solid var(--line);
+  box-shadow:0 20px 46px rgba(27,70,64,.24);
 }
-.modal h2{margin:0 0 16px; font-size:19px; font-weight:900;}
+.modal h2{margin:0 0 16px; font-size:19px; font-weight:900; color:var(--teal-dark);}
 .field{margin-bottom:14px;}
 .field label{display:block; font-size:13px; font-weight:700; margin-bottom:5px; color:var(--ink-soft);}
 .field input, .field textarea{
-  width:100%; padding:10px 12px; border-radius:8px; border:1.5px solid var(--line);
+  width:100%; padding:11px 14px; border-radius:14px; border:1.5px solid var(--line);
   font-family:inherit; font-size:14px; background:var(--card); color:var(--ink);
 }
 .field input:focus, .field textarea:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
 .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
 .img-upload{
-  border:2px dashed var(--line); border-radius:10px; padding:14px; text-align:center;
+  border:2px dashed var(--sage); border-radius:16px; padding:14px; text-align:center;
   cursor:pointer; color:var(--ink-soft); font-size:13px; background:var(--card);
   display:flex; flex-direction:column; align-items:center; gap:6px;
 }
-.img-upload img{max-height:110px; border-radius:8px;}
+.img-upload img{max-height:110px; border-radius:12px;}
 .modal-actions{display:flex; gap:10px; margin-top:6px;}
+
+/* ===== Theme customization ===== */
+.mode-switch{display:flex; gap:8px; margin-bottom:16px;}
+.mode-switch button{
+  flex:1; padding:10px 8px; border-radius:14px; border:1.5px solid var(--line);
+  background:var(--card); color:var(--ink-soft); font-family:inherit; font-weight:700;
+  font-size:13.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.mode-switch button.active{background:var(--teal); border-color:var(--teal); color:#fff;}
+.color-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;}
+.color-field{display:flex; align-items:center; gap:8px; border:1.5px solid var(--line); border-radius:14px; padding:7px 10px; background:var(--card);}
+.color-field label{flex:1; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin:0;}
+.color-field input[type="color"]{
+  width:32px; height:32px; border-radius:10px; border:1.5px solid var(--line); padding:0; cursor:pointer; background:none;
+}
+.logo-upload-row{display:flex; align-items:center; gap:12px;}
+.logo-upload-row .img-upload{flex-shrink:0; width:72px; height:72px; padding:0; justify-content:center;}
+.logo-upload-row .img-upload img{max-height:100%; max-width:100%; object-fit:cover;}
+.logo-upload-row .field{flex:1; margin:0;}
 
 /* cart modal items */
 .cart-row{display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line);}
-.cart-row img, .cart-row .ph{width:44px;height:44px;border-radius:7px;object-fit:cover; background:#E4DAC3; flex-shrink:0;}
+.cart-row img, .cart-row .ph{width:44px;height:44px;border-radius:12px;object-fit:cover; background:var(--sage); flex-shrink:0;}
 .cart-row .info{flex:1; min-width:0;}
 .cart-row .info h4{margin:0; font-size:13.5px; font-weight:700;}
-.cart-row .info .p{font-size:12px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace;}
+.cart-row .info .p{font-size:12px; color:var(--ink-soft); font-family:'Orbitron','JetBrains Mono',monospace;}
 .qty-ctrl{display:flex; align-items:center; gap:6px;}
 .qty-ctrl button{
-  width:26px;height:26px;border-radius:6px;border:1px solid var(--line); background:var(--card);
+  width:26px;height:26px;border-radius:9px;border:1px solid var(--line); background:var(--card);
   cursor:pointer; font-weight:900; color:var(--teal); font-size:14px;
 }
-.qty-ctrl span{min-width:18px; text-align:center; font-family:'JetBrains Mono',monospace; font-weight:700;}
+.qty-ctrl span{min-width:18px; text-align:center; font-family:'Orbitron','JetBrains Mono',monospace; font-weight:700;}
 .cart-empty{text-align:center; padding:30px 10px; color:var(--ink-soft);}
 .cart-total{display:flex;justify-content:space-between;font-weight:900;font-size:17px;margin:14px 0;
-  padding-top:12px; border-top:2px solid var(--ink);}
+  padding-top:12px; border-top:2px solid var(--sage);}
 
 /* ===== Stats & filters ===== */
-.stats-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;}
+.stats-bar{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;}
 .stat-card{
-  background:var(--card); border:1px solid var(--line); border-radius:10px;
-  padding:10px 16px; min-width:120px; box-shadow:var(--shadow);
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:11px 18px; min-width:120px; box-shadow:var(--shadow); border-inline-start:4px solid var(--teal);
 }
-.stat-card .n{font-family:'JetBrains Mono',monospace; font-weight:900; font-size:19px; color:var(--teal-dark);}
+.stat-card .n{font-family:'Orbitron','JetBrains Mono',monospace; font-weight:900; font-size:19px; color:var(--teal-dark);}
 .stat-card .l{font-size:12px; color:var(--ink-soft); margin-top:1px;}
+.stat-card.warn{ border-inline-start-color:var(--rust); }
 .stat-card.warn .n{color:var(--rust);}
 
 .search-box{
   position:relative; min-width:200px; flex:1; max-width:280px;
 }
 .search-box input{
-  width:100%; padding:9px 13px 9px 34px; border-radius:9px; border:1.5px solid var(--line);
+  width:100%; padding:10px 14px 10px 34px; border-radius:14px; border:1.5px solid var(--line);
   font-family:inherit; font-size:13.5px; background:var(--card); color:var(--ink);
 }
 .search-box input:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
 .search-box::before{
-  content:"🔍"; position:absolute; left:11px; top:50%; transform:translateY(-50%); font-size:12px; opacity:.6;
+  content:"🔍"; position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:12px; opacity:.6;
 }
+.search-count-line{font-size:12px; color:var(--ink-soft); margin-top:4px; min-height:14px;}
 
 .filter-chips{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px;}
 .chip{
   border:1.5px solid var(--line); background:var(--card); color:var(--ink-soft);
-  padding:7px 14px; border-radius:20px; font-family:inherit; font-size:13px; font-weight:700;
+  padding:7px 15px; border-radius:20px; font-family:inherit; font-size:13px; font-weight:700;
   cursor:pointer; transition:.15s;
 }
 .chip.active{background:var(--teal); border-color:var(--teal); color:#fff;}
-.chip .c{font-family:'JetBrains Mono',monospace; opacity:.85; margin-inline-start:4px;}
+.chip .c{font-family:'Orbitron','JetBrains Mono',monospace; opacity:.85; margin-inline-start:4px;}
 
 .order-note{font-size:12.5px; color:var(--ink-soft); padding-top:6px;}
-.icon-btn{
-  background:transparent; border:1.5px solid var(--line); border-radius:7px; width:30px; height:30px;
-  cursor:pointer; font-size:13px; color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center;
+.order-note-box{
+  background:var(--sage); background:color-mix(in srgb, var(--sage) 35%, var(--card)); border:none; border-inline-start:4px solid var(--amber);
+  border-radius:12px; padding:9px 12px; font-size:12.5px; color:var(--ink); margin:8px 0;
+  line-height:1.6; white-space:pre-wrap; word-break:break-word;
 }
-.icon-btn:hover{border-color:var(--teal); color:var(--teal);}
+.icon-btn{
+  background:transparent; border:1.5px solid var(--line); border-radius:11px; width:32px; height:32px;
+  cursor:pointer; font-size:13px; color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center;
+  transition:.15s;
+}
+.icon-btn:hover{border-color:var(--teal); color:var(--teal); background:var(--sage);}
+
+/* ===== Product drag & drop reorder ===== */
+.category-group{ display:contents; } /* keeps children in the parent CSS grid */
+.card.reorder-mode{ cursor:grab; }
+.drag-handle{
+  display:flex; align-items:center; justify-content:center;
+  background:var(--paper); border:1.5px dashed var(--sage); border-radius:11px;
+  color:var(--ink-soft); font-size:16px; padding:6px; margin-top:6px;
+  cursor:grab; touch-action:none; user-select:none; letter-spacing:2px;
+}
+.drag-handle:active{ cursor:grabbing; }
+.drag-ghost{ opacity:.35; }
+.drag-chosen .card, .card.drag-chosen{ box-shadow:0 10px 22px rgba(27,70,64,.22); }
+.drag-drag{ transform:rotate(-1.5deg); }
 
 /* ===== Finance page ===== */
 .select-field{
-  width:100%; padding:10px 12px; border-radius:8px; border:1.5px solid var(--line);
+  width:100%; padding:11px 14px; border-radius:14px; border:1.5px solid var(--line);
   font-family:inherit; font-size:14px; background:var(--card); color:var(--ink);
 }
 .select-field:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
@@ -274,28 +381,34 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .sale-section-label .ic{font-size:13px;}
 
 .cart-row{position:relative; padding-inline-start:0;}
-.cart-row .line-total{font-family:'JetBrains Mono',monospace; font-weight:800; font-size:13.5px; color:var(--teal-dark); min-width:62px; text-align:left;}
+.cart-row .line-total{font-family:'Orbitron','JetBrains Mono',monospace; font-weight:800; font-size:13.5px; color:var(--teal-dark); min-width:62px; text-align:left;}
 .cart-row .remove-x{
   background:transparent; border:none; color:var(--ink-soft); font-size:15px; cursor:pointer;
-  width:22px; height:22px; line-height:1; border-radius:5px; flex-shrink:0;
+  width:22px; height:22px; line-height:1; border-radius:8px; flex-shrink:0;
 }
-.cart-row .remove-x:hover{color:var(--red); background:#F1DAD3;}
+.cart-row .remove-x:hover{color:var(--red); background:#F3DFDA;}
+.cart-price-input{
+  width:66px; padding:3px 6px; border-radius:9px; border:1.5px solid var(--line);
+  background:var(--card); color:var(--teal-dark); font-family:'Orbitron','JetBrains Mono',monospace;
+  font-weight:700; font-size:12.5px; text-align:center;
+}
+.cart-price-input:focus{outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);}
 
 .item-count-pill{
-  background:var(--teal); color:#fff; font-family:'JetBrains Mono',monospace; font-size:11.5px;
+  background:var(--teal); color:#fff; font-family:'Orbitron','JetBrains Mono',monospace; font-size:11.5px;
   font-weight:800; padding:2px 9px; border-radius:20px; margin-inline-start:6px;
 }
 
 .receipt-box{
-  background:var(--paper); border:1.5px dashed var(--line); border-radius:10px;
+  background:var(--card); border:1.5px dashed var(--sage); border-radius:16px;
   padding:14px 16px; margin-top:4px;
 }
 .receipt-box .r-row{display:flex; justify-content:space-between; font-size:13.5px; padding:4px 0; color:var(--ink-soft);}
 .receipt-box .r-row.grand{
-  border-top:1.5px solid var(--ink); margin-top:6px; padding-top:10px;
+  border-top:1.5px solid var(--sage); margin-top:6px; padding-top:10px;
   font-size:17px; font-weight:900; color:var(--ink);
 }
-.receipt-box .r-row.grand span:last-child{font-family:'JetBrains Mono',monospace; color:var(--teal-dark);}
+.receipt-box .r-row.grand span:last-child{font-family:'Orbitron','JetBrains Mono',monospace; color:var(--teal-dark);}
 
 .shipping-hint{
   font-size:12px; color:var(--ink-soft); margin-top:5px; display:flex; align-items:center; gap:5px; justify-content:space-between;
@@ -303,34 +416,34 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .shipping-hint a{color:var(--teal); font-weight:700; cursor:pointer;}
 
 .fin-section{
-  background:var(--card); border:1px solid var(--line); border-radius:14px;
-  padding:18px 20px; margin-bottom:18px; box-shadow:var(--shadow);
+  background:var(--card); border:1px solid var(--line); border-radius:20px;
+  padding:20px 22px; margin-bottom:18px; box-shadow:var(--shadow);
 }
-.fin-section h3{margin:0 0 3px; font-size:16.5px; font-weight:900;}
+.fin-section h3{margin:0 0 3px; font-size:16.5px; font-weight:900; color:var(--teal-dark);}
 .fin-section .fin-sub{font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;}
 .fin-section-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
 
 .fin-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px; margin-bottom:6px;}
-.fin-tile{border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:#fff;}
-.fin-tile .n{font-family:'JetBrains Mono',monospace; font-weight:900; font-size:18px; color:var(--teal-dark);}
+.fin-tile{border:1px solid var(--line); border-radius:15px; padding:13px 15px; background:var(--paper);}
+.fin-tile .n{font-family:'Orbitron','JetBrains Mono',monospace; font-weight:900; font-size:18px; color:var(--teal-dark);}
 .fin-tile .n.neg{color:var(--red);}
 .fin-tile .l{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
 
 .list-row{
   display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding:10px 0; border-bottom:1px solid var(--line);
+  padding:11px 0; border-bottom:1px solid var(--line);
 }
 .list-row:last-child{border-bottom:none;}
 .list-row .lr-main{flex:1; min-width:0;}
 .list-row .lr-title{font-weight:700; font-size:13.5px;}
 .list-row .lr-sub{font-size:11.5px; color:var(--ink-soft); margin-top:1px;}
-.list-row .lr-amount{font-family:'JetBrains Mono',monospace; font-weight:800; font-size:14px; white-space:nowrap;}
+.list-row .lr-amount{font-family:'Orbitron','JetBrains Mono',monospace; font-weight:800; font-size:14px; white-space:nowrap;}
 .list-row .lr-amount.neg{color:var(--red);}
 .list-row .lr-amount.pos{color:var(--green);}
 .list-row .lr-actions{display:flex; gap:6px;}
 
 .cat-badge{
-  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; background:#EFE5CB; color:var(--amber);
+  font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; background:#F3E7D5; color:#A9803F;
   display:inline-block; margin-bottom:2px;
 }
 
@@ -345,40 +458,92 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 .empty-mini{text-align:center; padding:20px; color:var(--ink-soft); font-size:13px;}
 
 .toast{
-  position:fixed; bottom:24px; right:24px; background:var(--teal-dark); color:#F3EEDF;
-  padding:12px 18px; border-radius:9px; font-weight:700; font-size:13.5px; z-index:60;
-  box-shadow:0 8px 20px rgba(0,0,0,.25); animation:toastin .25s ease;
+  position:fixed; bottom:24px; right:24px; background:var(--teal-dark); color:#F3F6F5;
+  padding:13px 20px; border-radius:16px; font-weight:700; font-size:13.5px; z-index:60;
+  box-shadow:0 10px 24px rgba(27,70,64,.26); animation:toastin .25s ease;
 }
 @keyframes toastin{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
 .loading{text-align:center; padding:60px; color:var(--ink-soft);}
 
 /* ===== Printable invoice ===== */
 #printInvoiceArea{ display:none; }
-.inv-wrap{
-  max-width:480px; margin:0 auto; font-family:'Tajawal', sans-serif; color:#2B241A; padding:24px;
+.inv-page{
+  width:80mm; max-width:80mm; margin:0 auto; font-family:'Tajawal', sans-serif; color:#1E332E;
+  background:#fff; padding:14px 12px 18px; position:relative;
 }
-.inv-head{ display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #164F42; padding-bottom:14px; margin-bottom:16px; }
-.inv-brand{ display:flex; align-items:center; gap:10px; }
-.inv-mark{ width:40px;height:40px;border-radius:8px; background:#B9822F; color:#164F42; font-weight:900; font-size:18px; display:flex;align-items:center;justify-content:center; }
-.inv-brand-name{ font-size:19px; font-weight:900; }
-.inv-brand-sub{ font-size:12px; color:#6B5F4C; }
-.inv-meta{ text-align:left; font-size:12.5px; color:#6B5F4C; }
-.inv-meta b{ color:#2B241A; }
-.inv-customer{ font-size:13.5px; line-height:1.9; margin-bottom:16px; background:#FBF7EE; border:1px solid #D9CBA9; border-radius:10px; padding:10px 14px; }
-.inv-table{ width:100%; border-collapse:collapse; margin-bottom:14px; font-size:13px; }
-.inv-table th, .inv-table td{ text-align:right; }
-.inv-table th.c, .inv-table td.c{ text-align:center; }
-.inv-table th{ background:#164F42; color:#F3EEDF; padding:8px 10px; font-weight:700; }
-.inv-table td{ padding:8px 10px; border-bottom:1px solid #D9CBA9; }
-.inv-totals{ font-size:14px; margin-bottom:20px; }
-.inv-totals > div{ display:flex; justify-content:space-between; padding:4px 0; }
-.inv-grand{ font-weight:900; font-size:17px; border-top:2px solid #164F42; margin-top:6px; padding-top:8px !important; }
-.inv-footer{ text-align:center; font-size:13px; color:#6B5F4C; margin-top:10px; }
+.inv-topbar{ display:none; }
+.inv-head{ text-align:center; padding-bottom:12px; margin-bottom:12px; border-bottom:1.5px dashed #B9CCC8; }
+.inv-brand{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+.inv-mark{
+  width:46px;height:46px;border-radius:14px; background:#1B4640; color:#F3F6F5; font-weight:900; font-size:17px;
+  display:flex;align-items:center;justify-content:center; letter-spacing:.5px; overflow:hidden; flex-shrink:0;
+}
+.inv-mark img{ width:100%; height:100%; object-fit:cover; }
+.inv-brand-name{ font-size:16.5px; font-weight:900; color:#1B4640; letter-spacing:.2px; }
+.inv-brand-sub{ font-size:10.5px; color:#7B9995; letter-spacing:.3px; }
+.inv-meta{ text-align:center; margin-top:8px; }
+.inv-meta-label{ font-size:9.5px; color:#7B9995; font-weight:700; letter-spacing:.4px; }
+.inv-meta-num{ font-family:'Orbitron','JetBrains Mono',monospace; font-size:14px; font-weight:700; color:#1B4640; letter-spacing:.5px; }
+.inv-meta-date{ font-size:10.5px; color:#7B9995; margin-top:3px; }
+.inv-status{
+  display:inline-flex; align-items:center; gap:5px; font-size:9.5px; font-weight:700;
+  padding:3px 11px; border-radius:20px; margin-top:7px;
+}
+.inv-status::before{ content:""; width:5px; height:5px; border-radius:50%; background:currentColor; }
+.inv-status.st-warehouse{ background:#F3E7D5; color:#A9803F; }
+.inv-status.st-delivering{ background:#F2E0D4; color:#C68B6C; }
+.inv-status.st-done{ background:#E1EEE2; color:#7CAB84; }
+.inv-status.st-cancelled{ background:#F3DFDA; color:#C97F72; }
+
+.inv-section-label{
+  font-size:9.5px; font-weight:800; color:#2E8578; text-transform:uppercase; letter-spacing:.6px;
+  margin-bottom:6px;
+}
+
+.inv-customer{ font-size:11.5px; line-height:1.8; margin-bottom:10px; }
+.inv-customer div{ display:flex; gap:5px; }
+.inv-customer b{ color:#4E6B66; font-weight:700; min-width:44px; flex-shrink:0; }
+
+.inv-note{
+  font-size:11px; line-height:1.6; margin-bottom:10px; background:#FBF5E9;
+  border-radius:8px; padding:8px 10px; color:#5A4A2E;
+}
+.inv-note b{ display:block; font-size:9.5px; color:#A9803F; margin-bottom:2px; text-transform:uppercase; letter-spacing:.3px; }
+
+.inv-shipping{ font-size:11px; line-height:1.8; margin-bottom:10px; }
+.inv-shipping div{ display:flex; gap:5px; }
+.inv-shipping b{ color:#4E6B66; font-weight:700; min-width:60px; flex-shrink:0; }
+
+.inv-divider{ border-top:1.5px dashed #B9CCC8; margin:10px 0; }
+
+.inv-table{ width:100%; border-collapse:collapse; margin-bottom:2px; font-size:11px; }
+.inv-table thead th{
+  text-align:right; padding:0 0 6px; font-weight:700; font-size:9.5px; color:#4E6B66;
+  border-bottom:1.5px dashed #B9CCC8; text-transform:uppercase; letter-spacing:.3px;
+}
+.inv-table thead th.c{ text-align:center; }
+.inv-table td{ padding:6px 0; font-family:'Orbitron','JetBrains Mono',monospace; font-size:10.5px; vertical-align:top; }
+.inv-table td:first-child{ font-family:'Tajawal', sans-serif; font-size:11.5px; text-align:right; }
+.inv-table td.c{ text-align:center; color:#4E6B66; }
+.inv-table tbody tr{ border-bottom:1px dotted #DCE6E3; }
+
+.inv-totals{ margin:10px 0 0; }
+.inv-totals > div{ display:flex; justify-content:space-between; padding:3px 0; font-size:11.5px; color:#4E6B66; font-family:'Orbitron','JetBrains Mono',monospace; }
+.inv-totals > div span:first-child{ font-family:'Tajawal', sans-serif; }
+.inv-grand{
+  font-weight:900 !important; font-size:15px !important; color:#1B4640 !important;
+  border-top:1.5px dashed #B9CCC8; margin-top:6px !important; padding-top:9px !important;
+}
+.inv-footer{ text-align:center; font-size:10.5px; color:#7B9995; margin-top:14px; padding-top:12px; border-top:1.5px dashed #B9CCC8; }
+.inv-footer .thanks{ font-size:12.5px; font-weight:800; color:#1B4640; margin-bottom:3px; }
+.inv-footer .barcode{ font-family:'Orbitron','JetBrains Mono',monospace; font-size:9px; letter-spacing:3px; color:#B9CCC8; margin-top:8px; }
 
 @media print{
-  body *{ visibility:hidden; }
-  #printInvoiceArea, #printInvoiceArea *{ visibility:visible; }
-  #printInvoiceArea{ display:block !important; position:absolute; top:0; right:0; left:0; width:100%; }
+  @page{ size:80mm auto; margin:0; }
+  body > *{ display:none !important; }
+  #printInvoiceArea{ display:block !important; }
+  #printInvoiceArea *{ display:revert; }
+  .inv-page{ width:80mm; max-width:80mm; margin:0; }
 }
 
 /* ===================================================================
@@ -467,7 +632,7 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
   /* ---- النماذج والمودالات ---- */
   body:not(.force-desktop) .overlay{ padding:12px; align-items:flex-end; }
   body:not(.force-desktop) .modal{
-    padding:16px; border-radius:16px 16px 0 0; max-width:none; max-height:92vh;
+    padding:16px; border-radius:22px 22px 0 0; max-width:none; max-height:92vh;
   }
   body:not(.force-desktop) .modal h2{ font-size:17px; }
   body:not(.force-desktop) .row2{ grid-template-columns:1fr 1fr; gap:8px; }
@@ -510,9 +675,9 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 <header>
   <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark">سق</div>
+      <div class="brand-mark" id="brandMark">S</div>
       <div class="brand-text">
-        <h1>مخزون SawwaSouq</h1>
+        <h1 id="siteTitleEl">مخزون SawwaSouq</h1>
       </div>
     </div>
     <div class="header-right">
@@ -523,6 +688,9 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         <button class="tab-btn" id="tabOrdersBtn" onclick="switchTab('orders')">
           الطلبات <span class="tab-count" id="countOrders">0</span>
         </button>
+        <button class="tab-btn" id="tabCustomersBtn" onclick="switchTab('customers')">
+          العملاء <span class="tab-count" id="countCustomers">0</span>
+        </button>
         <button class="tab-btn" id="tabFinanceBtn" onclick="switchTab('finance')">
           الحسابات
         </button>
@@ -530,6 +698,15 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
           <span id="currentSeasonLabel">الموسم الأول</span> ▾
         </button>
       </div>
+      <button class="view-mode-btn" id="activityLogBtn" onclick="openActivityLogModal()" title="سجل العمليات">
+        <span>📋</span>
+      </button>
+      <button class="view-mode-btn" id="themeModeBtn" onclick="toggleThemeMode()" title="تبديل بين الوضع الفاتح والداكن">
+        <span id="themeModeIcon">🌙</span>
+      </button>
+      <button class="view-mode-btn" id="themeSettingsBtn" onclick="openThemeSettingsModal()" title="تخصيص ألوان وشعار الموقع">
+        <span>🎨</span>
+      </button>
       <button class="view-mode-btn" id="viewModeBtn" onclick="toggleViewMode()" title="تبديل بين وضع الهاتف ووضع الكمبيوتر">
         <span id="viewModeIcon">🖥️</span>
       </button>
@@ -544,7 +721,9 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
     <div class="toolbar">
       <div class="search-box">
         <input type="text" id="productSearch" placeholder="ابحث عن منتج بالاسم" oninput="handleProductSearch(this.value)">
+        <div class="search-count-line" id="productSearchCount"></div>
       </div>
+      <button class="btn btn-outline" onclick="openCategoriesModal()">🗂️ الأقسام</button>
       <button class="btn btn-outline" id="reorderProductsBtn" onclick="toggleProductReorderMode()">↕️ ترتيب المنتجات</button>
       <button class="btn btn-primary" onclick="openProductModal()">+ إضافة منتج</button>
     </div>
@@ -557,11 +736,30 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
         <h2>الطلبات</h2>
         <div class="sub">إدارة طلبات البيع وحالتها</div>
       </div>
+      <div class="search-box">
+        <input type="text" id="orderSearch" placeholder="ابحث بالمنتج أو اسم العميل أو رقم الهاتف" oninput="handleOrderSearch(this.value)">
+        <div class="search-count-line" id="orderSearchCount"></div>
+      </div>
       <button class="btn btn-outline btn-sm" onclick="openShippingCompaniesModal()">🚚 شركات الشحن</button>
     </div>
     <div id="ordersStats" class="stats-bar"></div>
     <div id="orderFilters" class="filter-chips"></div>
     <div id="ordersList" class="order-list"></div>
+  </div>
+
+  <div id="customersView" style="display:none;">
+    <div class="toolbar">
+      <div>
+        <h2>العملاء</h2>
+        <div class="sub">قائمة العملاء تلقائيًا من الطلبات، مع المنتجات اللي طلبها كل عميل</div>
+      </div>
+      <div class="search-box">
+        <input type="text" id="customerSearch" placeholder="ابحث عن عميل بالاسم أو رقم الهاتف أو باسم منتج" oninput="handleCustomerSearch(this.value)">
+        <div class="search-count-line" id="customerSearchCount"></div>
+      </div>
+    </div>
+    <div id="customersStats" class="stats-bar"></div>
+    <div id="customersList" class="customer-list"></div>
   </div>
 
   <div id="financeView" style="display:none;"></div>
@@ -578,15 +776,17 @@ main{max-width:1100px; margin:0 auto; padding:22px 18px;}
 <!-- ===== Firebase SDK (compat build) ===== -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<!-- ===== SortableJS (drag & drop, works with mouse + touch) ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
 <script>
 // ====== إعدادات Firebase — عبّي هاي القيم من مشروعك (Project settings > General > Your apps) ======
 const firebaseConfig = {
-  apiKey: "AIzaSyAHz3anxeVjOm-y0w1w-Sb8vvBYjeV8gC4",
-  authDomain: "sawwa-60ae2.firebaseapp.com",
-  projectId: "sawwa-60ae2",
-  storageBucket: "sawwa-60ae2.firebasestorage.app",
-  messagingSenderId: "571078819349",
-  appId: "1:571078819349:web:ec8dc899ca19db81d6981c"
+  apiKey: "AIzaSyDHmhNNsyc9ab_z1DuwlvBj-mihLet9hug",
+  authDomain: "sawwasouq-ea644.firebaseapp.com",
+  projectId: "sawwasouq-ea644",
+  storageBucket: "sawwasouq-ea644.firebasestorage.app",
+  messagingSenderId: "459519224953",
+  appId: "1:459519224953:web:28519358a0ff51155938a8"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -620,7 +820,32 @@ window.storage = {
 </script>
 
 <script>
+// ---------- global double-click guard ----------
+// Fixes double actions (double product, double order, double payout...) that
+// happen when someone taps/clicks a button twice fast, before the UI (or the
+// async save) has a chance to update. This runs in the CAPTURE phase, so it
+// intercepts the click before the button's own onclick="..." runs, and simply
+// swallows a second click on the exact same button element within 700ms.
+// If the button is re-rendered (e.g. modal closes) it's a new element, so a
+// genuine next click on a fresh screen is never blocked.
+(function(){
+  let lastEl = null, lastTime = 0;
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('button, .icon-btn, .season-switch');
+    if(!btn) return;
+    const now = Date.now();
+    if(btn === lastEl && (now - lastTime) < 700){
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      return;
+    }
+    lastEl = btn;
+    lastTime = now;
+  }, true);
+})();
+
 let PRODUCTS = [];
+let CATEGORIES = []; // product sections, e.g. "Glass Pad", "Rubber Pad" — {id, name, createdAt}
 let ORDERS = [];
 let CART = []; // {productId, qty}
 let EXPENSES = [];
@@ -635,10 +860,129 @@ let reportPeriod = 'today';
 let currentTab = 'products';
 let editingImageData = null;
 let productSearchQuery = '';
+let customerSearchQuery = '';
 let orderFilter = 'all';
+let orderSearchQuery = '';
 let SEASONS = [];
 let currentSeasonId = null;
 let SHIPPING_COMPANIES = [];
+let themeMode = 'light'; // 'light' | 'dark' — per-device preference
+let THEME_CUSTOM = null;  // shared site-wide color/logo/name customization
+let editingLogoImage = null;
+
+const DEFAULT_THEME_COLORS = {
+  teal:'#2E8578', tealDark:'#1B4640', amber:'#D9B27F',
+  paper:'#F3F6F5', card:'#FFFFFF', ink:'#233F3A'
+};
+const DEFAULT_BRAND_TEXT = 'S';
+const DEFAULT_SITE_TITLE = 'مخزون SawwaSouq';
+
+// ---------- Activity Logs (سجل العمليات) ----------
+// Every important write operation gets recorded here automatically, straight to
+// Firestore (its own collection — not through window.storage — since this is an
+// append-only audit trail, not a single overwritable value). Logging failures are
+// swallowed on purpose: an activity log hiccup should never block the real action.
+const ACTIVITY_LOG_COLLECTION = 'activity_logs';
+const ACTIVITY_ICONS = {
+  product_add:'🆕', product_edit:'✎', product_delete:'🗑', product_move:'📦',
+  category_add:'🗂️', category_edit:'✎', category_delete:'🗑',
+  restock:'📥',
+  order_create:'🛒', order_status:'🚚', order_edit:'✎', order_note:'📝',
+  order_cancel:'❌', order_delete:'🗑',
+  expense_add:'💸', expense_delete:'🗑',
+  partner_add:'🤝', partner_edit:'✎', partner_delete:'🗑', partner_payout:'💰',
+  capital_adjust:'🏦', split_config:'⚖️', settlement:'📊',
+  shipping_add:'🚚', shipping_edit:'✎', shipping_delete:'🗑',
+  season_create:'🌱', season_rename:'✎', season_delete:'🗑', season_switch:'🔁',
+  theme_settings:'🎨'
+};
+
+async function logActivity(action, description, meta = {}){
+  try{
+    await db.collection(ACTIVITY_LOG_COLLECTION).add({
+      action,
+      description,
+      meta,
+      seasonId: currentSeasonId || null,
+      seasonName: (SEASONS.find(s=>s.id===currentSeasonId)||{}).name || '',
+      createdAt: Date.now()
+    });
+  }catch(e){
+    console.error('تعذّر تسجيل العملية بسجل العمليات', e);
+  }
+}
+
+function formatDateTime(ts){
+  if(!ts) return '';
+  return new Date(ts).toLocaleString('en-GB', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
+}
+
+let activityLogFilter = '';
+
+function openActivityLogModal(){
+  activityLogFilter = '';
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal" style="max-width:600px;">
+      <h2>📋 سجل العمليات</h2>
+      <div class="fin-sub">كل العمليات المهمة اللي صارت على النظام، مسجلة تلقائيًا</div>
+      <div class="field" style="margin-top:12px; margin-bottom:0;">
+        <select class="select-field" id="activityLogFilterSelect" onchange="handleActivityLogFilterChange(this.value)">
+          <option value="">كل العمليات</option>
+          <option value="product">المنتجات</option>
+          <option value="category">الأقسام</option>
+          <option value="order">الطلبات</option>
+          <option value="restock">استلام بضاعة</option>
+          <option value="expense">المصاريف</option>
+          <option value="partner">الشركاء</option>
+          <option value="capital">رأس المال</option>
+          <option value="settlement">تصفية الأرباح</option>
+          <option value="shipping">شركات الشحن</option>
+          <option value="season">المواسم</option>
+          <option value="theme">تخصيص الثيم</option>
+        </select>
+      </div>
+      <div id="activityLogList" style="margin-top:14px; max-height:55vh; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
+        <div class="empty-mini">جارِ تحميل السجل...</div>
+      </div>
+      <div style="margin-top:12px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
+    </div>
+  </div>`;
+  renderActivityLogList();
+}
+
+function handleActivityLogFilterChange(val){
+  activityLogFilter = val;
+  renderActivityLogList();
+}
+
+async function renderActivityLogList(){
+  const listEl = document.getElementById('activityLogList');
+  if(!listEl) return;
+  listEl.innerHTML = `<div class="empty-mini">جارِ تحميل السجل...</div>`;
+  try{
+    const snap = await db.collection(ACTIVITY_LOG_COLLECTION).orderBy('createdAt','desc').limit(200).get();
+    let entries = snap.docs.map(d=>d.data());
+    if(activityLogFilter){
+      entries = entries.filter(l=> (l.action||'').startsWith(activityLogFilter));
+    }
+    if(entries.length===0){
+      listEl.innerHTML = `<div class="empty-mini">ما في عمليات مسجلة بعد</div>`;
+      return;
+    }
+    listEl.innerHTML = entries.map(l=>`
+      <div class="list-row">
+        <div class="lr-main">
+          <div class="lr-title">${ACTIVITY_ICONS[l.action] || '🔹'} ${escapeHtml(l.description||'')}</div>
+          <div class="lr-sub">${l.seasonName ? escapeHtml(l.seasonName)+' · ' : ''}${formatDateTime(l.createdAt)}</div>
+        </div>
+      </div>
+    `).join('');
+  }catch(e){
+    listEl.innerHTML = `<div class="empty-mini">تعذّر تحميل السجل، تأكد من الاتصال وحاول مجددًا</div>`;
+  }
+}
 
 function seasonKey(base){
   return base + '::' + currentSeasonId;
@@ -673,6 +1017,189 @@ async function loadViewModePref(){
     forceDesktopView = v ? !!JSON.parse(v.value).desktop : false;
   }catch(e){ forceDesktopView = false; }
   applyViewMode();
+}
+
+// ---------- light / dark mode (per-device preference) ----------
+function applyThemeMode(){
+  const icon = document.getElementById('themeModeIcon');
+  const btn = document.getElementById('themeModeBtn');
+  if(themeMode==='dark'){
+    document.body.classList.add('dark-theme');
+    if(icon) icon.textContent = '☀️';
+    if(btn) btn.title = 'تبديل للوضع الفاتح';
+  } else {
+    document.body.classList.remove('dark-theme');
+    if(icon) icon.textContent = '🌙';
+    if(btn) btn.title = 'تبديل للوضع الداكن';
+  }
+}
+
+async function toggleThemeMode(){
+  themeMode = themeMode==='dark' ? 'light' : 'dark';
+  applyThemeMode();
+  try{ await window.storage.set('theme-mode-pref', JSON.stringify({mode: themeMode}), false); }catch(e){}
+}
+
+async function loadThemeModePref(){
+  try{
+    const v = await window.storage.get('theme-mode-pref', false);
+    themeMode = v ? (JSON.parse(v.value).mode || 'light') : 'light';
+  }catch(e){ themeMode = 'light'; }
+  applyThemeMode();
+}
+
+// ---------- detailed theme customization (colors, logo, site name) — shared across the whole site ----------
+function applyCustomTheme(custom){
+  const root = document.documentElement.style;
+  const colorKeys = { teal:'--teal', tealDark:'--teal-dark', amber:'--amber', paper:'--paper', card:'--card', ink:'--ink' };
+  Object.entries(colorKeys).forEach(([k, cssVar])=>{
+    if(custom && custom.colors && custom.colors[k]){
+      root.setProperty(cssVar, custom.colors[k]);
+    } else {
+      root.removeProperty(cssVar);
+    }
+  });
+
+  const mark = document.getElementById('brandMark');
+  if(mark){
+    if(custom && custom.logoImage){
+      mark.innerHTML = `<img src="${custom.logoImage}" alt="شعار">`;
+    } else {
+      mark.textContent = (custom && custom.brandText) ? custom.brandText : DEFAULT_BRAND_TEXT;
+    }
+  }
+  const titleEl = document.getElementById('siteTitleEl');
+  const title = (custom && custom.siteTitle) ? custom.siteTitle : DEFAULT_SITE_TITLE;
+  if(titleEl) titleEl.textContent = title;
+  document.title = title;
+}
+
+async function loadThemeCustomSettings(){
+  try{
+    const v = await window.storage.get('theme-settings', true);
+    THEME_CUSTOM = v ? JSON.parse(v.value) : null;
+  }catch(e){ THEME_CUSTOM = null; }
+  applyCustomTheme(THEME_CUSTOM);
+}
+
+function openThemeSettingsModal(){
+  editingLogoImage = THEME_CUSTOM ? (THEME_CUSTOM.logoImage || null) : null;
+  const colors = Object.assign({}, DEFAULT_THEME_COLORS, (THEME_CUSTOM && THEME_CUSTOM.colors) || {});
+  const brandText = (THEME_CUSTOM && THEME_CUSTOM.brandText) || DEFAULT_BRAND_TEXT;
+  const siteTitle = (THEME_CUSTOM && THEME_CUSTOM.siteTitle) || DEFAULT_SITE_TITLE;
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>🎨 تخصيص ثيم الموقع</h2>
+      <div class="fin-sub">غيّر الألوان والشعار واسم المتجر — التغييرات بتنطبق على كل الأجهزة</div>
+
+      <div class="field" style="margin-top:14px;">
+        <label>شعار المتجر</label>
+        <div class="logo-upload-row">
+          <label class="img-upload" id="logoUploadBox">
+            ${editingLogoImage ? `<img src="${editingLogoImage}" id="logoPreview">` : `<span style="font-size:20px;">${escapeHtml(brandText)}</span>`}
+            <input type="file" accept="image/*" style="display:none" id="logoInput" onchange="handleLogoUpload(event)">
+          </label>
+          <div class="field">
+            <label>نص الشعار (لو ما في صورة)</label>
+            <input type="text" id="fBrandText" maxlength="3" value="${escapeHtml(brandText)}" placeholder="مثال: S">
+            ${editingLogoImage ? `<button type="button" class="btn btn-ghost btn-sm" style="margin-top:6px; padding:4px 8px;" onclick="removeLogoImage()">إزالة الصورة والرجوع للنص</button>` : ''}
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>اسم المتجر</label>
+        <input type="text" id="fSiteTitle" value="${escapeHtml(siteTitle)}" placeholder="مثال: مخزون SawwaSouq">
+      </div>
+
+      <div class="field">
+        <label>ألوان الموقع</label>
+        <div class="color-grid">
+          <div class="color-field"><label>اللون الأساسي</label><input type="color" id="cTeal" value="${colors.teal}"></div>
+          <div class="color-field"><label>اللون الغامق</label><input type="color" id="cTealDark" value="${colors.tealDark}"></div>
+          <div class="color-field"><label>لون التمييز</label><input type="color" id="cAmber" value="${colors.amber}"></div>
+          <div class="color-field"><label>لون الخلفية</label><input type="color" id="cPaper" value="${colors.paper}"></div>
+          <div class="color-field"><label>لون البطاقات</label><input type="color" id="cCard" value="${colors.card}"></div>
+          <div class="color-field"><label>لون النص</label><input type="color" id="cInk" value="${colors.ink}"></div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-block" onclick="saveThemeSettings()">حفظ التخصيص</button>
+      </div>
+      <div style="margin-top:8px; display:flex; gap:8px;">
+        <button class="btn btn-outline btn-sm" style="flex:1" onclick="resetThemeSettings()">↺ استعادة الألوان الافتراضية</button>
+      </div>
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
+    </div>
+  </div>`;
+  document.getElementById('logoUploadBox').addEventListener('click', (e)=>{
+    if(e.target.tagName!=='INPUT') document.getElementById('logoInput').click();
+  });
+}
+
+function handleLogoUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const img = new Image();
+    img.onload = function(){
+      const maxW = 160;
+      const scale = Math.min(1, maxW/img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width*scale;
+      canvas.height = img.height*scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      editingLogoImage = canvas.toDataURL('image/jpeg', 0.85);
+      openThemeSettingsModal();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeLogoImage(){
+  editingLogoImage = null;
+  openThemeSettingsModal();
+}
+
+async function saveThemeSettings(){
+  const custom = {
+    colors: {
+      teal: document.getElementById('cTeal').value,
+      tealDark: document.getElementById('cTealDark').value,
+      amber: document.getElementById('cAmber').value,
+      paper: document.getElementById('cPaper').value,
+      card: document.getElementById('cCard').value,
+      ink: document.getElementById('cInk').value
+    },
+    brandText: document.getElementById('fBrandText').value.trim() || DEFAULT_BRAND_TEXT,
+    siteTitle: document.getElementById('fSiteTitle').value.trim() || DEFAULT_SITE_TITLE,
+    logoImage: editingLogoImage
+  };
+  THEME_CUSTOM = custom;
+  applyCustomTheme(custom);
+  try{
+    await window.storage.set('theme-settings', JSON.stringify(custom), true);
+    toast('تم حفظ تخصيص الثيم');
+    logActivity('theme_settings', `تعديل تخصيص الثيم (اسم المتجر: "${custom.siteTitle}")`, {});
+  }catch(e){ toast('تعذّر حفظ التخصيص، حاول مجددًا'); }
+  closeModal();
+}
+
+async function resetThemeSettings(){
+  THEME_CUSTOM = null;
+  editingLogoImage = null;
+  applyCustomTheme(null);
+  try{
+    await window.storage.delete('theme-settings', true);
+    toast('تمت استعادة الثيم الافتراضي');
+  }catch(e){}
+  closeModal();
 }
 
 // ---------- storage ----------
@@ -715,6 +1242,7 @@ async function loadAll(){
 // Loads the old un-scoped keys (pre-season version of the app)
 async function loadLegacyFlatData(){
   try{ const p = await window.storage.get('products-list', false); PRODUCTS = p ? JSON.parse(p.value) : []; }catch(e){ PRODUCTS = []; }
+  try{ const cg = await window.storage.get('categories-list', false); CATEGORIES = cg ? JSON.parse(cg.value) : []; }catch(e){ CATEGORIES = []; }
   try{ const o = await window.storage.get('orders-list', false); ORDERS = o ? JSON.parse(o.value) : []; }catch(e){ ORDERS = []; }
   migrateLegacyOrderStatuses();
   try{ const ex = await window.storage.get('expenses-list', false); EXPENSES = ex ? JSON.parse(ex.value) : []; }catch(e){ EXPENSES = []; }
@@ -733,6 +1261,7 @@ async function loadLegacyFlatData(){
 async function loadSeasonData(seasonId){
   const sk = (base)=> base + '::' + seasonId;
   try{ const p = await window.storage.get(sk('products-list'), false); PRODUCTS = p ? JSON.parse(p.value) : []; }catch(e){ PRODUCTS = []; }
+  try{ const cg = await window.storage.get(sk('categories-list'), false); CATEGORIES = cg ? JSON.parse(cg.value) : []; }catch(e){ CATEGORIES = []; }
   try{ const o = await window.storage.get(sk('orders-list'), false); ORDERS = o ? JSON.parse(o.value) : []; }catch(e){ ORDERS = []; }
   migrateLegacyOrderStatuses();
   try{ const ex = await window.storage.get(sk('expenses-list'), false); EXPENSES = ex ? JSON.parse(ex.value) : []; }catch(e){ EXPENSES = []; }
@@ -774,7 +1303,7 @@ function migrateLegacyOrderStatuses(){
 
 async function saveAllCurrentSeasonData(){
   await Promise.all([
-    saveProducts(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
+    saveProducts(), saveCategories(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
     saveReserveLog(), savePartnerPayouts(), saveSettlements(), saveRestockLog(), saveFinanceConfig()
   ]);
 }
@@ -862,6 +1391,7 @@ async function saveShippingCompanyForm(companyId){
   const note = document.getElementById('scNote').value.trim();
   if(!name){ toast('اكتب اسم الشركة'); return; }
   if(!phone){ toast('اكتب رقم هاتف الشركة'); return; }
+  const isNew = !companyId;
   if(companyId){
     const c = SHIPPING_COMPANIES.find(x=>x.id===companyId);
     c.name=name; c.phone=phone; c.note=note;
@@ -870,20 +1400,27 @@ async function saveShippingCompanyForm(companyId){
   }
   await saveShippingCompanies();
   toast('تم الحفظ');
+  logActivity(isNew ? 'shipping_add' : 'shipping_edit', `${isNew ? 'إضافة' : 'تعديل'} شركة الشحن "${name}"`, {companyId});
   openShippingCompaniesModal();
 }
 
 function deleteShippingCompany(companyId){
   showConfirm('حذف شركة الشحن هاي؟ الطلبات القديمة المرتبطة فيها بتضل محتفظة باسمها.', async ()=>{
+    const c = SHIPPING_COMPANIES.find(x=>x.id===companyId);
     SHIPPING_COMPANIES = SHIPPING_COMPANIES.filter(c=>c.id!==companyId);
     await saveShippingCompanies();
     toast('تم الحذف');
+    logActivity('shipping_delete', `حذف شركة الشحن "${c ? c.name : companyId}"`, {companyId});
     openShippingCompaniesModal();
   }, 'حذف');
 }
 
 async function saveProducts(){
   try{ await window.storage.set(seasonKey('products-list'), JSON.stringify(PRODUCTS), false); }
+  catch(e){ toast('تعذّر الحفظ، حاول مجددًا'); }
+}
+async function saveCategories(){
+  try{ await window.storage.set(seasonKey('categories-list'), JSON.stringify(CATEGORIES), false); }
   catch(e){ toast('تعذّر الحفظ، حاول مجددًا'); }
 }
 async function saveOrders(){
@@ -973,6 +1510,7 @@ async function submitNewSeason(){
   await saveSeasonsList();
   allSeasonsSummaryCache = null;
   toast(`تم إنشاء "${name}"`);
+  logActivity('season_create', `إنشاء موسم جديد "${name}"`, {seasonId:season.id});
   await switchSeason(season.id);
 }
 
@@ -1000,10 +1538,12 @@ async function saveSeasonRename(seasonId){
   const s = SEASONS.find(x=>x.id===seasonId);
   const name = document.getElementById('renameSeasonInput').value.trim();
   if(!name){ toast('اكتب اسم الموسم'); return; }
+  const oldName = s.name;
   s.name = name;
   await saveSeasonsList();
   if(seasonId===currentSeasonId) updateSeasonLabel();
   toast('تم الحفظ');
+  logActivity('season_rename', `إعادة تسمية الموسم "${oldName}" إلى "${name}"`, {seasonId});
   openSeasonModal();
 }
 
@@ -1014,9 +1554,15 @@ async function switchSeason(seasonId){
   await loadSeasonData(seasonId);
   productSearchQuery = '';
   orderFilter = 'all';
+  orderSearchQuery = '';
+  customerSearchQuery = '';
   reportPeriod = 'today';
   const searchInput = document.getElementById('productSearch');
   if(searchInput) searchInput.value = '';
+  const orderSearchInput = document.getElementById('orderSearch');
+  if(orderSearchInput) orderSearchInput.value = '';
+  const customerSearchInput = document.getElementById('customerSearch');
+  if(customerSearchInput) customerSearchInput.value = '';
   closeModal();
   switchTab('products');
   render();
@@ -1028,13 +1574,14 @@ function deleteSeason(seasonId){
   const s = SEASONS.find(x=>x.id===seasonId);
   showConfirm(`حذف "${s.name}" نهائيًا؟ رح تنحذف كل منتجاته وطلباته وحساباته بدون رجعة.`, async ()=>{
     const sk = (base)=> base + '::' + seasonId;
-    const keys = ['products-list','orders-list','expenses-list','partners-list','capital-log','reserve-log','partner-payouts','settlements-list','restock-log','finance-config'];
+    const keys = ['products-list','categories-list','orders-list','expenses-list','partners-list','capital-log','reserve-log','partner-payouts','settlements-list','restock-log','finance-config'];
     for(const k of keys){
       try{ await window.storage.delete(sk(k), false); }catch(e){ /* key may not exist, ignore */ }
     }
     SEASONS = SEASONS.filter(x=>x.id!==seasonId);
     await saveSeasonsList();
     allSeasonsSummaryCache = null;
+    logActivity('season_delete', `حذف الموسم "${s.name}" وكل بياناته`, {seasonId});
     if(seasonId===currentSeasonId){
       await switchSeason(SEASONS[0].id);
     } else {
@@ -1063,11 +1610,14 @@ function switchTab(tab){
   currentTab = tab;
   document.getElementById('productsView').style.display = tab==='products' ? 'block':'none';
   document.getElementById('ordersView').style.display = tab==='orders' ? 'block':'none';
+  document.getElementById('customersView').style.display = tab==='customers' ? 'block':'none';
   document.getElementById('financeView').style.display = tab==='finance' ? 'block':'none';
   document.getElementById('tabProductsBtn').classList.toggle('active', tab==='products');
   document.getElementById('tabOrdersBtn').classList.toggle('active', tab==='orders');
+  document.getElementById('tabCustomersBtn').classList.toggle('active', tab==='customers');
   document.getElementById('tabFinanceBtn').classList.toggle('active', tab==='finance');
   if(tab==='finance') renderFinance();
+  if(tab==='customers') renderCustomers();
 }
 
 // ---------- render ----------
@@ -1079,10 +1629,12 @@ function render(){
   renderOrderFilters();
   renderOrdersStats();
   renderOrders();
+  renderCustomers();
   renderCartFab();
   renderFinance();
   document.getElementById('countProducts').textContent = PRODUCTS.length;
   document.getElementById('countOrders').textContent = ORDERS.filter(o=>o.status!=='cancelled').length;
+  document.getElementById('countCustomers').textContent = computeCustomersList().length;
 }
 
 function renderLowStockBanner(){
@@ -1113,7 +1665,7 @@ function renderProductsStats(){
   const totalValue = PRODUCTS.reduce((s,p)=>s+p.qty*p.price,0);
   const wholesaleValue = PRODUCTS.reduce((s,p)=>s+p.qty*(p.wholesalePrice||0),0);
   const expectedProfit = PRODUCTS.reduce((s,p)=>s+p.qty*(p.price-(p.wholesalePrice||0)),0);
-  const revenueDone = ORDERS.filter(o=>o.status==='done').reduce((s,o)=>s+o.total,0);
+  const revenueDone = ORDERS.filter(o=>o.status==='done').reduce((s,o)=>s+(o.subtotal ?? (o.total-(o.deliveryFee||0))),0);
   const expensesTotalAll = EXPENSES.reduce((s,e)=>s+e.amount,0);
   const cashAfterExpenses = revenueDone - expensesTotalAll;
   el.innerHTML = `
@@ -1156,17 +1708,21 @@ function renderOrdersStats(){
   if(!el) return;
   const delivering = ORDERS.filter(o=>o.status==='delivering').length;
   const doneOrders = ORDERS.filter(o=>o.status==='done');
-  const revenue = doneOrders.reduce((s,o)=>s+o.total,0);
+  const revenue = doneOrders.reduce((s,o)=>s+(o.subtotal ?? (o.total-(o.deliveryFee||0))),0);
+  const deliveryTotal = doneOrders.reduce((s,o)=>s+(o.deliveryFee||0),0);
   el.innerHTML = `
     <div class="stat-card"><div class="n">${delivering}</div><div class="l">طلب قيد التوصيل</div></div>
     <div class="stat-card"><div class="n">${doneOrders.length}</div><div class="l">طلب مُسلَّم</div></div>
     <div class="stat-card"><div class="n">${money(revenue)}</div><div class="l">إجمالي مبيعات مُسلَّمة (د.أ)</div></div>
+    <div class="stat-card"><div class="n">${money(deliveryTotal)}</div><div class="l">إجمالي أجور التوصيل (د.أ)</div></div>
   `;
 }
 
 function renderProducts(){
   const grid = document.getElementById('productsGrid');
+  const countEl = document.getElementById('productSearchCount');
   if(PRODUCTS.length===0){
+    if(countEl) countEl.textContent = '';
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="big">📦</div>
       <div style="font-weight:700; margin-bottom:4px;">المستودع فاضي</div>
@@ -1174,68 +1730,136 @@ function renderProducts(){
     </div>`;
     return;
   }
-  const filtered = productSearchQuery
-    ? PRODUCTS.filter(p=>p.name.toLowerCase().includes(productSearchQuery))
-    : PRODUCTS;
-  if(filtered.length===0){
+  const q = productSearchQuery;
+  const matchesSearch = p => !q || p.name.toLowerCase().includes(q);
+  const totalMatches = PRODUCTS.filter(matchesSearch).length;
+  if(countEl) countEl.textContent = q ? `${totalMatches} نتيجة` : '';
+  if(q && totalMatches===0){
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="big">🔍</div>
       <div style="font-weight:700;">ما لقينا منتج يطابق البحث</div>
     </div>`;
     return;
   }
-  grid.innerHTML = filtered.map((p,idx)=>{
-    const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
-    const imgHtml = p.image
-      ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
-      : `<div class="card-img empty"></div>`;
-    const isFirst = idx===0;
-    const isLast = idx===filtered.length-1;
-    const reorderRow = productReorderMode ? `
-        <div class="card-actions" style="margin-top:6px;">
-          <button class="icon-btn" style="flex:1" ${isFirst?'disabled':''} onclick="moveProduct('${p.id}',-1)" title="تحريك لأعلى">⬆️</button>
-          <button class="icon-btn" style="flex:1" ${isLast?'disabled':''} onclick="moveProduct('${p.id}',1)" title="تحريك لأسفل">⬇️</button>
-        </div>` : '';
-    return `
-    <div class="card">
-      ${imgHtml}
-      <div class="stock-tag ${stockClass}">الكمية: ${p.qty}</div>
-      <div class="card-body">
-        <h3>${escapeHtml(p.name)}</h3>
-        <div class="price">${money(p.price)} د.أ <span style="font-size:11px; color:var(--ink-soft); font-weight:500;">مفرق</span></div>
-        ${p.wholesalePrice ? `<div style="font-size:12px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; margin-top:-4px;">جملة: ${money(p.wholesalePrice)} د.أ</div>` : ''}
-        <div class="card-actions">
-          <button class="btn btn-primary btn-sm" style="flex:1" ${p.qty<=0?'disabled':''} onclick="quickSell('${p.id}')">بيع الآن</button>
-          <button class="btn btn-outline btn-sm" ${p.qty<=0?'disabled':''} onclick="addToCart('${p.id}')" title="أضف للسلة">🛒</button>
-          <button class="icon-btn" onclick="openRestockModal('${p.id}')" title="استلام بضاعة">📥</button>
-          <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">تعديل</button>
-        </div>
-        ${reorderRow}
-      </div>
+
+  // Group products into sections: "بدون قسم" (only shown if it has products) then
+  // every defined category in its saved order — all on the SAME page, each section
+  // is just a divider line with a title above its products (no separate tabs/pages).
+  const groups = [];
+  const uncategorized = PRODUCTS.filter(p=>!p.categoryId);
+  if(uncategorized.length>0){
+    groups.push({id:null, name:'بدون قسم', products:uncategorized});
+  }
+  CATEGORIES.forEach(cat=>{
+    groups.push({id:cat.id, name:cat.name, products: PRODUCTS.filter(p=>p.categoryId===cat.id)});
+  });
+
+  let html = '';
+  groups.forEach(g=>{
+    const visible = g.products.filter(matchesSearch);
+    if(q && visible.length===0) return; // hide empty sections while searching
+    html += `<div class="category-divider">
+      <span class="cd-title">${escapeHtml(g.name)}</span>
+      <span class="cd-count">${g.products.length}</span>
     </div>`;
-  }).join('');
+    if(visible.length===0){
+      html += `<div class="empty-mini" style="grid-column:1/-1;">لا يوجد منتجات بهذا القسم بعد</div>`;
+    } else {
+      const catKey = g.id===null ? 'none' : g.id;
+      html += `<div class="category-group" data-cat-key="${catKey}">${visible.map(p=>renderProductCard(p)).join('')}</div>`;
+    }
+  });
+  grid.innerHTML = html;
+  initProductSortables();
+}
+
+function renderProductCard(p){
+  const stockClass = p.qty===0 ? 'zero' : (p.qty<=3 ? 'low' : '');
+  const imgHtml = p.image
+    ? `<div class="card-img"><img src="${p.image}" alt=""></div>`
+    : `<div class="card-img empty"></div>`;
+  const reorderRow = productReorderMode ? `
+      <div class="drag-handle" title="اسحب لتغيير الترتيب">⠿ اسحب للترتيب</div>` : '';
+  return `
+  <div class="card ${productReorderMode?'reorder-mode':''}" data-product-id="${p.id}">
+    ${imgHtml}
+    <div class="stock-tag ${stockClass}">الكمية: ${p.qty}</div>
+    <div class="card-body">
+      <h3>${escapeHtml(p.name)}</h3>
+      <div class="price">${money(p.price)} د.أ <span style="font-size:11px; color:var(--ink-soft); font-weight:500;">مفرق</span></div>
+      ${p.wholesalePrice ? `<div style="font-size:12px; color:var(--ink-soft); font-family:'Orbitron','JetBrains Mono',monospace; margin-top:-4px;">جملة: ${money(p.wholesalePrice)} د.أ</div>` : ''}
+      <div class="card-actions">
+        <button class="btn btn-primary btn-sm" style="flex:1" ${p.qty<=0?'disabled':''} onclick="quickSell('${p.id}')">بيع الآن</button>
+        <button class="btn btn-outline btn-sm" ${p.qty<=0?'disabled':''} onclick="addToCart('${p.id}')" title="أضف للسلة">🛒</button>
+        <button class="icon-btn" onclick="openRestockModal('${p.id}')" title="استلام بضاعة">📥</button>
+        <button class="btn btn-ghost btn-sm" onclick="openProductModal('${p.id}')">تعديل</button>
+      </div>
+      ${reorderRow}
+    </div>
+  </div>`;
 }
 
 let productReorderMode = false;
+let productSortables = [];
+
 function toggleProductReorderMode(){
+  if(!productReorderMode && productSearchQuery){
+    toast('امسح البحث الأول قبل ما تبدأ الترتيب');
+    return;
+  }
   productReorderMode = !productReorderMode;
   const btn = document.getElementById('reorderProductsBtn');
   if(btn) btn.textContent = productReorderMode ? '✅ تم الترتيب' : '↕️ ترتيب المنتجات';
   renderProducts();
 }
-async function moveProduct(productId, direction){
-  // direction: -1 = up (earlier), 1 = down (later)
-  // Reordering always applies to the full PRODUCTS list so the saved order
-  // stays correct even if a search filter is active in the grid.
-  const idx = PRODUCTS.findIndex(p=>p.id===productId);
-  if(idx===-1) return;
-  const targetIdx = idx + direction;
-  if(targetIdx<0 || targetIdx>=PRODUCTS.length) return;
-  const tmp = PRODUCTS[idx];
-  PRODUCTS[idx] = PRODUCTS[targetIdx];
-  PRODUCTS[targetIdx] = tmp;
+
+function destroyProductSortables(){
+  productSortables.forEach(s=>{ try{ s.destroy(); }catch(e){} });
+  productSortables = [];
+}
+
+function initProductSortables(){
+  destroyProductSortables();
+  if(!productReorderMode || typeof Sortable==='undefined') return;
+  document.querySelectorAll('#productsGrid .category-group').forEach(group=>{
+    const s = new Sortable(group, {
+      handle: '.drag-handle',
+      animation: 150,
+      delay: 60,
+      delayOnTouchOnly: true,
+      ghostClass: 'drag-ghost',
+      chosenClass: 'drag-chosen',
+      dragClass: 'drag-drag',
+      onEnd: ()=>{
+        const catKey = group.dataset.catKey;
+        const catId = catKey==='none' ? null : catKey;
+        const orderedIds = Array.from(group.children)
+          .map(el=>el.dataset.productId)
+          .filter(Boolean);
+        reorderProductsInCategory(catId, orderedIds);
+      }
+    });
+    productSortables.push(s);
+  });
+}
+
+async function reorderProductsInCategory(catId, orderedIds){
+  // Rebuilds PRODUCTS keeping every OTHER category's items exactly where they
+  // were, and swapping in this category's items in the new drag order — so
+  // dragging within one section never disturbs the order of other sections.
+  const byId = {};
+  PRODUCTS.filter(p=>(p.categoryId||null)===catId).forEach(p=>{ byId[p.id]=p; });
+  const newOrderForCat = orderedIds.map(id=>byId[id]).filter(Boolean);
+  let ptr = 0;
+  PRODUCTS = PRODUCTS.map(p=>{
+    if((p.categoryId||null)===catId){
+      const next = newOrderForCat[ptr];
+      ptr++;
+      return next || p;
+    }
+    return p;
+  });
   await saveProducts();
-  renderProducts();
 }
 
 const statusMeta = {
@@ -1247,9 +1871,24 @@ function getStatusMeta(status){
   return statusMeta[status] || {label: status || 'غير معروف', cls:'badge-warehouse'};
 }
 
+function orderMatchesSearch(o, q){
+  if(!q) return true;
+  if(o.customer && o.customer.toLowerCase().includes(q)) return true;
+  if(o.phone && o.phone.toLowerCase().includes(q)) return true;
+  if((o.items||[]).some(it=>it.name && it.name.toLowerCase().includes(q))) return true;
+  return false;
+}
+
+function handleOrderSearch(val){
+  orderSearchQuery = val.trim().toLowerCase();
+  renderOrders();
+}
+
 function renderOrders(){
   const list = document.getElementById('ordersList');
+  const countEl = document.getElementById('orderSearchCount');
   if(ORDERS.length===0){
+    if(countEl) countEl.textContent = '';
     list.innerHTML = `<div class="empty-state">
       <div class="big">🧾</div>
       <div style="font-weight:700; margin-bottom:4px;">لا توجد طلبات بعد</div>
@@ -1257,11 +1896,15 @@ function renderOrders(){
     </div>`;
     return;
   }
-  const filteredOrders = orderFilter==='all' ? ORDERS : ORDERS.filter(o=>o.status===orderFilter);
+  let filteredOrders = orderFilter==='all' ? ORDERS : ORDERS.filter(o=>o.status===orderFilter);
+  if(orderSearchQuery){
+    filteredOrders = filteredOrders.filter(o=>orderMatchesSearch(o, orderSearchQuery));
+  }
+  if(countEl) countEl.textContent = orderSearchQuery ? `${filteredOrders.length} نتيجة` : '';
   if(filteredOrders.length===0){
     list.innerHTML = `<div class="empty-state">
       <div class="big">🧾</div>
-      <div style="font-weight:700;">ما في طلبات بهاي الحالة</div>
+      <div style="font-weight:700;">${orderSearchQuery ? 'ما في نتائج مطابقة' : 'ما في طلبات بهاي الحالة'}</div>
     </div>`;
     return;
   }
@@ -1274,9 +1917,12 @@ function renderOrders(){
     let actions = `<button class="icon-btn" onclick="openReceiptModal('${o.id}')" title="الفاتورة">🧾</button>`;
     if(o.status==='delivering'){
       actions += `<button class="btn btn-primary btn-sm" onclick="advanceOrder('${o.id}')">✅ تم التسليم</button>
-                 <button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل بيانات العميل">✎</button>
+                 <button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل الطلب">✎</button>
                  <button class="btn btn-danger btn-sm" onclick="cancelOrder('${o.id}')">إلغاء</button>`;
+    } else if(o.status==='done'){
+      actions += `<button class="icon-btn" onclick="openEditOrderModal('${o.id}')" title="تعديل الطلب بعد التسليم">✎</button>`;
     }
+    actions += `<button class="icon-btn" onclick="openOrderNoteModal('${o.id}')" title="ملاحظة على الطلب">${o.note ? '🗒️' : '📝'}</button>`;
     const addressLine = o.address ? `<div style="font-size:12.5px; color:var(--ink-soft); margin-top:2px;">📍 ${escapeHtml(o.address)}</div>` : '';
     const deliveryFee = o.deliveryFee || 0;
     return `
@@ -1290,6 +1936,7 @@ function renderOrders(){
         <span class="badge ${meta.cls}">${meta.label}</span>
       </div>
       <div class="order-items">${itemsHtml}</div>
+      ${o.note ? `<div class="order-note-box">🗒️ ${escapeHtml(o.note)}</div>` : ''}
       <div class="order-item-row"><span>المبلغ بدون التوصيل</span><span>${money(o.subtotal ?? o.total)} د.أ</span></div>
       <div class="order-item-row"><span>أجور التوصيل</span><span>${money(deliveryFee)} د.أ</span></div>
       <div class="order-total"><span>الإجمالي</span><span class="mono">${money(o.total)} د.أ</span></div>
@@ -1305,8 +1952,222 @@ function renderCartFab(){
   fab.style.display = count>0 ? 'flex' : 'none';
 }
 
+// ---------- customers (derived automatically from orders) ----------
+function computeCustomersList(){
+  const map = {};
+  ORDERS.filter(o=>o.status!=='cancelled').forEach(o=>{
+    const key = (o.phone && o.phone.trim()) || ('n:'+(o.customer||'-'));
+    if(!map[key]){
+      map[key] = {
+        name: o.customer || 'عميل بدون اسم',
+        phone: o.phone || '',
+        address: o.address || '',
+        orders: 0,
+        total: 0,
+        delivery: 0,
+        lastAt: 0,
+        products: {}
+      };
+    }
+    const c = map[key];
+    c.orders += 1;
+    c.total += (o.subtotal ?? (o.total-(o.deliveryFee||0)));
+    c.delivery += (o.deliveryFee||0);
+    if(o.createdAt > c.lastAt){
+      c.lastAt = o.createdAt;
+      // keep the most recent address/name in case they were edited later
+      if(o.customer) c.name = o.customer;
+      if(o.address) c.address = o.address;
+    }
+    (o.items||[]).forEach(it=>{
+      c.products[it.name] = (c.products[it.name]||0) + it.qty;
+    });
+  });
+  return Object.values(map).sort((a,b)=>b.lastAt-a.lastAt);
+}
+
+function handleCustomerSearch(val){
+  customerSearchQuery = val.trim().toLowerCase();
+  renderCustomers();
+}
+
+function renderCustomers(){
+  const statsEl = document.getElementById('customersStats');
+  const listEl = document.getElementById('customersList');
+  if(!listEl) return;
+
+  const all = computeCustomersList();
+
+  if(statsEl){
+    const totalRevenue = all.reduce((s,c)=>s+c.total,0);
+    const totalDelivery = all.reduce((s,c)=>s+c.delivery,0);
+    statsEl.innerHTML = `
+      <div class="stat-card"><div class="n">${all.length}</div><div class="l">إجمالي العملاء</div></div>
+      <div class="stat-card"><div class="n">${money(totalRevenue)}</div><div class="l">إجمالي المبيعات (د.أ)</div></div>
+      <div class="stat-card"><div class="n">${money(totalDelivery)}</div><div class="l">إجمالي أجور التوصيل (د.أ)</div></div>
+    `;
+  }
+
+  let list = all;
+  if(customerSearchQuery){
+    list = list.filter(c=>
+      c.name.toLowerCase().includes(customerSearchQuery) ||
+      (c.phone && c.phone.toLowerCase().includes(customerSearchQuery)) ||
+      Object.keys(c.products).some(name=>name.toLowerCase().includes(customerSearchQuery))
+    );
+  }
+  const countEl = document.getElementById('customerSearchCount');
+  if(countEl) countEl.textContent = customerSearchQuery ? `${list.length} نتيجة` : '';
+
+  if(all.length===0){
+    listEl.innerHTML = `<div class="empty-state">
+      <div class="big">👥</div>
+      <div style="font-weight:700; margin-bottom:4px;">لا يوجد عملاء بعد</div>
+      <div style="font-size:13px;">أي طلب بيع جديد بيضيف صاحبه هون تلقائيًا</div>
+    </div>`;
+    return;
+  }
+  if(list.length===0){
+    listEl.innerHTML = `<div class="empty-state">
+      <div class="big">👥</div>
+      <div style="font-weight:700;">ما في نتائج مطابقة</div>
+    </div>`;
+    return;
+  }
+
+  listEl.innerHTML = list.map(c=>{
+    const addressLine = c.address ? `<div class="customer-meta">📍 ${escapeHtml(c.address)}</div>` : '';
+    const productTags = Object.entries(c.products).map(([name,qty])=>
+      `<span class="customer-product-tag">${escapeHtml(name)} × ${qty}</span>`
+    ).join('');
+    return `
+    <div class="customer-card">
+      <div class="customer-top">
+        <div>
+          <div class="customer-name">${escapeHtml(c.name)}</div>
+          <div class="customer-meta">${c.phone ? '📞 '+escapeHtml(c.phone) : 'بدون رقم هاتف'}</div>
+          ${addressLine}
+        </div>
+      </div>
+      <div class="customer-stats">
+        <div class="cs-item">عدد الطلبات<b>${c.orders}</b></div>
+        <div class="cs-item">إجمالي المبيعات<b>${money(c.total)} د.أ</b></div>
+        <div class="cs-item">أجور التوصيل<b>${money(c.delivery)} د.أ</b></div>
+      </div>
+      <div class="customer-products">${productTags}</div>
+    </div>`;
+  }).join('');
+}
+
 function escapeHtml(s){
   const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML;
+}
+
+// ---------- product categories (أقسام مثل: Glass Pad / Rubber Pad) ----------
+// Categories just group products visually into labeled sections on the same
+// products page (a divider line + title) — no separate pages/tabs involved.
+function openCategoriesModal(){
+  const modalRoot = document.getElementById('modalRoot');
+  const rows = CATEGORIES.length===0
+    ? `<div class="empty-mini">ما في أقسام مضافة بعد — المنتجات كلها بتظهر تحت "بدون قسم"</div>`
+    : CATEGORIES.map((c,idx)=>{
+        const count = PRODUCTS.filter(p=>p.categoryId===c.id).length;
+        const isFirst = idx===0, isLast = idx===CATEGORIES.length-1;
+        return `
+        <div class="list-row">
+          <div class="lr-main">
+            <div class="lr-title">${escapeHtml(c.name)}</div>
+            <div class="lr-sub">${count} منتج</div>
+          </div>
+          <div class="lr-actions">
+            <button class="icon-btn" ${isFirst?'disabled':''} onclick="moveCategory('${c.id}',-1)" title="تحريك لأعلى">⬆️</button>
+            <button class="icon-btn" ${isLast?'disabled':''} onclick="moveCategory('${c.id}',1)" title="تحريك لأسفل">⬇️</button>
+            <button class="icon-btn" onclick="openCategoryForm('${c.id}')" title="تعديل">✎</button>
+            <button class="icon-btn" onclick="deleteCategory('${c.id}')" title="حذف">🗑</button>
+          </div>
+        </div>`;
+      }).join('');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>🗂️ أقسام المنتجات</h2>
+      <div class="fin-sub">قسّم منتجاتك لأقسام (متل: Glass Pad، Rubber Pad) — كلها بتظهر بنفس صفحة المنتجات، كل قسم بعنوانه وخط فاصل فوق منتجاته</div>
+      <div style="margin:14px 0;">${rows}</div>
+      <button class="btn btn-primary btn-block" onclick="openCategoryForm()">+ إضافة قسم</button>
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
+    </div>
+  </div>`;
+}
+
+function openCategoryForm(categoryId){
+  const c = categoryId ? CATEGORIES.find(x=>x.id===categoryId) : null;
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>${c ? 'تعديل القسم' : 'إضافة قسم جديد'}</h2>
+      <div class="field">
+        <label>اسم القسم *</label>
+        <input type="text" id="catName" value="${c ? escapeHtml(c.name) : ''}" placeholder="مثال: Glass Pad">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-block" onclick="saveCategoryForm(${c ? `'${c.id}'` : 'null'})">حفظ</button>
+      </div>
+      ${c ? `<div style="margin-top:10px;"><button class="btn btn-danger btn-block" onclick="deleteCategory('${c.id}')">حذف القسم</button></div>` : ''}
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="openCategoriesModal()">رجوع</button></div>
+    </div>
+  </div>`;
+}
+
+async function saveCategoryForm(categoryId){
+  const name = document.getElementById('catName').value.trim();
+  if(!name){ toast('اكتب اسم القسم'); return; }
+  const isNew = !categoryId;
+  if(categoryId){
+    const c = CATEGORIES.find(x=>x.id===categoryId);
+    c.name = name;
+  } else {
+    CATEGORIES.push({id:uid('cat'), name, createdAt:Date.now()});
+  }
+  await saveCategories();
+  toast('تم الحفظ');
+  render();
+  logActivity(isNew ? 'category_add' : 'category_edit', `${isNew ? 'إضافة' : 'تعديل'} قسم "${name}"`, {});
+  openCategoriesModal();
+}
+
+function deleteCategory(categoryId){
+  const c = CATEGORIES.find(x=>x.id===categoryId);
+  if(!c) return;
+  const count = PRODUCTS.filter(p=>p.categoryId===categoryId).length;
+  showConfirm(count>0 ? `حذف قسم "${c.name}"؟ منتجاته (${count}) رح ترجع لـ "بدون قسم".` : `حذف قسم "${c.name}"؟`, async ()=>{
+    PRODUCTS.forEach(p=>{ if(p.categoryId===categoryId) p.categoryId = null; });
+    CATEGORIES = CATEGORIES.filter(x=>x.id!==categoryId);
+    await saveProducts();
+    await saveCategories();
+    render();
+    logActivity('category_delete', `حذف قسم "${c.name}"`, {});
+    openCategoriesModal();
+  }, 'حذف القسم');
+}
+
+async function moveCategory(categoryId, direction){
+  const idx = CATEGORIES.findIndex(c=>c.id===categoryId);
+  if(idx===-1) return;
+  const targetIdx = idx + direction;
+  if(targetIdx<0 || targetIdx>=CATEGORIES.length) return;
+  const tmp = CATEGORIES[idx];
+  CATEGORIES[idx] = CATEGORIES[targetIdx];
+  CATEGORIES[targetIdx] = tmp;
+  await saveCategories();
+  render();
+  openCategoriesModal();
+}
+
+function buildCategorySelectOptions(selectedId){
+  return `<option value="">بدون قسم</option>` + CATEGORIES.map(c=>
+    `<option value="${c.id}" ${selectedId===c.id?'selected':''}>${escapeHtml(c.name)}</option>`
+  ).join('');
 }
 
 // ---------- product CRUD ----------
@@ -1332,6 +2193,10 @@ function openProductModal(productId, cloneFromId){
       <div class="field">
         <label>اسم المنتج</label>
         <input type="text" id="fName" value="${prefill ? escapeHtml(prefill.name) : ''}" placeholder="مثال: قميص قطن أبيض">
+      </div>
+      <div class="field">
+        <label>القسم</label>
+        <select id="fCategory" class="select-field">${buildCategorySelectOptions(prefill ? prefill.categoryId : null)}</select>
       </div>
       <div class="row2">
         <div class="field">
@@ -1392,6 +2257,7 @@ function handleImageUpload(e){
 
 async function saveProductForm(productId){
   const name = document.getElementById('fName').value.trim();
+  const categoryId = document.getElementById('fCategory').value || null;
   const qty = parseInt(document.getElementById('fQty').value || '0', 10);
   const price = parseFloat(document.getElementById('fPrice').value || '0');
   const wholesalePrice = parseFloat(document.getElementById('fWholesale').value || '0');
@@ -1402,11 +2268,14 @@ async function saveProductForm(productId){
 
   if(productId){
     const p = PRODUCTS.find(x=>x.id===productId);
-    p.name=name; p.qty=qty; p.price=price; p.wholesalePrice=wholesalePrice; p.image=editingImageData;
+    p.name=name; p.categoryId=categoryId; p.qty=qty; p.price=price; p.wholesalePrice=wholesalePrice; p.image=editingImageData;
     toast('تم حفظ التعديلات');
+    logActivity('product_edit', `تعديل المنتج "${name}"`, {productId});
   } else {
-    PRODUCTS.push({id:uid('prod'), name, qty, price, wholesalePrice, image:editingImageData, createdAt:Date.now()});
+    const newProduct = {id:uid('prod'), name, categoryId, qty, price, wholesalePrice, image:editingImageData, createdAt:Date.now()};
+    PRODUCTS.push(newProduct);
     toast('تمت إضافة المنتج');
+    logActivity('product_add', `إضافة منتج جديد "${name}" (الكمية: ${qty})`, {productId:newProduct.id});
   }
   await saveProducts();
   closeModal();
@@ -1415,10 +2284,12 @@ async function saveProductForm(productId){
 
 function deleteProduct(productId){
   showConfirm('حذف هذا المنتج نهائيًا؟', async ()=>{
+    const p = PRODUCTS.find(x=>x.id===productId);
     PRODUCTS = PRODUCTS.filter(p=>p.id!==productId);
     CART = CART.filter(c=>c.productId!==productId);
     await saveProducts();
     render();
+    logActivity('product_delete', `حذف المنتج "${p ? p.name : productId}"`, {productId});
   }, 'حذف المنتج');
 }
 
@@ -1466,7 +2337,7 @@ async function moveProductToSeason(productId, targetSeasonId){
     const r = await window.storage.get(targetKey, false);
     targetProducts = r ? JSON.parse(r.value) : [];
   }catch(e){ targetProducts = []; }
-  targetProducts.push(p);
+  targetProducts.push(Object.assign({}, p, {categoryId: null}));
   try{
     await window.storage.set(targetKey, JSON.stringify(targetProducts), false);
   }catch(e){ toast('تعذّر النقل، حاول مجددًا'); return; }
@@ -1477,6 +2348,7 @@ async function moveProductToSeason(productId, targetSeasonId){
   const target = SEASONS.find(s=>s.id===targetSeasonId);
   toast(`تم نقل المنتج إلى ${target ? target.name : 'الموسم الآخر'}`);
   render();
+  logActivity('product_move', `نقل المنتج "${p.name}" إلى موسم "${target ? target.name : ''}"`, {productId, targetSeasonId});
 }
 
 function closeModal(){
@@ -1532,20 +2404,56 @@ function openCartModal(){
   renderCartModalContent();
 }
 
+function getCartItemPrice(c, p){
+  return (c.priceOverride!=null && !isNaN(c.priceOverride)) ? c.priceOverride : p.price;
+}
+
+function computeCartSubtotal(){
+  return CART.reduce((s,c)=>{
+    const p = PRODUCTS.find(x=>x.id===c.productId);
+    return s + (p ? getCartItemPrice(c,p)*c.qty : 0);
+  }, 0);
+}
+
+function updateCartItemPrice(productId, val){
+  const c = CART.find(x=>x.productId===productId);
+  if(!c) return;
+  let v = parseFloat(val);
+  if(isNaN(v) || v<0) v = 0;
+  c.priceOverride = v;
+  const p = PRODUCTS.find(x=>x.id===productId);
+  const lt = document.getElementById('lt-'+productId);
+  if(lt && p) lt.textContent = money(v*c.qty);
+  recalcCartTotals();
+}
+
+function recalcCartTotals(){
+  const subtotal = computeCartSubtotal();
+  const feeInput = document.getElementById('cDeliveryFee');
+  const fee = feeInput ? (parseFloat(feeInput.value)||0) : 0;
+  const subEl = document.getElementById('rSubtotalDisplay');
+  if(subEl) subEl.textContent = money(subtotal)+' د.أ';
+  const delEl = document.getElementById('rDeliveryDisplay');
+  if(delEl) delEl.textContent = money(fee)+' د.أ';
+  const totEl = document.getElementById('cTotalDisplay');
+  if(totEl) totEl.textContent = money(subtotal+fee)+' د.أ';
+}
+
 function renderCartModalContent(){
   const modalRoot = document.getElementById('modalRoot');
   const itemCount = CART.reduce((s,c)=>s+c.qty,0);
   const rows = CART.map(c=>{
     const p = PRODUCTS.find(x=>x.id===c.productId);
     if(!p) return '';
+    const price = getCartItemPrice(c,p);
     return `
     <div class="cart-row">
       ${p.image ? `<img src="${p.image}">` : `<div class="ph"></div>`}
       <div class="info">
         <h4>${escapeHtml(p.name)}</h4>
-        <div class="p">${money(p.price)} د.أ × ${c.qty}</div>
+        <div class="p">السعر: <input type="number" min="0" step="0.01" class="cart-price-input" value="${price}" oninput="updateCartItemPrice('${p.id}', this.value)"> د.أ × ${c.qty}</div>
       </div>
-      <div class="line-total">${money(p.price*c.qty)}</div>
+      <div class="line-total" id="lt-${p.id}">${money(price*c.qty)}</div>
       <div class="qty-ctrl">
         <button onclick="changeCartQty('${p.id}', -1)">−</button>
         <span>${c.qty}</span>
@@ -1554,10 +2462,7 @@ function renderCartModalContent(){
       <button class="remove-x" onclick="removeCartItem('${p.id}')" title="إزالة">✕</button>
     </div>`;
   }).join('');
-  const subtotal = CART.reduce((s,c)=>{
-    const p = PRODUCTS.find(x=>x.id===c.productId);
-    return s + (p ? p.price*c.qty : 0);
-  }, 0);
+  const subtotal = computeCartSubtotal();
 
   modalRoot.innerHTML = `
   <div class="overlay" onclick="if(event.target===this) closeModal()">
@@ -1586,12 +2491,17 @@ function renderCartModalContent(){
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>أجور التوصيل *</label>
-          <input type="number" min="0" step="0.01" id="cDeliveryFee" value="0" placeholder="0.00" oninput="updateCartTotalDisplay(${subtotal})">
+          <input type="number" min="0" step="0.01" id="cDeliveryFee" value="0" placeholder="0.00" oninput="recalcCartTotals()">
         </div>
       </div>
 
       <div class="sale-section">
         <div class="sale-section-label"><span class="ic">👤</span> بيانات العميل</div>
+        <div class="shipping-hint" style="margin:-2px 0 10px;">
+          <span></span>
+          <a onclick="toggleCustomerPicker()">👥 اختر عميل مسجل</a>
+        </div>
+        <div id="customerPickerBox"></div>
         <div class="field">
           <label>رقم الهاتف *</label>
           <input type="text" id="cPhone" placeholder="07xxxxxxxx" oninput="handleCustomerLookup()">
@@ -1606,25 +2516,19 @@ function renderCartModalContent(){
       <div class="sale-section">
         <div class="sale-section-label"><span class="ic">💵</span> الحساب</div>
         <div class="receipt-box">
-          <div class="r-row"><span>المبلغ بدون التوصيل</span><span>${money(subtotal)} د.أ</span></div>
+          <div class="r-row"><span>المبلغ بدون التوصيل</span><span id="rSubtotalDisplay">${money(subtotal)} د.أ</span></div>
           <div class="r-row"><span>أجور التوصيل</span><span id="rDeliveryDisplay">${money(0)} د.أ</span></div>
           <div class="r-row grand"><span>الإجمالي</span><span class="mono" id="cTotalDisplay">${money(subtotal)} د.أ</span></div>
         </div>
       </div>
 
       <div class="modal-actions" style="margin-top:16px;">
-        <button class="btn btn-primary btn-block" onclick="checkoutCart(${subtotal})">✅ تأكيد البيع</button>
+        <button class="btn btn-primary btn-block" onclick="checkoutCart()">✅ تأكيد البيع</button>
       </div>
       `}
       <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إغلاق</button></div>
     </div>
   </div>`;
-}
-
-function updateCartTotalDisplay(subtotal){
-  const fee = parseFloat(document.getElementById('cDeliveryFee').value) || 0;
-  document.getElementById('rDeliveryDisplay').textContent = money(fee) + ' د.أ';
-  document.getElementById('cTotalDisplay').textContent = money(subtotal + fee) + ' د.أ';
 }
 
 function removeCartItem(productId){
@@ -1645,7 +2549,7 @@ function changeCartQty(productId, delta){
   renderCartFab();
 }
 
-async function checkoutCart(subtotal){
+async function checkoutCart(){
   if(CART.length===0) return;
   const customer = document.getElementById('cCustomer').value.trim();
   const phone = document.getElementById('cPhone').value.trim();
@@ -1669,11 +2573,12 @@ async function checkoutCart(subtotal){
   }
   for(const c of CART){
     const p = PRODUCTS.find(x=>x.id===c.productId);
+    const salePrice = getCartItemPrice(c,p);
     p.qty -= c.qty;
-    items.push({productId:p.id, name:p.name, price:p.price, wholesalePrice:p.wholesalePrice||0, qty:c.qty});
-    itemsTotal += p.price * c.qty;
+    items.push({productId:p.id, name:p.name, price:salePrice, wholesalePrice:p.wholesalePrice||0, qty:c.qty});
+    itemsTotal += salePrice * c.qty;
   }
-  ORDERS.push({
+  const newOrder = {
     id: uid('ord'), items,
     subtotal: itemsTotal, deliveryFee, total: itemsTotal + deliveryFee,
     status:'delivering',
@@ -1682,13 +2587,15 @@ async function checkoutCart(subtotal){
     shippingCompanyName: shippingCompany ? shippingCompany.name : '',
     shippingCompanyPhone: shippingCompany ? shippingCompany.phone : '',
     createdAt: Date.now()
-  });
+  };
+  ORDERS.push(newOrder);
   CART = [];
   await saveProducts();
   await saveOrders();
   closeModal();
   toast('تم تنفيذ عملية البيع، الطلب بطريقه للتوصيل 🚚');
   render();
+  logActivity('order_create', `طلب جديد للعميل "${customer}" بقيمة ${money(newOrder.total)} د.أ`, {orderId:newOrder.id});
 }
 
 // ---------- order status ----------
@@ -1699,6 +2606,10 @@ async function advanceOrder(orderId){
     o.status='done';
     o.doneAt = Date.now();
     toast('تم تسليم الطلب ✅');
+    await saveOrders();
+    render();
+    logActivity('order_status', `تسليم الطلب #${o.id.slice(-6)} للعميل "${o.customer}"`, {orderId});
+    return;
   }
   await saveOrders();
   render();
@@ -1708,33 +2619,53 @@ function openEditOrderModal(orderId){
   const o = ORDERS.find(x=>x.id===orderId);
   if(!o) return;
   const modalRoot = document.getElementById('modalRoot');
+  const itemsHtml = (o.items||[]).map((it,idx)=>`
+    <div class="cart-row">
+      <div class="info">
+        <h4>${escapeHtml(it.name)}</h4>
+        <div class="p">السعر: <input type="number" min="0" step="0.01" class="cart-price-input oe-price-input" data-idx="${idx}" data-qty="${it.qty}" value="${it.price}" oninput="recalcOrderEditTotals()"> د.أ × ${it.qty}</div>
+      </div>
+      <div class="line-total" id="olt-${idx}">${money(it.price*it.qty)}</div>
+    </div>
+  `).join('');
   modalRoot.innerHTML = `
   <div class="overlay" onclick="if(event.target===this) closeModal()">
     <div class="modal">
-      <h2>تعديل بيانات الطلب #${o.id.slice(-6)}</h2>
-      <div class="field">
-        <label>اسم العميل *</label>
-        <input type="text" id="eCustomer" value="${escapeHtml(o.customer)}">
+      <h2>تعديل الطلب #${o.id.slice(-6)}</h2>
+      ${o.status==='done' ? `<div class="fin-sub" style="margin-bottom:10px;">هذا الطلب مُسلَّم مسبقًا — أي تعديل هون بينعكس فورًا على المبيعات والتقارير.</div>` : ''}
+      <div class="sale-section">
+        <div class="sale-section-label"><span class="ic">🧺</span> المنتجات والأسعار</div>
+        <div>${itemsHtml}</div>
       </div>
-      <div class="field">
-        <label>رقم الهاتف *</label>
-        <input type="text" id="ePhone" value="${escapeHtml(o.phone)}">
+      <div class="sale-section">
+        <div class="sale-section-label"><span class="ic">👤</span> بيانات العميل</div>
+        <div class="field">
+          <label>اسم العميل *</label>
+          <input type="text" id="eCustomer" value="${escapeHtml(o.customer)}">
+        </div>
+        <div class="field">
+          <label>رقم الهاتف *</label>
+          <input type="text" id="ePhone" value="${escapeHtml(o.phone)}">
+        </div>
+        <div class="field">
+          <label>العنوان *</label>
+          <input type="text" id="eAddress" value="${escapeHtml(o.address||'')}">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>شركة الشحن</label>
+          <select id="eShipping" class="select-field">${buildShippingSelectOptions(o.shippingCompanyId)}</select>
+        </div>
       </div>
-      <div class="field">
-        <label>العنوان *</label>
-        <input type="text" id="eAddress" value="${escapeHtml(o.address||'')}">
-      </div>
-      <div class="field">
-        <label>شركة الشحن</label>
-        <select id="eShipping" class="select-field">${buildShippingSelectOptions(o.shippingCompanyId)}</select>
-      </div>
-      <div class="field">
-        <label>المبلغ بدون التوصيل</label>
-        <input type="text" value="${money(o.subtotal ?? o.total)} د.أ" disabled style="opacity:.7;">
-      </div>
-      <div class="field">
-        <label>أجور التوصيل *</label>
-        <input type="number" min="0" step="0.01" id="eDeliveryFee" value="${o.deliveryFee||0}">
+      <div class="sale-section">
+        <div class="sale-section-label"><span class="ic">💵</span> الحساب</div>
+        <div class="field">
+          <label>أجور التوصيل *</label>
+          <input type="number" min="0" step="0.01" id="eDeliveryFee" value="${o.deliveryFee||0}" oninput="recalcOrderEditTotals()">
+        </div>
+        <div class="receipt-box">
+          <div class="r-row"><span>المبلغ بدون التوصيل</span><span id="eSubtotalDisplay">${money(o.subtotal ?? o.total)} د.أ</span></div>
+          <div class="r-row grand"><span>الإجمالي</span><span class="mono" id="eTotalDisplay">${money(o.total)} د.أ</span></div>
+        </div>
       </div>
       <div class="modal-actions">
         <button class="btn btn-primary btn-block" onclick="saveOrderEdit('${o.id}')">حفظ التعديلات</button>
@@ -1742,6 +2673,25 @@ function openEditOrderModal(orderId){
       <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
     </div>
   </div>`;
+}
+
+function recalcOrderEditTotals(){
+  let subtotal = 0;
+  document.querySelectorAll('.oe-price-input').forEach(inp=>{
+    const idx = inp.dataset.idx;
+    const qty = parseFloat(inp.dataset.qty)||0;
+    let v = parseFloat(inp.value);
+    if(isNaN(v) || v<0) v = 0;
+    subtotal += v*qty;
+    const lt = document.getElementById('olt-'+idx);
+    if(lt) lt.textContent = money(v*qty);
+  });
+  const feeInput = document.getElementById('eDeliveryFee');
+  const fee = feeInput ? (parseFloat(feeInput.value)||0) : 0;
+  const subEl = document.getElementById('eSubtotalDisplay');
+  if(subEl) subEl.textContent = money(subtotal)+' د.أ';
+  const totEl = document.getElementById('eTotalDisplay');
+  if(totEl) totEl.textContent = money(subtotal+fee)+' د.أ';
 }
 
 async function saveOrderEdit(orderId){
@@ -1755,28 +2705,187 @@ async function saveOrderEdit(orderId){
   if(!phone){ toast('اكتب رقم هاتف العميل'); return; }
   if(!address){ toast('اكتب عنوان العميل'); return; }
   if(isNaN(deliveryFee) || deliveryFee<0){ toast('أجور التوصيل غير صحيحة'); return; }
-  const subtotal = o.subtotal ?? o.total;
+
+  let subtotal = 0;
+  document.querySelectorAll('.oe-price-input').forEach(inp=>{
+    const idx = parseInt(inp.dataset.idx, 10);
+    let v = parseFloat(inp.value);
+    if(isNaN(v) || v<0) v = 0;
+    if(o.items && o.items[idx]){
+      o.items[idx].price = v;
+      subtotal += v * o.items[idx].qty;
+    }
+  });
+
+  const shippingSel = document.getElementById('eShipping');
+  const shippingId = shippingSel ? shippingSel.value : '';
+  const shippingCompany = shippingId ? SHIPPING_COMPANIES.find(c=>c.id===shippingId) : null;
+
   o.customer = customer; o.phone = phone; o.address = address;
-  o.deliveryFee = deliveryFee; o.total = subtotal + deliveryFee;
+  o.deliveryFee = deliveryFee; o.subtotal = subtotal; o.total = subtotal + deliveryFee;
+  o.shippingCompanyId = shippingCompany ? shippingCompany.id : null;
+  o.shippingCompanyName = shippingCompany ? shippingCompany.name : '';
+  o.shippingCompanyPhone = shippingCompany ? shippingCompany.phone : '';
   await saveOrders();
   closeModal();
   toast('تم تحديث بيانات الطلب');
+  render();
+  logActivity('order_edit', `تعديل بيانات الطلب #${o.id.slice(-6)} للعميل "${customer}"`, {orderId});
+}
+
+// ---- manual order note ----
+function openOrderNoteModal(orderId){
+  const o = ORDERS.find(x=>x.id===orderId);
+  if(!o) return;
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <h2>ملاحظة على الطلب #${o.id.slice(-6)}</h2>
+      <div class="field" style="margin-bottom:0;">
+        <label>الملاحظة</label>
+        <textarea id="oNoteText" rows="4" placeholder="اكتب أي ملاحظة عن هالطلب...">${escapeHtml(o.note||'')}</textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-block" onclick="saveOrderNote('${o.id}')">حفظ الملاحظة</button>
+      </div>
+      ${o.note ? `<div style="margin-top:10px;"><button class="btn btn-danger btn-block" onclick="clearOrderNote('${o.id}')">حذف الملاحظة</button></div>` : ''}
+      <div style="margin-top:8px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">إلغاء</button></div>
+    </div>
+  </div>`;
+}
+
+async function saveOrderNote(orderId){
+  const o = ORDERS.find(x=>x.id===orderId);
+  if(!o) return;
+  const text = document.getElementById('oNoteText').value.trim();
+  o.note = text;
+  await saveOrders();
+  closeModal();
+  toast(text ? 'تم حفظ الملاحظة' : 'تم حذف الملاحظة');
+  render();
+}
+
+async function clearOrderNote(orderId){
+  const o = ORDERS.find(x=>x.id===orderId);
+  if(!o) return;
+  o.note = '';
+  await saveOrders();
+  closeModal();
+  toast('تم حذف الملاحظة');
   render();
 }
 
 function cancelOrder(orderId){
   const o = ORDERS.find(x=>x.id===orderId);
   if(!o) return;
-  showConfirm('إلغاء الطلب وإرجاع الكمية للمستودع؟', async ()=>{
-    o.items.forEach(it=>{
-      const p = PRODUCTS.find(x=>x.id===it.productId);
-      if(p) p.qty += it.qty;
-    });
+  const modalRoot = document.getElementById('modalRoot');
+  modalRoot.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal" style="max-width:380px;">
+      <h2>إلغاء الطلب</h2>
+      <div style="font-size:13px; color:var(--ink-soft); line-height:1.7; margin-bottom:16px;">بترجع كمية المنتجات للمستودع بالحالتين، بس فرق طريقة الإلغاء:</div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="btn btn-outline btn-block" style="flex-direction:column; align-items:stretch; gap:3px; padding:12px 14px; text-align:right;" onclick="confirmCancelOrder('${o.id}','revert')">
+          <span style="font-weight:700; font-size:14px;">↩️ حذف الطلب كأنه ما صار</span>
+          <span style="font-size:12px; color:var(--ink-soft); font-weight:400;">يرجّع المنتج للمخزون وينحذف الطلب نهائيًا من السجل والإحصائيات</span>
+        </button>
+        <button class="btn btn-danger btn-block" style="flex-direction:column; align-items:stretch; gap:3px; padding:12px 14px; text-align:right;" onclick="confirmCancelOrder('${o.id}','customer')">
+          <span style="font-weight:700; font-size:14px;">❌ الزبون لغى الطلب</span>
+          <span style="font-size:12px; font-weight:400;">يرجّع المنتج للمخزون، ويضل الطلب موثّق بالسجل بحالة "ملغي"</span>
+        </button>
+      </div>
+      <div style="margin-top:14px; text-align:center;"><button class="btn btn-ghost btn-sm" onclick="closeModal()">تراجع</button></div>
+    </div>
+  </div>`;
+}
+
+async function confirmCancelOrder(orderId, mode){
+  const o = ORDERS.find(x=>x.id===orderId);
+  if(!o) return;
+  o.items.forEach(it=>{
+    const p = PRODUCTS.find(x=>x.id===it.productId);
+    if(p) p.qty += it.qty;
+  });
+  await saveProducts();
+  if(mode==='revert'){
+    ORDERS = ORDERS.filter(x=>x.id!==orderId);
+  } else {
     o.status = 'cancelled';
-    await saveProducts();
-    await saveOrders();
-    render();
-  }, 'إلغاء الطلب');
+    o.cancelReason = 'customer';
+    o.cancelledAt = Date.now();
+  }
+  await saveOrders();
+  closeModal();
+  toast(mode==='revert' ? 'تم حذف الطلب وإرجاع الكمية للمخزون' : 'تم إلغاء الطلب وإرجاع الكمية للمخزون');
+  render();
+  if(mode==='revert'){
+    logActivity('order_delete', `حذف الطلب #${o.id.slice(-6)} للعميل "${o.customer}" وإرجاع الكمية للمخزون`, {orderId});
+  } else {
+    logActivity('order_cancel', `إلغاء الطلب #${o.id.slice(-6)} للعميل "${o.customer}" (إلغاء من الزبون)`, {orderId});
+  }
+}
+
+// ---------- customer picker (choose from previously registered customers) ----------
+function toggleCustomerPicker(){
+  const box = document.getElementById('customerPickerBox');
+  if(!box) return;
+  if(box.innerHTML){ box.innerHTML=''; return; }
+  renderCustomerPickerList('');
+}
+
+function renderCustomerPickerList(query){
+  const box = document.getElementById('customerPickerBox');
+  if(!box) return;
+  const q = (query||'').trim().toLowerCase();
+  let list = computeCustomersList();
+  if(q){
+    list = list.filter(c=>
+      (c.name||'').toLowerCase().includes(q) ||
+      (c.phone||'').replace(/\D/g,'').includes(q.replace(/\D/g,''))
+    );
+  }
+  list = list.slice(0, 30);
+  const rows = list.length ? list.map((c,i)=>`
+    <div class="list-row" style="cursor:pointer;" onclick="pickCustomerFromList(${i}, '${escapeHtml(q).replace(/'/g,"\\'")}')">
+      <div class="lr-main">
+        <div class="lr-title">${escapeHtml(c.name)}</div>
+        <div class="lr-sub">${escapeHtml(c.phone||'بدون رقم')}${c.address ? ' · '+escapeHtml(c.address) : ''}</div>
+      </div>
+      <div class="lr-amount" style="font-size:12px;">${c.orders} طلب</div>
+    </div>
+  `).join('') : `<div class="empty-mini">ما في عملاء مطابقين</div>`;
+  box.innerHTML = `
+    <div style="background:#EFE5CB; border-radius:10px; padding:10px; margin:-6px 0 12px;">
+      <input type="text" placeholder="دور بالاسم أو رقم الهاتف" style="width:100%; margin-bottom:8px;" oninput="renderCustomerPickerList(this.value)" value="${escapeHtml(query||'')}">
+      <div style="max-height:220px; overflow-y:auto;">${rows}</div>
+    </div>
+  `;
+  // refocus the search box and keep cursor at the end after re-render
+  const input = box.querySelector('input');
+  if(input){ input.focus(); input.setSelectionRange(input.value.length, input.value.length); }
+}
+
+function pickCustomerFromList(idx, query){
+  let list = computeCustomersList();
+  const q = (query||'').trim().toLowerCase();
+  if(q){
+    list = list.filter(c=>
+      (c.name||'').toLowerCase().includes(q) ||
+      (c.phone||'').replace(/\D/g,'').includes(q.replace(/\D/g,''))
+    );
+  }
+  const c = list[idx];
+  if(!c) return;
+  const pEl = document.getElementById('cPhone');
+  const cEl = document.getElementById('cCustomer');
+  const aEl = document.getElementById('cAddress');
+  if(pEl) pEl.value = c.phone || '';
+  if(cEl) cEl.value = c.name || '';
+  if(aEl) aEl.value = c.address || '';
+  document.getElementById('customerPickerBox').innerHTML = '';
+  document.getElementById('customerSuggestion').innerHTML = '';
+  toast('تم تعبئة بيانات العميل');
 }
 
 // ---------- customer lookup (autofill from previous orders) ----------
@@ -1879,36 +2988,70 @@ function printInvoice(orderId){
       <td class="c">${money(it.price*it.qty)}</td>
     </tr>
   `).join('');
+
+  const brandText = (THEME_CUSTOM && THEME_CUSTOM.brandText) || DEFAULT_BRAND_TEXT;
+  const siteTitle = (THEME_CUSTOM && THEME_CUSTOM.siteTitle) || DEFAULT_SITE_TITLE;
+  const logoImage = THEME_CUSTOM && THEME_CUSTOM.logoImage;
+  const markHtml = logoImage ? `<img src="${logoImage}" alt="شعار">` : escapeHtml(brandText);
+
+  const statusMap = {
+    warehouse: {cls:'st-warehouse', label:'بالمخزن'},
+    delivering: {cls:'st-delivering', label:'قيد التوصيل'},
+    done: {cls:'st-done', label:'تم التسليم'},
+    cancelled: {cls:'st-cancelled', label:'ملغي'}
+  };
+  const st = statusMap[o.status] || null;
+  const statusHtml = st ? `<div class="inv-status ${st.cls}">${st.label}</div>` : '';
+
+  const noteHtml = o.note ? `
+    <div class="inv-note">
+      <b>ملاحظة الطلب</b>
+      ${escapeHtml(o.note)}
+    </div>` : '';
+
+  const shippingHtml = o.shippingCompanyName ? `
+    <div class="inv-shipping">
+      <div><b>شركة الشحن</b> ${escapeHtml(o.shippingCompanyName)}</div>
+      ${o.shippingCompanyPhone ? `<div><b>هاتف الشحن</b> ${escapeHtml(o.shippingCompanyPhone)}</div>` : ''}
+    </div>` : '';
+
   area.innerHTML = `
-    <div class="inv-wrap">
+    <div class="inv-page">
       <div class="inv-head">
         <div class="inv-brand">
-          <div class="inv-mark">SS</div>
-          <div>
-            <div class="inv-brand-name">مخزون SawwaSouq</div>
-            <div class="inv-brand-sub">فاتورة بيع</div>
-          </div>
+          <div class="inv-mark">${markHtml}</div>
+          <div class="inv-brand-name">${escapeHtml(siteTitle)}</div>
+          <div class="inv-brand-sub">فاتورة بيع</div>
         </div>
         <div class="inv-meta">
-          <div>فاتورة رقم <b>#${o.id.slice(-6)}</b></div>
-          <div>${formatDate(o.createdAt)}</div>
+          <div class="inv-meta-label">رقم الفاتورة</div>
+          <div class="inv-meta-num">#${o.id.slice(-6)}</div>
+          <div class="inv-meta-date">${formatDate(o.createdAt)}</div>
+          ${statusHtml}
         </div>
       </div>
+      <div class="inv-section-label">بيانات العميل</div>
       <div class="inv-customer">
-        <div><b>العميل:</b> ${escapeHtml(o.customer || '-')}</div>
-        <div><b>الهاتف:</b> ${escapeHtml(o.phone || '-')}</div>
-        ${o.address ? `<div><b>العنوان:</b> ${escapeHtml(o.address)}</div>` : ''}
+        <div><b>العميل</b> ${escapeHtml(o.customer || '-')}</div>
+        <div><b>الهاتف</b> ${escapeHtml(o.phone || '-')}</div>
+        ${o.address ? `<div><b>العنوان</b> ${escapeHtml(o.address)}</div>` : ''}
       </div>
+      ${shippingHtml ? `<div class="inv-divider"></div>${shippingHtml}` : ''}
+      ${noteHtml ? `<div class="inv-divider"></div>${noteHtml}` : ''}
+      <div class="inv-divider"></div>
       <table class="inv-table">
-        <thead><tr><th>الصنف</th><th class="c">الكمية</th><th class="c">السعر</th><th class="c">الإجمالي</th></tr></thead>
+        <thead><tr><th>الصنف</th><th class="c">ك</th><th class="c">سعر</th><th class="c">إجمالي</th></tr></thead>
         <tbody>${itemsRows}</tbody>
       </table>
       <div class="inv-totals">
         <div><span>المبلغ بدون التوصيل</span><span>${money(o.subtotal ?? o.total)} د.أ</span></div>
         <div><span>أجور التوصيل</span><span>${money(deliveryFee)} د.أ</span></div>
-        <div class="inv-grand"><span>الإجمالي</span><span>${money(o.total)} د.أ</span></div>
+        <div class="inv-grand"><span>الإجمالي المطلوب</span><span>${money(o.total)} د.أ</span></div>
       </div>
-      <div class="inv-footer">شكرًا لتعاملكم معنا 🌟</div>
+      <div class="inv-footer">
+        <div class="thanks">شكرًا لتعاملكم معنا 🌟</div>
+        <div class="barcode">*${o.id.slice(-10).toUpperCase()}*</div>
+      </div>
     </div>
   `;
   setTimeout(()=>{
@@ -1978,26 +3121,83 @@ async function saveRestock(productId){
   closeModal();
   toast('تم تسجيل استلام البضاعة، صارت بالمخزون 📦');
   render();
+  logActivity('restock', `استلام ${qty} قطعة من "${p.name}" بتكلفة ${money(totalCost)} د.أ`, {productId});
 }
 
 // ---------- backup / restore ----------
-function exportBackup(){
-  const data = {
-    version: 1, exportedAt: Date.now(),
-    products: PRODUCTS, orders: ORDERS, expenses: EXPENSES, partners: PARTNERS,
-    capitalLog: CAPITAL_LOG, reserveLog: RESERVE_LOG, partnerPayouts: PARTNER_PAYOUTS,
-    settlements: SETTLEMENTS, restockLog: RESTOCK_LOG, finance: FINANCE
-  };
-  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `sawwasouq-${(SEASONS.find(s=>s.id===currentSeasonId)||{name:'backup'}).name.replace(/\s+/g,'-')}-${formatDate(Date.now()).replace(/\//g,'-')}.json`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-  toast('تم تنزيل النسخة الاحتياطية');
+// Full-site backup: every season (products + images + categories + orders + customers'
+// data derived from orders + expenses + partners + finance logs), shipping companies,
+// theme customization (logo/colors/site name), and the full activity log. Not just the
+// currently-open season — every season's data is pulled straight from storage.
+async function exportBackup(){
+  toast('جارِ تجهيز النسخة الاحتياطية الكاملة...');
+  try{
+    // the currently-open season's arrays are already in memory — use them as-is so we
+    // don't miss any change that hasn't been saved yet
+    const currentSnapshot = {
+      products: PRODUCTS, categories: CATEGORIES, orders: ORDERS, expenses: EXPENSES,
+      partners: PARTNERS, capitalLog: CAPITAL_LOG, reserveLog: RESERVE_LOG,
+      partnerPayouts: PARTNER_PAYOUTS, settlements: SETTLEMENTS, restockLog: RESTOCK_LOG,
+      finance: FINANCE
+    };
+
+    const getVal = async (key, fallback)=>{
+      try{ const r = await window.storage.get(key, false); return r ? JSON.parse(r.value) : fallback; }
+      catch(e){ return fallback; }
+    };
+
+    const seasonsData = {};
+    for(const season of SEASONS){
+      if(season.id === currentSeasonId){
+        seasonsData[season.id] = currentSnapshot;
+        continue;
+      }
+      const sk = (base)=> base + '::' + season.id;
+      seasonsData[season.id] = {
+        products: await getVal(sk('products-list'), []),
+        categories: await getVal(sk('categories-list'), []),
+        orders: await getVal(sk('orders-list'), []),
+        expenses: await getVal(sk('expenses-list'), []),
+        partners: await getVal(sk('partners-list'), []),
+        capitalLog: await getVal(sk('capital-log'), []),
+        reserveLog: await getVal(sk('reserve-log'), []),
+        partnerPayouts: await getVal(sk('partner-payouts'), []),
+        settlements: await getVal(sk('settlements-list'), []),
+        restockLog: await getVal(sk('restock-log'), []),
+        finance: await getVal(sk('finance-config'), null)
+      };
+    }
+
+    // full activity log, no cap — this is a complete backup, not the in-app viewer
+    let activityLog = [];
+    try{
+      const snap = await db.collection(ACTIVITY_LOG_COLLECTION).orderBy('createdAt','desc').get();
+      activityLog = snap.docs.map(d=>d.data());
+    }catch(e){ activityLog = []; }
+
+    const data = {
+      version: 2, exportedAt: Date.now(),
+      seasons: SEASONS, currentSeasonId,
+      shippingCompanies: SHIPPING_COMPANIES,
+      themeCustom: THEME_CUSTOM,
+      seasonsData,
+      activityLog
+    };
+
+    const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `sawwasouq-full-backup-${formatDate(Date.now()).replace(/\//g,'-')}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    toast('تم تنزيل نسخة احتياطية كاملة (كل المواسم، الزبائن، الصور، والإعدادات)');
+  }catch(err){
+    console.error(err);
+    toast('صار خطأ أثناء تجهيز النسخة الاحتياطية، حاول مجددًا');
+  }
 }
 
 function triggerImportBackup(){
@@ -2014,25 +3214,83 @@ async function handleImportBackup(e){
     const text = await file.text();
     data = JSON.parse(text);
   }catch(err){ toast('الملف غير صالح'); inputEl.value=''; return; }
-  showConfirm('استيراد هاي النسخة رح يستبدل كل البيانات الحالية بالكامل. متأكد؟', async ()=>{
-    PRODUCTS = data.products || [];
-    ORDERS = data.orders || [];
-    EXPENSES = data.expenses || [];
-    PARTNERS = (data.partners && data.partners.length) ? data.partners : PARTNERS;
-    CAPITAL_LOG = data.capitalLog || [];
-    RESERVE_LOG = data.reserveLog || [];
-    PARTNER_PAYOUTS = data.partnerPayouts || [];
-    SETTLEMENTS = data.settlements || [];
-    RESTOCK_LOG = data.restockLog || [];
-    FINANCE = data.finance || FINANCE;
-    CART = [];
-    await Promise.all([
-      saveProducts(), saveOrders(), saveExpenses(), savePartners(), saveCapitalLog(),
-      saveReserveLog(), savePartnerPayouts(), saveSettlements(), saveRestockLog(), saveFinanceConfig()
-    ]);
-    toast('تم استيراد النسخة الاحتياطية بنجاح');
-    inputEl.value='';
-    render();
+
+  showConfirm('استيراد هاي النسخة رح يستبدل كل البيانات الحالية بالكامل — كل المواسم والمنتجات والصور والزبائن والإعدادات. متأكد؟', async ()=>{
+    try{
+      toast('جارِ استيراد النسخة الاحتياطية...');
+
+      if(data.version === 2 && data.seasonsData){
+        // ---- full multi-season backup ----
+        SEASONS = (data.seasons && data.seasons.length) ? data.seasons : SEASONS;
+        SHIPPING_COMPANIES = data.shippingCompanies || [];
+        THEME_CUSTOM = data.themeCustom || null;
+
+        for(const seasonId of Object.keys(data.seasonsData)){
+          const sd = data.seasonsData[seasonId] || {};
+          const sk = (base)=> base + '::' + seasonId;
+          await Promise.all([
+            window.storage.set(sk('products-list'), JSON.stringify(sd.products||[]), false),
+            window.storage.set(sk('categories-list'), JSON.stringify(sd.categories||[]), false),
+            window.storage.set(sk('orders-list'), JSON.stringify(sd.orders||[]), false),
+            window.storage.set(sk('expenses-list'), JSON.stringify(sd.expenses||[]), false),
+            window.storage.set(sk('partners-list'), JSON.stringify(sd.partners||[]), false),
+            window.storage.set(sk('capital-log'), JSON.stringify(sd.capitalLog||[]), false),
+            window.storage.set(sk('reserve-log'), JSON.stringify(sd.reserveLog||[]), false),
+            window.storage.set(sk('partner-payouts'), JSON.stringify(sd.partnerPayouts||[]), false),
+            window.storage.set(sk('settlements-list'), JSON.stringify(sd.settlements||[]), false),
+            window.storage.set(sk('restock-log'), JSON.stringify(sd.restockLog||[]), false),
+            window.storage.set(sk('finance-config'), JSON.stringify(sd.finance||null), false)
+          ]);
+        }
+
+        await saveSeasonsList();
+        currentSeasonId = (data.currentSeasonId && SEASONS.find(s=>s.id===data.currentSeasonId))
+          ? data.currentSeasonId : SEASONS[0].id;
+        await saveAppSettings();
+        await saveShippingCompanies();
+
+        if(THEME_CUSTOM){ try{ await window.storage.set('theme-settings', JSON.stringify(THEME_CUSTOM), true); }catch(e){} }
+        else{ try{ await window.storage.delete('theme-settings', true); }catch(e){} }
+        applyCustomTheme(THEME_CUSTOM);
+
+        // restore activity log: replace whatever's there with the backed-up entries
+        try{
+          const existing = await db.collection(ACTIVITY_LOG_COLLECTION).get();
+          await Promise.all(existing.docs.map(d=>d.ref.delete()));
+        }catch(e){}
+        if(Array.isArray(data.activityLog)){
+          for(const entry of data.activityLog){
+            try{ await db.collection(ACTIVITY_LOG_COLLECTION).add(entry); }catch(e){}
+          }
+        }
+
+        CART = [];
+        await loadSeasonData(currentSeasonId);
+      } else {
+        // ---- legacy single-season backup (old export format) ----
+        PRODUCTS = data.products || [];
+        CATEGORIES = data.categories || [];
+        ORDERS = data.orders || [];
+        EXPENSES = data.expenses || [];
+        PARTNERS = (data.partners && data.partners.length) ? data.partners : PARTNERS;
+        CAPITAL_LOG = data.capitalLog || [];
+        RESERVE_LOG = data.reserveLog || [];
+        PARTNER_PAYOUTS = data.partnerPayouts || [];
+        SETTLEMENTS = data.settlements || [];
+        RESTOCK_LOG = data.restockLog || [];
+        FINANCE = data.finance || FINANCE;
+        CART = [];
+        await saveAllCurrentSeasonData();
+      }
+
+      toast('تم استيراد النسخة الاحتياطية بنجاح');
+      inputEl.value='';
+      render();
+    }catch(err){
+      console.error(err);
+      toast('صار خطأ أثناء الاستيراد، حاول مجددًا');
+      inputEl.value='';
+    }
   }, 'استيراد واستبدال');
 }
 
@@ -2087,7 +3345,7 @@ function computeTopCustomers(sinceTs, untilTs, limit){
   ORDERS.filter(o=>o.status==='done' && (o.doneAt||o.createdAt)>sinceTs && (o.doneAt||o.createdAt)<=until).forEach(o=>{
     const key = (o.phone && o.phone.trim()) || ('n:'+(o.customer||'-'));
     if(!map[key]) map[key] = {name:o.customer||'عميل بدون اسم', phone:o.phone||'', total:0, orders:0};
-    map[key].total += o.total;
+    map[key].total += (o.subtotal ?? (o.total-(o.deliveryFee||0)));
     map[key].orders += 1;
   });
   return Object.values(map).sort((a,b)=>b.total-a.total).slice(0, limit||5);
@@ -2118,6 +3376,7 @@ function buildReportsHtml(){
   const topRevenue = computeTopProductsByRevenue(start, end, 5);
   const topCustomers = computeTopCustomers(start, end, 5);
   const expByCat = computeExpensesByCategory(start, end);
+  const deliveryByCompany = computeDeliveryByCompany(start, end);
   const chips = [['today','اليوم'], ['week','هالأسبوع'], ['month','هالشهر'], ['all','من البداية'], ['custom','فترة مخصصة']];
   const dateRangeHtml = reportPeriod==='custom' ? `
     <div class="row2" style="margin:10px 0;">
@@ -2150,6 +3409,11 @@ function buildReportsHtml(){
     <div class="list-row"><div class="lr-main"><div class="lr-title">أجور توصيل</div></div><div class="lr-amount">${money(stats.deliveryRevenue)} د.أ</div></div>
     <div class="list-row"><div class="lr-main"><div class="lr-title">تكلفة البضاعة المباعة</div></div><div class="lr-amount neg">-${money(stats.cogs)} د.أ</div></div>
     <div class="list-row"><div class="lr-main"><div class="lr-title">مصاريف الفترة</div></div><div class="lr-amount neg">-${money(stats.expensesTotal)} د.أ</div></div>
+
+    ${deliveryByCompany.length ? `
+      <div class="fin-sub" style="margin:14px 0 4px;">أجور التوصيل حسب شركة الشحن</div>
+      ${deliveryByCompany.map(([name,d])=>`<div class="list-row"><div class="lr-main"><div class="lr-title">${escapeHtml(name)}</div><div class="lr-sub">${d.orders} طلب</div></div><div class="lr-amount">${money(d.amount)} د.أ</div></div>`).join('')}
+    ` : ''}
 
     ${topRevenue.length ? `
       <div class="fin-sub" style="margin:14px 0 4px;">الأكثر مبيعًا (حسب الإيراد)</div>
@@ -2187,6 +3451,20 @@ function buildRestockLogHtml(){
 // ============================================================
 const EXPENSE_CATEGORIES = ['ترويج وتسويق','إيجار','رواتب','فواتير وخدمات','صيانة','نقل وتوصيل','أخرى'];
 
+function computeDeliveryByCompany(sinceTs, untilTs){
+  const until = untilTs===undefined ? Infinity : untilTs;
+  const doneOrders = ORDERS.filter(o=> o.status==='done' && (o.doneAt||o.createdAt) > sinceTs && (o.doneAt||o.createdAt) <= until);
+  const map = {};
+  doneOrders.forEach(o=>{
+    if(!(o.deliveryFee>0)) return;
+    const key = o.shippingCompanyName || 'بدون شركة محددة';
+    if(!map[key]) map[key] = {amount:0, orders:0};
+    map[key].amount += o.deliveryFee;
+    map[key].orders += 1;
+  });
+  return Object.entries(map).sort((a,b)=>b[1].amount-a[1].amount);
+}
+
 function formatDate(ts){
   if(!ts) return '';
   return new Date(ts).toLocaleDateString('en-GB');
@@ -2208,9 +3486,9 @@ function computeStatsForData(ordersArr, expensesArr, sinceTs, untilTs){
   });
   const periodExpenses = expensesArr.filter(e=> (e.createdAt||0) > sinceTs && (e.createdAt||0) <= until);
   const expensesTotal = periodExpenses.reduce((s,e)=>s+e.amount,0);
-  const totalRevenue = revenueGoods + deliveryRevenue;
+  const totalRevenue = revenueGoods;
   const grossProfit = revenueGoods - cogs;
-  const netProfit = grossProfit + deliveryRevenue - expensesTotal;
+  const netProfit = grossProfit - expensesTotal;
   const marginPct = totalRevenue>0 ? (netProfit/totalRevenue*100) : 0;
   const avgOrderValue = doneOrders.length>0 ? totalRevenue/doneOrders.length : 0;
   const cancelledCount = ordersArr.filter(o=> o.status==='cancelled' && (o.createdAt||0) > sinceTs && (o.createdAt||0) <= until).length;
@@ -2430,7 +3708,7 @@ function renderFinance(){
 
     <div class="fin-section">
       <h3>النسخ الاحتياطي</h3>
-      <div class="fin-sub">صدّر كل بيانات البرنامج (منتجات، طلبات، حسابات) كملف JSON تحتفظ فيه، أو استرجعه لاحقًا</div>
+      <div class="fin-sub">صدّر نسخة كاملة من كل بيانات المتجر — كل المواسم، المنتجات وصورها، الطلبات والزبائن، الحسابات، شركات الشحن، وتخصيص الثيم — كملف JSON واحد تحتفظ فيه، أو استرجعه لاحقًا</div>
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
         <button class="btn btn-primary btn-sm" onclick="exportBackup()">⬇ تصدير نسخة احتياطية</button>
         <button class="btn btn-outline btn-sm" onclick="triggerImportBackup()">⬆ استيراد نسخة احتياطية</button>
@@ -2567,13 +3845,16 @@ async function saveExpenseForm(){
   closeModal();
   toast('تمت إضافة المصروف');
   render();
+  logActivity('expense_add', `إضافة مصروف "${title}" بقيمة ${money(amount)} د.أ`, {category});
 }
 
 function deleteExpense(id){
   showConfirm('حذف هذا المصروف؟', async ()=>{
+    const e = EXPENSES.find(x=>x.id===id);
     EXPENSES = EXPENSES.filter(e=>e.id!==id);
     await saveExpenses();
     render();
+    logActivity('expense_delete', `حذف مصروف "${e ? e.title : id}"`, {expenseId:id});
   }, 'حذف');
 }
 
@@ -2629,6 +3910,7 @@ async function commitCapitalAdjust(type, amount, note){
   closeModal();
   toast('تم تسجيل الحركة');
   render();
+  logActivity('capital_adjust', `${type==='injection' ? 'إيداع' : 'سحب'} ${money(amount)} د.أ من رأس المال${note ? ' — '+note : ''}`, {type, amount});
 }
 
 // ---- partners ----
@@ -2663,6 +3945,7 @@ async function savePartnerForm(partnerId){
   const sharePct = parseFloat(document.getElementById('ptShare').value || '0');
   if(!name){ toast('اكتب اسم الشريك'); return; }
   if(isNaN(sharePct) || sharePct<0 || sharePct>100){ toast('النسبة غير صحيحة'); return; }
+  const isNew = !partnerId;
   if(partnerId){
     const p = PARTNERS.find(x=>x.id===partnerId);
     p.name=name; p.sharePct=sharePct;
@@ -2675,14 +3958,17 @@ async function savePartnerForm(partnerId){
   if(Math.round(total)!==100) toast(`تنبيه: مجموع نسب الشركاء الآن ${total}% (المفروض يكون 100%)`);
   else toast('تم الحفظ');
   render();
+  logActivity(isNew ? 'partner_add' : 'partner_edit', `${isNew ? 'إضافة شريك جديد' : 'تعديل بيانات الشريك'} "${name}" (${sharePct}%)`, {partnerId});
 }
 
 function deletePartner(id){
   if(PARTNERS.length<=1){ toast('لازم يبقى شريك واحد على الأقل'); return; }
   showConfirm('حذف هذا الشريك؟', async ()=>{
+    const p = PARTNERS.find(x=>x.id===id);
     PARTNERS = PARTNERS.filter(p=>p.id!==id);
     await savePartners();
     render();
+    logActivity('partner_delete', `حذف الشريك "${p ? p.name : id}"`, {partnerId:id});
   }, 'حذف الشريك');
 }
 
@@ -2720,6 +4006,7 @@ async function savePartnerPayout(partnerId){
   closeModal();
   toast('تم تسجيل الدفعة');
   render();
+  logActivity('partner_payout', `دفعة ${money(amount)} د.أ للشريك "${p.name}"`, {partnerId});
 }
 
 // ---- profit split config ----
@@ -2760,6 +4047,7 @@ async function saveSplitConfig(){
   closeModal();
   toast('تم حفظ نسب التوزيع');
   render();
+  logActivity('split_config', `تعديل نسب توزيع الأرباح (إعادة استثمار ${r}% / شركاء ${o}% / احتياطي ${v}%)`, {r,o,v});
 }
 
 // ---- settlement ----
@@ -2825,11 +4113,14 @@ async function confirmSettle(){
   closeModal();
   toast('تمت تصفية الأرباح بنجاح 🎉');
   render();
+  logActivity('settlement', `تصفية أرباح — صافي الربح ${money(prev.stats.netProfit)} د.أ`, {netProfit: prev.stats.netProfit});
 }
 
 // ---------- init ----------
 loadAll();
 loadViewModePref();
+loadThemeModePref();
+loadThemeCustomSettings();
 </script>
 </body>
 </html>
